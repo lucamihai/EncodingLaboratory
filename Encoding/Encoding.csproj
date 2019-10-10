@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A2C9279-16EF-47A9-8265-A959801E6078}</ProjectGuid>
+    <ProjectGuid>{DE7A5860-87E0-4503-AB58-A03B35210240}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>EncodingLaboratory</RootNamespace>
-    <AssemblyName>EncodingLaboratory</AssemblyName>
+    <RootNamespace>Encoding</RootNamespace>
+    <AssemblyName>Encoding</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
