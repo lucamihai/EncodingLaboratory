@@ -10,5 +10,13 @@ namespace Encoding.FileOperations.UnitTests
         {
             1, 2, 3
         };
+
+        // Binary: 10
+        public const byte Value1 = 2;
+        public const byte Value1OneBitFromBitZero = 0;
+
+        // Binary: 1011
+        public const byte Value2 = 11;
+        public const byte Value2ThreeBitsFromBitOne = 5;
     }
 }
