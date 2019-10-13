@@ -47,12 +47,17 @@ namespace Encoding.FileOperations
             var valueBitArray = new BitArray(new[] {value});
             valueBitArray.Length = numberOfBitsToWrite;
 
+            var currentBitTemporary = CurrentBit;
             for(int i = 0; i < numberOfBitsToWrite; i++)
             {
                 var valueBitArrayIndex = i % 8;
-                bitArray[CurrentBit] = valueBitArray[valueBitArrayIndex];
-                CurrentBit++;
+                bitArray[currentBitTemporary] = valueBitArray[valueBitArrayIndex];
+
+                currentBitTemporary++;
+                currentBitTemporary = (byte)(currentBitTemporary % 8);
             }
+
+            CurrentBit = currentBitTemporary;
         }
 
         public byte GetValueStartingFromCurrentBit(byte numberOfBitsToRead)
@@ -65,12 +70,17 @@ namespace Encoding.FileOperations
             var valueBitArray = new BitArray(8);
             valueBitArray.SetAll(false);
 
+            var currentBitTemporary = CurrentBit;
             for (int i = 0; i < numberOfBitsToRead; i++)
             {
                 var valueBitArrayIndex = i % 8;
-                valueBitArray[valueBitArrayIndex] = bitArray[CurrentBit];
-                CurrentBit++;
+                valueBitArray[valueBitArrayIndex] = bitArray[currentBitTemporary];
+
+                currentBitTemporary++;
+                currentBitTemporary = (byte)(currentBitTemporary % 8);
             }
+
+            CurrentBit = currentBitTemporary;
 
             return GetByteFromBitArray(valueBitArray);
         }

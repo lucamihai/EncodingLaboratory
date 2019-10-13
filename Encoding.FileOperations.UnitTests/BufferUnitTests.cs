@@ -25,6 +25,14 @@ namespace Encoding.FileOperations.UnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddValueStartingFromCurrentBitThrowsArgumentNullExceptionForNumberOfBitsToWriteEqualToZero()
+        {
+            var buffer = new Buffer();
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 0);
+        }
+
+        [TestMethod]
         public void AddValueStartingFromCurrentBitCallsOnCurrentBitResetDelegateForOverflow()
         {
             var currentBitResetDelegateHasBeenCalled = false;
