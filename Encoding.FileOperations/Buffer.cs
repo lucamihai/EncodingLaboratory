@@ -91,15 +91,10 @@ namespace Encoding.FileOperations
             CurrentBit = 0;
         }
 
-        private byte GetByteFromBitArray(BitArray bits)
+        private byte GetByteFromBitArray(BitArray bitArray)
         {
-            if (bits.Count != 8)
-            {
-                throw new ArgumentException("bits");
-            }
-
             var bytes = new byte[1];
-            bits.CopyTo(bytes, 0);
+            bitArray.CopyTo(bytes, 0);
 
             return bytes[0];
         }

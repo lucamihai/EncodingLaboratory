@@ -1,13 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows.Forms;
 
 namespace Encoding
 {
     [ExcludeFromCodeCoverage]
-    internal class Program
+    internal static class Program
     {
-        private static void Main(string[] args)
+        [STAThread]
+        private static void Main()
         {
-            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainWindow());
         }
     }
 }
