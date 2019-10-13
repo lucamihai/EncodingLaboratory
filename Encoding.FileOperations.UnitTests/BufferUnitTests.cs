@@ -31,8 +31,8 @@ namespace Encoding.FileOperations.UnitTests
             var buffer = new Buffer();
             buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 6);
 
             Assert.IsTrue(currentBitResetDelegateHasBeenCalled);
         }
@@ -44,7 +44,7 @@ namespace Encoding.FileOperations.UnitTests
             var buffer = new Buffer();
             buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
 
             Assert.IsFalse(currentBitResetDelegateHasBeenCalled);
         }
@@ -53,10 +53,11 @@ namespace Encoding.FileOperations.UnitTests
         public void AddValueStartingFromCurrentBitSetsValueAsExpected1()
         {
             var buffer = new Buffer();
+            var bufferInitialValue = buffer.Value;
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
 
-            var expectedValue = buffer.Value + Constants.Value1 << buffer.CurrentBit;
+            var expectedValue = bufferInitialValue + Constants.Value1;
             Assert.AreEqual(expectedValue, buffer.Value);
         }
 
@@ -64,11 +65,12 @@ namespace Encoding.FileOperations.UnitTests
         public void AddValueStartingFromCurrentBitSetsValueAsExpected2()
         {
             var buffer = new Buffer();
+            var bufferInitialValue = buffer.Value;
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
 
-            var expectedValue = buffer.Value + Constants.Value2 << buffer.CurrentBit;
+            var expectedValue = bufferInitialValue + Constants.Value1FollowedByValue2;
             Assert.AreEqual(expectedValue, buffer.Value);
         }
 
@@ -76,34 +78,36 @@ namespace Encoding.FileOperations.UnitTests
         public void AddValueStartingFromCurrentBitSetsCurrentBitAsExpected1()
         {
             var buffer = new Buffer();
+            var bufferInitialCurrentBit = buffer.CurrentBit;
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, Constants.Value1BitsRequired);
 
-            var expectedCurrentBit = buffer.CurrentBit + GetMinimumNumberOfBitsNecessaryToRepresentValue(Constants.Value1);
-            Assert.AreEqual(expectedCurrentBit, buffer.Value);
+            var expectedCurrentBit = bufferInitialCurrentBit + Constants.Value1BitsRequired;
+            Assert.AreEqual(expectedCurrentBit, buffer.CurrentBit);
         }
 
         [TestMethod]
         public void AddValueStartingFromCurrentBitSetsCurrentBitAsExpected2()
         {
             var buffer = new Buffer();
+            var bufferInitialCurrentBit = buffer.CurrentBit;
 
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, Constants.Value1BitsRequired);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, Constants.Value2BitsRequired);
 
-            var expectedCurrentBit = buffer.CurrentBit + GetMinimumNumberOfBitsNecessaryToRepresentValue(Constants.Value2);
-            Assert.AreEqual(expectedCurrentBit, buffer.Value);
+            var expectedCurrentBit = bufferInitialCurrentBit + Constants.Value1BitsRequired + Constants.Value2BitsRequired;
+            Assert.AreEqual(expectedCurrentBit, buffer.CurrentBit);
         }
 
         [TestMethod]
         public void AddValueStartingFromCurrentBitSetsValueAsExpectedForOverflow()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(byte.MaxValue);
+            buffer.AddValueStartingFromCurrentBit(byte.MaxValue, 8);
 
             Assert.AreEqual(byte.MaxValue, buffer.Value);
 
-            buffer.AddValueStartingFromCurrentBit(2);
+            buffer.AddValueStartingFromCurrentBit(2, 2);
 
             Assert.AreEqual(byte.MaxValue - 1, buffer.Value);
         }
@@ -112,11 +116,11 @@ namespace Encoding.FileOperations.UnitTests
         public void AddValueStartingFromCurrentBitSetsCurrentBitAsExpectedForOverflow()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(byte.MaxValue);
+            buffer.AddValueStartingFromCurrentBit(127, 7);
 
             Assert.AreEqual(7, buffer.CurrentBit);
 
-            buffer.AddValueStartingFromCurrentBit(2);
+            buffer.AddValueStartingFromCurrentBit(2, 2);
 
             Assert.AreEqual(1, buffer.CurrentBit);
         }
@@ -132,21 +136,35 @@ namespace Encoding.FileOperations.UnitTests
         [TestMethod]
         public void GetValueStartingFromCurrentBitCallsOnCurrentBitResetDelegateForCurrentBitExceedingLimit()
         {
+            var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            byte numberOfBitsToRead = 3;
-            var initialCurrentBit = buffer.CurrentBit;
+            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+
+            byte numberOfBitsToRead = 5;
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
-            var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead;
-            Assert.AreEqual(expectedCurrentBit, buffer.CurrentBit);
+            Assert.IsTrue(currentBitResetDelegateHasBeenCalled);
+        }
+
+        [TestMethod]
+        public void GetValueStartingFromCurrentBitDoesNotCallOnCurrentBitResetDelegateIfCurrentBitDoesNotExceedLimit()
+        {
+            var currentBitResetDelegateHasBeenCalled = false;
+            var buffer = new Buffer();
+            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+
+            byte numberOfBitsToRead = 5;
+            buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
+
+            Assert.IsFalse(currentBitResetDelegateHasBeenCalled);
         }
 
         [TestMethod]
         public void GetValueStartingFromCurrentBitReturnsExpectedValue1()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value1);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
             buffer.CurrentBit = 0;
 
             var value = buffer.GetValueStartingFromCurrentBit(1);
@@ -158,7 +176,7 @@ namespace Encoding.FileOperations.UnitTests
         public void GetValueStartingFromCurrentBitReturnsExpectedValue2()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
             buffer.CurrentBit = 1;
 
             var value = buffer.GetValueStartingFromCurrentBit(3);
@@ -189,7 +207,7 @@ namespace Encoding.FileOperations.UnitTests
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
-            var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead;
+            var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead + numberOfBitsToRead;
             Assert.AreEqual(expectedCurrentBit, buffer.CurrentBit);
         }
 
@@ -202,7 +220,7 @@ namespace Encoding.FileOperations.UnitTests
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
-            var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead;
+            var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead + numberOfBitsToRead;
             Assert.AreEqual(expectedCurrentBit, buffer.CurrentBit);
         }
 
@@ -222,7 +240,7 @@ namespace Encoding.FileOperations.UnitTests
         public void FlushSetsValueToZero()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
 
             Assert.AreNotEqual(0, buffer.Value);
 
@@ -235,26 +253,13 @@ namespace Encoding.FileOperations.UnitTests
         public void FlushSetsCurrentBitToZero()
         {
             var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2);
+            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
 
             Assert.AreNotEqual(0, buffer.CurrentBit);
 
             buffer.Flush();
 
             Assert.AreEqual(0, buffer.CurrentBit);
-        }
-
-        private byte GetMinimumNumberOfBitsNecessaryToRepresentValue(byte value)
-        {
-            byte bitsNecessary = 0;
-
-            while (value >= 1)
-            {
-                bitsNecessary++;
-                value /= 2;
-            }
-
-            return bitsNecessary;
         }
     }
 }

@@ -44,7 +44,9 @@
     <Compile Include="Buffer.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="FileWriter.cs" />
+    <Compile Include="Interfaces\IBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\BufferValidator.cs" />
     <Compile Include="Validators\FilePathValidator.cs" />
   </ItemGroup>
   <ItemGroup />

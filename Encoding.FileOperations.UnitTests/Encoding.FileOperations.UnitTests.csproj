@@ -49,6 +49,9 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Moq, Version=4.13.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.13.0\lib\net45\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -62,9 +65,11 @@
   <ItemGroup>
     <Compile Include="BufferUnitTests.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Entities.cs" />
     <Compile Include="FileReaderUnitTests.cs" />
     <Compile Include="FileWriterUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidatorsUnitTests\BufferValidatorUnitTests.cs" />
     <Compile Include="ValidatorsUnitTests\FilePathValidatorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
