@@ -25,21 +25,15 @@ namespace Encoding.FileOperations
 
             FilePath = filePath;
             Buffer = buffer;
-            
+
             Buffer.OnCurrentBitReset += OnCurrentBitReset;
         }
 
         [ExcludeFromCodeCoverage]
         private void OnCurrentBitReset(byte valueFromBuffer)
         {
-            if (fileStream.Position == fileStream.Length)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
             fileStream.WriteByte(Buffer.Value);
-
-            Buffer.Flush();
+            fileStream.Flush();
         }
 
         public void WriteBit(bool bitValue)

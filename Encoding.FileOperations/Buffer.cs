@@ -6,9 +6,13 @@ namespace Encoding.FileOperations
 {
     public class Buffer : IBuffer
     {
-        private readonly BitArray bitArray;
+        private BitArray bitArray;
 
-        public byte Value => GetByteFromBitArray(bitArray);
+        public byte Value
+        {
+            get => GetByteFromBitArray(bitArray);
+            set => bitArray = new BitArray(new[] {value});
+        }
 
         private byte previousCurrentBit;
         private byte currentBit;
@@ -47,17 +51,13 @@ namespace Encoding.FileOperations
             var valueBitArray = new BitArray(new[] {value});
             valueBitArray.Length = numberOfBitsToWrite;
 
-            var currentBitTemporary = CurrentBit;
-            for(int i = 0; i < numberOfBitsToWrite; i++)
+            for (int i = 0; i < numberOfBitsToWrite; i++)
             {
                 var valueBitArrayIndex = i % 8;
-                bitArray[currentBitTemporary] = valueBitArray[valueBitArrayIndex];
+                bitArray[CurrentBit] = valueBitArray[valueBitArrayIndex];
 
-                currentBitTemporary++;
-                currentBitTemporary = (byte)(currentBitTemporary % 8);
+                CurrentBit++;
             }
-
-            CurrentBit = currentBitTemporary;
         }
 
         public byte GetValueStartingFromCurrentBit(byte numberOfBitsToRead)
@@ -70,25 +70,29 @@ namespace Encoding.FileOperations
             var valueBitArray = new BitArray(8);
             valueBitArray.SetAll(false);
 
-            var currentBitTemporary = CurrentBit;
             for (int i = 0; i < numberOfBitsToRead; i++)
             {
                 var valueBitArrayIndex = i % 8;
-                valueBitArray[valueBitArrayIndex] = bitArray[currentBitTemporary];
+                valueBitArray[valueBitArrayIndex] = bitArray[CurrentBit];
 
-                currentBitTemporary++;
-                currentBitTemporary = (byte)(currentBitTemporary % 8);
+                CurrentBit++;
             }
-
-            CurrentBit = currentBitTemporary;
 
             return GetByteFromBitArray(valueBitArray);
         }
 
-        public void Flush()
+        public void Flush(bool triggerCurrentBitResetDelegate = true)
         {
             bitArray.SetAll(false);
-            CurrentBit = 0;
+
+            if (triggerCurrentBitResetDelegate)
+            {
+                CurrentBit = 0;
+            }
+            else
+            {
+                currentBit = 0;
+            }
         }
 
         private byte GetByteFromBitArray(BitArray bitArray)

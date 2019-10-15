@@ -233,7 +233,7 @@ namespace Encoding.FileOperations.UnitTests
         }
 
         [TestMethod]
-        public void FlushCallsOnCurrentBitResetDelegate()
+        public void FlushCallsOnCurrentBitResetDelegateForDefaultMethodSignature()
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
@@ -242,6 +242,18 @@ namespace Encoding.FileOperations.UnitTests
             buffer.Flush();
 
             Assert.IsTrue(currentBitResetDelegateHasBeenCalled);
+        }
+
+        [TestMethod]
+        public void FlushDoesNotCallOnCurrentBitResetDelegateForIfParameterIsFalse()
+        {
+            var currentBitResetDelegateHasBeenCalled = false;
+            var buffer = new Buffer();
+            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+
+            buffer.Flush(false);
+
+            Assert.IsFalse(currentBitResetDelegateHasBeenCalled);
         }
 
         [TestMethod]

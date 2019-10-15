@@ -13,6 +13,8 @@ namespace Encoding.FileOperations
 
         private readonly FileStream fileStream;
 
+        private bool reachedEndOfFile;
+
         public string FilePath { get; }
         public IBuffer Buffer { get; }
 
@@ -27,18 +29,23 @@ namespace Encoding.FileOperations
             fileStream = new FileStream(filePath, FileMode.Open);
 
             Buffer.OnCurrentBitReset += OnCurrentBitReset;
+            Buffer.Value = (byte)fileStream.ReadByte();
         }
 
         [ExcludeFromCodeCoverage]
         private void OnCurrentBitReset(byte valueFromBuffer)
         {
-            if (fileStream.Position == fileStream.Length)
+            if (reachedEndOfFile)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            Buffer.Flush();
-            Buffer.AddValueStartingFromCurrentBit((byte)fileStream.ReadByte(), 8);
+            if (fileStream.Position == fileStream.Length)
+            {
+                reachedEndOfFile = true;
+            }
+
+            Buffer.Value = (byte)fileStream.ReadByte();
         }
 
         public bool ReadBit()
