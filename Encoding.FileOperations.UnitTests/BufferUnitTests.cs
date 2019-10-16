@@ -37,7 +37,7 @@ namespace Encoding.FileOperations.UnitTests
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
 
             buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
             buffer.AddValueStartingFromCurrentBit(Constants.Value2, 6);
@@ -50,7 +50,7 @@ namespace Encoding.FileOperations.UnitTests
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
 
             buffer.AddValueStartingFromCurrentBit(Constants.Value1, 2);
 
@@ -146,7 +146,7 @@ namespace Encoding.FileOperations.UnitTests
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
 
             byte numberOfBitsToRead = 5;
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
@@ -160,7 +160,7 @@ namespace Encoding.FileOperations.UnitTests
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
 
             byte numberOfBitsToRead = 5;
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
@@ -200,6 +200,7 @@ namespace Encoding.FileOperations.UnitTests
             var buffer = new Buffer();
             byte numberOfBitsToRead = 3;
             var initialCurrentBit = buffer.CurrentBit;
+
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
             var expectedCurrentBit = initialCurrentBit + numberOfBitsToRead;
@@ -212,6 +213,7 @@ namespace Encoding.FileOperations.UnitTests
             var buffer = new Buffer();
             byte numberOfBitsToRead = 3;
             var initialCurrentBit = buffer.CurrentBit;
+
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
@@ -225,6 +227,8 @@ namespace Encoding.FileOperations.UnitTests
             var buffer = new Buffer();
             byte numberOfBitsToRead = 3;
             var initialCurrentBit = buffer.CurrentBit;
+
+
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
             buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
@@ -233,27 +237,15 @@ namespace Encoding.FileOperations.UnitTests
         }
 
         [TestMethod]
-        public void FlushCallsOnCurrentBitResetDelegateForDefaultMethodSignature()
+        public void FlushCallsOnCurrentBitResetDelegate()
         {
             var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate(byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
+            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
 
             buffer.Flush();
 
             Assert.IsTrue(currentBitResetDelegateHasBeenCalled);
-        }
-
-        [TestMethod]
-        public void FlushDoesNotCallOnCurrentBitResetDelegateForIfParameterIsFalse()
-        {
-            var currentBitResetDelegateHasBeenCalled = false;
-            var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate (byte fromBuffer) { currentBitResetDelegateHasBeenCalled = true; };
-
-            buffer.Flush(false);
-
-            Assert.IsFalse(currentBitResetDelegateHasBeenCalled);
         }
 
         [TestMethod]

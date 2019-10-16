@@ -81,18 +81,10 @@ namespace Encoding.FileOperations
             return GetByteFromBitArray(valueBitArray);
         }
 
-        public void Flush(bool triggerCurrentBitResetDelegate = true)
+        public void Flush()
         {
             bitArray.SetAll(false);
-
-            if (triggerCurrentBitResetDelegate)
-            {
-                CurrentBit = 0;
-            }
-            else
-            {
-                currentBit = 0;
-            }
+            CurrentBit = 0;
         }
 
         private byte GetByteFromBitArray(BitArray bitArray)
