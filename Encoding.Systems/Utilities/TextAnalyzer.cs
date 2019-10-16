@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Encoding.Entities;
+
+namespace Encoding.Systems.Utilities
+{
+    public class TextAnalyzer
+    {
+        public List<CharacterStatistics> GetCharacterStatisticsFromText(string text)
+        {
+            if (text == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var characterStatisticsList = new List<CharacterStatistics>();
+
+            var textCharArray = text.ToCharArray();
+            var uniqueCharacters = textCharArray
+                .Distinct()
+                .ToList();
+
+            foreach (var uniqueCharacter in uniqueCharacters)
+            {
+                var characterFrequency = textCharArray.Count(x => x == uniqueCharacter);
+                var characterStatistics = new CharacterStatistics
+                {
+                    Character = uniqueCharacter,
+                    Apparitions = characterFrequency
+                };
+
+                characterStatisticsList.Add(characterStatistics);
+            }
+
+            return characterStatisticsList
+                .OrderBy(x => x.Character)
+                .ToList();
+        }
+    }
+}
