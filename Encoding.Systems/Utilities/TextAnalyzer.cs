@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Encoding.Entities;
+using Encoding.Systems.Interfaces.Utilities;
 
 namespace Encoding.Systems.Utilities
 {
-    public class TextAnalyzer
+    public class TextAnalyzer : ITextAnalyzer
     {
         public List<CharacterStatistics> GetCharacterStatisticsFromText(string text)
         {

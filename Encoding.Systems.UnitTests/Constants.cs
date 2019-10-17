@@ -56,5 +56,74 @@ namespace Encoding.Systems.UnitTests
                 Apparitions = 2
             }
         };
+
+        public static Node ExpectedNodeForText1 => new Node
+        {
+            NodeInfo = new NodeInfo {NumericValue = 14},
+            LeftChild = new Node
+            {
+                NodeInfo = new NodeInfo {NumericValue = 6},
+                LeftChild = new Node
+                {
+                    NodeInfo = new NodeInfo {NumericValue = 3, Code = (byte) 'a'}
+                },
+                RightChild = new Node
+                {
+                    NodeInfo = new NodeInfo {NumericValue = 3},
+                    LeftChild = new Node
+                    {
+                        NodeInfo = new NodeInfo {NumericValue = 1, Code = (byte) 'n'}
+                    },
+                    RightChild = new Node
+                    {
+                        NodeInfo = new NodeInfo {NumericValue = 2, Code = (byte) 'p'}
+                    }
+                }
+            },
+            RightChild = new Node
+            {
+                NodeInfo = new NodeInfo {NumericValue = 8},
+                LeftChild = new Node
+                {
+                    NodeInfo = new NodeInfo { NumericValue = 4 },
+                    LeftChild = new Node
+                    {
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)' '}
+                    },
+                    RightChild = new Node
+                    {
+                        NodeInfo = new NodeInfo { NumericValue = 2},
+                        LeftChild = new Node
+                        {
+                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'A'}
+                        },
+                        RightChild = new Node
+                        {
+                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'e'}
+                        }
+                    }
+                },
+                RightChild = new Node
+                {
+                    NodeInfo = new NodeInfo { NumericValue = 4 },
+                    LeftChild = new Node
+                    {
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'s'}
+                    },
+                    RightChild = new Node
+                    {
+                        NodeInfo = new NodeInfo { NumericValue = 2},
+                        LeftChild = new Node
+                        {
+                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'h' }
+                        },
+                        RightChild = new Node
+                        {
+                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'l' }
+                        }
+                    }
+                }
+            }
+        };
     }
 }
