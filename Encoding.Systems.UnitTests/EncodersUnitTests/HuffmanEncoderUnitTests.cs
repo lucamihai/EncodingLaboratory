@@ -21,6 +21,15 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
         {
             textAnalyzerMock = new Mock<ITextAnalyzer>();
             huffmanEncoder = new HuffmanEncoder(textAnalyzerMock.Object);
+
+            SetupTextAnalyzerMock();
+        }
+
+        private void SetupTextAnalyzerMock()
+        {
+            textAnalyzerMock
+                .Setup(x => x.GetCharacterStatisticsFromText(Constants.Text1))
+                .Returns(Constants.TextCharacterStatistics1);
         }
 
         [TestMethod]
