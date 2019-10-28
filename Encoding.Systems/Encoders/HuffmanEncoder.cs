@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Encoding.Entities;
 using Encoding.Systems.Interfaces.Utilities;
@@ -23,13 +24,33 @@ namespace Encoding.Systems.Encoders
 
             var characterStatistics = TextAnalyzer.GetCharacterStatisticsFromText(text);
             var head = new Node();
+            var nodes = GenerateNodeListFromCharacterStatisticsList(characterStatistics);
 
-            //while (characterStatistics.Count > 0)
-            //{
-            //    var firstMinimum = characterStatistics.Min(x => x.Apparitions);
-            //}
+            while (nodes.Count > 1)
+            {
+                var firstMinimum = nodes.Min(x => x.NodeInfo);
+                var firstNode = nodes.First(x => x.NodeInfo == firstMinimum);
+                nodes.Remove(firstNode);
+            }
 
             return head;
+        }
+
+        private List<Node> GenerateNodeListFromCharacterStatisticsList(List<CharacterStatistics> characterStatisticsList)
+        {
+            var nodes = new List<Node>();
+
+            foreach (var characterStatistics in characterStatisticsList)
+            {
+                var node = new Node
+                {
+                    NodeInfo = new NodeInfo { NumericValue = characterStatistics.Apparitions, Code = (byte)characterStatistics.Character}
+                };
+
+                nodes.Add(node);
+            }
+
+            return nodes;
         }
     }
 }

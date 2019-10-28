@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.Systems.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.Entities", "Encoding.Entities\Encoding.Entities.csproj", "{BE3FA299-F7E6-4648-8936-81D6CC89B4E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.Entities.UnitTests", "Encoding.Entities.UnitTests\Encoding.Entities.UnitTests.csproj", "{6EDD161D-AC11-4A14-9A42-9EC7764FAB67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{BE3FA299-F7E6-4648-8936-81D6CC89B4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE3FA299-F7E6-4648-8936-81D6CC89B4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE3FA299-F7E6-4648-8936-81D6CC89B4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EDD161D-AC11-4A14-9A42-9EC7764FAB67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EDD161D-AC11-4A14-9A42-9EC7764FAB67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EDD161D-AC11-4A14-9A42-9EC7764FAB67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EDD161D-AC11-4A14-9A42-9EC7764FAB67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{A73E08B2-BD06-4090-8765-3A3FF1CC755C} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 		{0D0DD31D-2D4A-4F9D-8C14-DB85088C5F92} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 		{66794681-6F89-4745-A5F1-76770DE58D7D} = {57F6C81C-3164-405D-80CE-20C254A2C484}
+		{6EDD161D-AC11-4A14-9A42-9EC7764FAB67} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA6E45BE-EDB4-4B8C-9243-09C5B054A692}
