@@ -56,12 +56,31 @@ namespace Encoding.FileOperations
 
         public byte ReadBits(byte numberOfBits)
         {
+            byte returnedValue = 0;
+
             if (numberOfBits == 0)
             {
                 throw new ArgumentException();
             }
 
-            return Buffer.GetValueStartingFromCurrentBit(numberOfBits);
+            if (numberOfBits <= 8)
+            {
+                return Buffer.GetValueStartingFromCurrentBit(numberOfBits);
+            }
+            else
+            {
+                while (numberOfBits > 0)
+                {
+                    var numberOfBitsToRead = numberOfBits > 8 
+                        ? (byte)8 
+                        : numberOfBits;
+                    returnedValue += Buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
+
+                    numberOfBits -= numberOfBitsToRead;
+                }
+            }
+
+            return returnedValue;
         }
 
         [ExcludeFromCodeCoverage]

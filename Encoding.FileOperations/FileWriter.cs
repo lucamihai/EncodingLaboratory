@@ -8,6 +8,8 @@ namespace Encoding.FileOperations
 {
     public class FileWriter : IDisposable
     {
+        private const uint EightBitMask = byte.MaxValue;
+
         private static readonly FilePathValidator FilePathValidator = new FilePathValidator();
         private static readonly BufferValidator BufferValidator = new BufferValidator();
 
@@ -42,14 +44,29 @@ namespace Encoding.FileOperations
             Buffer.AddValueStartingFromCurrentBit(valueToWrite, 1);
         }
 
-        public void WriteValueOnBits(byte value, byte numberOfBits)
+        public void WriteValueOnBits(uint value, byte numberOfBits)
         {
             if (numberOfBits == 0)
             {
                 throw new ArgumentException();
             }
 
-            Buffer.AddValueStartingFromCurrentBit(value, numberOfBits);
+            while (numberOfBits > 0)
+            {
+                var numberOfBitsToWrite = numberOfBits > 8
+                    ? (byte)8
+                    : numberOfBits;
+
+                var byteToWrite = numberOfBitsToWrite == 8
+                    ? (byte) (value & EightBitMask)
+                    : (byte) value;
+
+                Buffer.AddValueStartingFromCurrentBit(byteToWrite, numberOfBits);
+
+                value >>= numberOfBitsToWrite;
+                numberOfBits -= numberOfBitsToWrite;
+            }
+            
         }
 
         [ExcludeFromCodeCoverage]
