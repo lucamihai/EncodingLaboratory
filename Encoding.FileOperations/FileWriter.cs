@@ -18,10 +18,10 @@ namespace Encoding.FileOperations
 
         public FileWriter(string filePath, IBuffer buffer)
         {
-            FilePathValidator.ValidateAndThrow(filePath);
+            //FilePathValidator.ValidateAndThrow(filePath);
             BufferValidator.ValidateAndThrow(buffer);
 
-            fileStream = new FileStream(filePath, FileMode.Open);
+            fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
 
             FilePath = filePath;
             Buffer = buffer;

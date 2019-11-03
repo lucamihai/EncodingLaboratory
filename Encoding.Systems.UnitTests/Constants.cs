@@ -76,7 +76,7 @@ namespace Encoding.Systems.UnitTests
                     },
                     RightChild = new Node
                     {
-                        NodeInfo = new NodeInfo {NumericValue = 2, Code = (byte) 'p'}
+                        NodeInfo = new NodeInfo {NumericValue = 2, Code = (byte) ' '}
                     }
                 }
             },
@@ -88,7 +88,7 @@ namespace Encoding.Systems.UnitTests
                     NodeInfo = new NodeInfo { NumericValue = 4 },
                     LeftChild = new Node
                     {
-                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)' '}
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'p'}
                     },
                     RightChild = new Node
                     {

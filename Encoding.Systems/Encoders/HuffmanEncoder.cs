@@ -23,7 +23,6 @@ namespace Encoding.Systems.Encoders
             }
 
             var characterStatistics = TextAnalyzer.GetCharacterStatisticsFromText(text);
-            var head = new Node();
             var nodes = GenerateNodeListFromCharacterStatisticsList(characterStatistics);
 
             while (nodes.Count > 1)
@@ -31,9 +30,26 @@ namespace Encoding.Systems.Encoders
                 var firstMinimum = nodes.Min(x => x.NodeInfo);
                 var firstNode = nodes.First(x => x.NodeInfo == firstMinimum);
                 nodes.Remove(firstNode);
+
+                var secondMinimum = nodes.Min(x => x.NodeInfo);
+                var secondNode = nodes.First(x => x.NodeInfo == secondMinimum);
+                nodes.Remove(secondNode);
+
+                var newNode = new Node
+                {
+                    LeftChild = firstNode,
+                    RightChild = secondNode,
+                    NodeInfo = new NodeInfo
+                    {
+                        NumericValue = firstNode.NodeInfo.NumericValue + secondNode.NodeInfo.NumericValue
+                    }
+                };
+                nodes.Add(newNode);
             }
 
-            return head;
+            return nodes.Count == 1
+                ? nodes[0]
+                : new Node();
         }
 
         private List<Node> GenerateNodeListFromCharacterStatisticsList(List<CharacterStatistics> characterStatisticsList)

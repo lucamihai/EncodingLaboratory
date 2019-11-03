@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
+      <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
+      <Name>Encoding.FileOperations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

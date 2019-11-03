@@ -37,12 +37,13 @@ namespace Encoding.FileOperations
         {
             if (reachedEndOfFile)
             {
-                throw new IndexOutOfRangeException();
+                return;
             }
 
             if (fileStream.Position == fileStream.Length)
             {
                 reachedEndOfFile = true;
+                Buffer.AddValueStartingFromCurrentBit(127, 7);
             }
 
             Buffer.Value = (byte)fileStream.ReadByte();
