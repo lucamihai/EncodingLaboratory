@@ -5,14 +5,14 @@ namespace Encoding.FileOperations.Validators
 {
     public class FilePathValidator
     {
-        public void ValidateAndThrow(string filePath)
+        public void ValidateAndThrow(string filePath, bool checkIfExists = true)
         {
             if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentNullException();
             }
 
-            if (!File.Exists(filePath))
+            if (checkIfExists && !File.Exists(filePath))
             {
                 throw new ArgumentException($"File '{filePath}' does not exist");
             }

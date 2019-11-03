@@ -54,9 +54,9 @@ namespace Encoding.FileOperations
             return Buffer.GetValueStartingFromCurrentBit(1) == 1;
         }
 
-        public byte ReadBits(byte numberOfBits)
+        public uint ReadBits(byte numberOfBits)
         {
-            byte returnedValue = 0;
+            uint returnedValue = 0;
 
             if (numberOfBits == 0)
             {

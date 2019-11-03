@@ -143,15 +143,5 @@ namespace Encoding.FileOperations.IntegrationTests
 
             Assert.AreEqual(Constants.TestBytes[1], buffer.Value);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
-        public void ReadBitsThrowsIndexOutOfRangeExceptionIfThereAreNoBytesLeftToRead()
-        {
-            for (int i = 0; i < Constants.TestBytes.Length + 1; i++)
-            {
-                fileReader.ReadBits(8);
-            }
-        }
     }
 }

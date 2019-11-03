@@ -49,7 +49,9 @@ namespace Encoding.FileOperations.UnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void ConstructorThrowsArgumentExceptionForFileNotExisting()
         {
-            fileReader = new FileReader("abc", bufferMock.Object);
+            File.Delete(filePath);
+
+            fileReader = new FileReader(filePath, bufferMock.Object);
         }
 
         [TestMethod]

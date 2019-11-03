@@ -11,11 +11,13 @@ namespace Encoding.FileOperations.UnitTests.ValidatorsUnitTests
     public class FilePathValidatorUnitTests
     {
         private FilePathValidator filePathValidator;
+        private string filePath;
 
         [TestInitialize]
         public void Setup()
         {
             filePathValidator = new FilePathValidator();
+            filePath = $"{Environment.CurrentDirectory}\\{Constants.TestFileName}";
         }
 
         [TestMethod]
@@ -36,13 +38,18 @@ namespace Encoding.FileOperations.UnitTests.ValidatorsUnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void ValidateAndThrowThrowsArgumentNullExceptionForNotExistingFile()
         {
-            filePathValidator.ValidateAndThrow("abc");
+            filePathValidator.ValidateAndThrow(filePath);
+        }
+
+        [TestMethod]
+        public void ValidateAndThrowDoesNotThrowAnyExceptionForNotExistingFileIfOptionalParameterIsSetToFalse()
+        {
+            filePathValidator.ValidateAndThrow(filePath, false);
         }
 
         [TestMethod]
         public void ValidateAndThrowDoesNotThrowAnyExceptionForExistingFile()
         {
-            var filePath = $"{Environment.CurrentDirectory}\\{Constants.TestFileName}";
             File.WriteAllText(filePath, "contents");
 
             filePathValidator.ValidateAndThrow(filePath);

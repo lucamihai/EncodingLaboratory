@@ -28,6 +28,7 @@ namespace Encoding.FileOperations.UnitTests
         public void Cleanup()
         {
             fileWriter?.Dispose();
+            File.Delete(filePath);
         }
 
         [TestMethod]
@@ -42,13 +43,6 @@ namespace Encoding.FileOperations.UnitTests
         public void ConstructorThrowsArgumentNullExceptionForEmptyFilePath()
         {
             fileWriter = new FileWriter(string.Empty, bufferMock.Object);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ConstructorThrowsArgumentExceptionForFileNotExisting()
-        {
-            fileWriter = new FileWriter("abc", bufferMock.Object);
         }
 
         [TestMethod]

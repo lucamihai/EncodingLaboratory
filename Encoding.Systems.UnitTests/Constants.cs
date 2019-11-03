@@ -65,20 +65,22 @@ namespace Encoding.Systems.UnitTests
                 NodeInfo = new NodeInfo {NumericValue = 6},
                 LeftChild = new Node
                 {
-                    NodeInfo = new NodeInfo {NumericValue = 3, Code = (byte) 'a'}
+                    NodeInfo = new NodeInfo { NumericValue = 3, Code = (byte)'a' }
                 },
                 RightChild = new Node
                 {
-                    NodeInfo = new NodeInfo {NumericValue = 3},
+                    NodeInfo = new NodeInfo { NumericValue = 3 },
                     LeftChild = new Node
                     {
-                        NodeInfo = new NodeInfo {NumericValue = 1, Code = (byte) 'n'}
+                        NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'n' }
                     },
                     RightChild = new Node
                     {
-                        NodeInfo = new NodeInfo {NumericValue = 2, Code = (byte) ' '}
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)' ' }
                     }
-                }
+                },
+                
+                
             },
             RightChild = new Node
             {
@@ -88,9 +90,17 @@ namespace Encoding.Systems.UnitTests
                     NodeInfo = new NodeInfo { NumericValue = 4 },
                     LeftChild = new Node
                     {
-                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'p'}
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'p' }
                     },
                     RightChild = new Node
+                    {
+                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'s' }
+                    }
+                },
+                RightChild = new Node
+                {
+                    NodeInfo = new NodeInfo { NumericValue = 4 },
+                    LeftChild = new Node
                     {
                         NodeInfo = new NodeInfo { NumericValue = 2},
                         LeftChild = new Node
@@ -99,16 +109,8 @@ namespace Encoding.Systems.UnitTests
                         },
                         RightChild = new Node
                         {
-                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'e'}
+                            NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'e' }
                         }
-                    }
-                },
-                RightChild = new Node
-                {
-                    NodeInfo = new NodeInfo { NumericValue = 4 },
-                    LeftChild = new Node
-                    {
-                        NodeInfo = new NodeInfo { NumericValue = 2, Code = (byte)'s'}
                     },
                     RightChild = new Node
                     {
@@ -122,7 +124,7 @@ namespace Encoding.Systems.UnitTests
                             NodeInfo = new NodeInfo { NumericValue = 1, Code = (byte)'l' }
                         }
                     }
-                }
+                },
             }
         };
     }
