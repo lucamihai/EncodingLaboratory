@@ -20,6 +20,12 @@ namespace Encoding.Entities.UnitTests
         }
 
         [TestMethod]
+        public void CompareToReturnsExpectedValueForObjectOfDifferentType()
+        {
+            Assert.AreEqual(1, nodeInfo.CompareTo(2));
+        }
+
+        [TestMethod]
         public void CompareToReturnsExpectedValueForNumericValueSmallerThanOtherNodeInfoNumericValue()
         {
             var otherNodeInfo = new NodeInfo

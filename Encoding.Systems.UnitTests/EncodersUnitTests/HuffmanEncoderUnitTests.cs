@@ -54,6 +54,7 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
 
             var comparer = new CompareLogic();
             comparer.Config.IgnoreProperty<Node>(x => x.Parent);
+            comparer.Config.IgnoreProperty<Node>(x => x.NodesInPreOrder);
             Assert.IsTrue(comparer.Compare(Constants.ExpectedNodeForText1, node).AreEqual);
         }
     }
