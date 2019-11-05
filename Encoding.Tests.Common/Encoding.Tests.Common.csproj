@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8312489F-CF5F-4186-BD96-3C6E5C133A1C}</ProjectGuid>
+    <ProjectGuid>{7F9671D8-9284-4501-A77D-46992DF62FE4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Encoding.Systems</RootNamespace>
-    <AssemblyName>Encoding.Systems</AssemblyName>
+    <RootNamespace>Encoding.Tests.Common</RootNamespace>
+    <AssemblyName>Encoding.Tests.Common</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,13 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decoders\HuffmanDecoder.cs" />
-    <Compile Include="Encoders\HuffmanEncoder.cs" />
-    <Compile Include="Interfaces\Utilities\IHuffmanNodesManager.cs" />
-    <Compile Include="Interfaces\Utilities\ITextAnalyzer.cs" />
+    <Compile Include="ConstantsEncodingSystems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\HuffmanNodesManager.cs" />
-    <Compile Include="Utilities\TextAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Encoding.Entities\Encoding.Entities.csproj">

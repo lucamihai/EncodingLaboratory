@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Encoding.Systems.Utilities;
+using Encoding.Tests.Common;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -36,10 +37,10 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         [TestMethod]
         public void GetCharacterStatisticsFromTextReturnsExpectedList()
         {
-            var characterStatistics = textAnalyzer.GetCharacterStatisticsFromText(Constants.Text1);
+            var characterStatistics = textAnalyzer.GetCharacterStatisticsFromText(ConstantsEncodingSystems.Text1);
 
             var comparer = new CompareLogic();
-            Assert.IsTrue(comparer.Compare(Constants.TextCharacterStatistics1, characterStatistics).AreEqual);
+            Assert.IsTrue(comparer.Compare(ConstantsEncodingSystems.TextCharacterStatistics1, characterStatistics).AreEqual);
         }
     }
 }

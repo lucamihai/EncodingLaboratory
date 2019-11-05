@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterStatistics.cs" />
+    <Compile Include="EncodedByte.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
