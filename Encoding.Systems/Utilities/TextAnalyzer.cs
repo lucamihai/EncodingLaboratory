@@ -28,7 +28,7 @@ namespace Encoding.Systems.Utilities
                 var characterStatistics = new CharacterStatistics
                 {
                     Character = uniqueCharacter,
-                    Apparitions = characterFrequency
+                    Apparitions = (uint)characterFrequency
                 };
 
                 characterStatisticsList.Add(characterStatistics);

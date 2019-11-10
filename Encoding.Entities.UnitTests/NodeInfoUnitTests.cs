@@ -14,7 +14,7 @@ namespace Encoding.Entities.UnitTests
         {
             nodeInfo = new NodeInfo
             {
-                NumericValue = 3,
+                NumericValue = 5,
                 Code = 97
             };
         }

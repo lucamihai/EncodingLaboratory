@@ -5,7 +5,7 @@ namespace Encoding.Entities
     public class NodeInfo : IComparable
     {
         public byte? Code { get; set; }
-        public int NumericValue { get; set; }
+        public uint NumericValue { get; set; }
 
         public int CompareTo(object obj)
         {

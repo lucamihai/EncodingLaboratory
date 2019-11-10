@@ -6,6 +6,6 @@ namespace Encoding.Entities
     public class CharacterStatistics
     {
         public char Character { get; set; }
-        public int Apparitions { get; set; }
+        public uint Apparitions { get; set; }
     }
 }

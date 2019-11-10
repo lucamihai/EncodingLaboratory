@@ -6,7 +6,7 @@ using Encoding.FileOperations.Validators;
 
 namespace Encoding.FileOperations
 {
-    public class FileWriter : IDisposable
+    public class FileWriter : IFileWriter, IDisposable
     {
         private const uint EightBitMask = byte.MaxValue;
 
@@ -66,7 +66,6 @@ namespace Encoding.FileOperations
                 value >>= numberOfBitsToWrite;
                 numberOfBits -= numberOfBitsToWrite;
             }
-            
         }
 
         [ExcludeFromCodeCoverage]

@@ -43,9 +43,11 @@
   <ItemGroup>
     <Compile Include="Decoders\HuffmanDecoder.cs" />
     <Compile Include="Encoders\HuffmanEncoder.cs" />
+    <Compile Include="Interfaces\Utilities\IHuffmanHeaderWriter.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanNodesManager.cs" />
     <Compile Include="Interfaces\Utilities\ITextAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\HuffmanHeaderWriter.cs" />
     <Compile Include="Utilities\HuffmanNodesManager.cs" />
     <Compile Include="Utilities\TextAnalyzer.cs" />
   </ItemGroup>
@@ -53,6 +55,10 @@
     <ProjectReference Include="..\Encoding.Entities\Encoding.Entities.csproj">
       <Project>{be3fa299-f7e6-4648-8936-81d6cc89b4e2}</Project>
       <Name>Encoding.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
+      <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
+      <Name>Encoding.FileOperations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

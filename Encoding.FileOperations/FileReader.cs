@@ -7,7 +7,7 @@ using Encoding.FileOperations.Validators;
 
 namespace Encoding.FileOperations
 {
-    public class FileReader : IDisposable
+    public class FileReader : IFileReader, IDisposable
     {
         private static readonly FilePathValidator FilePathValidator = new FilePathValidator();
         private static readonly BufferValidator BufferValidator = new BufferValidator();
