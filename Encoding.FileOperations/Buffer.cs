@@ -51,11 +51,13 @@ namespace Encoding.FileOperations
             var valueBitArray = new BitArray(new[] {value});
             valueBitArray.Length = numberOfBitsToWrite;
 
-            for (int i = 0; i < numberOfBitsToWrite; i++)
+            for (int index = 0; index < numberOfBitsToWrite; index++)
             {
-                var valueBitArrayIndex = i % 8;
-                bitArray[CurrentBit] = valueBitArray[valueBitArrayIndex];
+                var valueToWrite = index < bitArray.Length
+                    ? valueBitArray[index]
+                    : false;
 
+                bitArray[CurrentBit] = valueToWrite;
                 CurrentBit++;
             }
         }

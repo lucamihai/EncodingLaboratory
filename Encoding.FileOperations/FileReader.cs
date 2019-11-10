@@ -70,14 +70,17 @@ namespace Encoding.FileOperations
             }
             else
             {
+                var numberOfBitsRead = 0;
+
                 while (numberOfBits > 0)
                 {
                     var numberOfBitsToRead = numberOfBits > 8 
                         ? (byte)8 
                         : numberOfBits;
-                    returnedValue += Buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead);
 
+                    returnedValue += (uint)Buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead) << numberOfBitsRead;
                     numberOfBits -= numberOfBitsToRead;
+                    numberOfBitsRead += numberOfBitsToRead;
                 }
             }
 

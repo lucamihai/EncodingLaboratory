@@ -51,7 +51,9 @@ namespace Encoding.FileOperations.IntegrationTests
             while (bitsRead < bytesInOriginalImage.Length * 8)
             {
                 var random = new Random();
-                var numberOfBits = (byte)random.Next(1, 8);
+                var numberOfBits = bitsRead + 8 > bytesInOriginalImage.Length * 8
+                    ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
+                    : (byte)random.Next(1, 8);
 
                 var readStuff = fileReader.ReadBits(numberOfBits);
 
@@ -77,11 +79,18 @@ namespace Encoding.FileOperations.IntegrationTests
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var bitsRead = 0;
+            long bitsRead = 0;
             while (bitsRead < bytesInOriginalImage.Length * 8)
             {
                 var random = new Random();
-                var numberOfBits = (byte)random.Next(8, 32);
+                var numberOfBits = bitsRead + 32 > bytesInOriginalImage.Length * 8
+                    ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
+                    : (byte) random.Next(8, 32);
+                
+                if (bitsRead >= 4318400 * 8)
+                {
+
+                }
 
                 var readStuff = fileReader.ReadBits(numberOfBits);
 

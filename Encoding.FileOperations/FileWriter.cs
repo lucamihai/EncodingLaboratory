@@ -36,6 +36,8 @@ namespace Encoding.FileOperations
         {
             fileStream.WriteByte(Buffer.Value);
             fileStream.Flush();
+
+            Buffer.Value = 0;
         }
 
         public void WriteBit(bool bitValue)
@@ -61,7 +63,7 @@ namespace Encoding.FileOperations
                     ? (byte) (value & EightBitMask)
                     : (byte) value;
 
-                Buffer.AddValueStartingFromCurrentBit(byteToWrite, numberOfBits);
+                Buffer.AddValueStartingFromCurrentBit(byteToWrite, numberOfBitsToWrite);
 
                 value >>= numberOfBitsToWrite;
                 numberOfBits -= numberOfBitsToWrite;
