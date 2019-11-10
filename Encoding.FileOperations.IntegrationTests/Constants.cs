@@ -5,6 +5,8 @@ namespace Encoding.FileOperations.IntegrationTests
     [ExcludeFromCodeCoverage]
     public static class Constants
     {
+        public const string TestFileNameImage = "imageTest.png";
+        public const string TestFileNameImageDestination = "imageTestWritten.png";
         public const string TestFileName = "testFile.txt";
         public static byte[] TestBytes = new byte[]
         {
