@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Encoding.Entities;
+using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Encoders;
 using Encoding.Systems.Interfaces.Utilities;
 using Encoding.Tests.Common;
-using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -16,18 +16,23 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
     public class HuffmanEncoderUnitTests
     {
         private Mock<ITextAnalyzer> textAnalyzerMock;
-        private Mock<IHuffmanNodesManager> huffmanNodesManagerMock;
+        private Mock<IHuffmanEncodedBytesManager> huffmanEncodedBytesManagerMock;
+        private Mock<IHuffmanHeaderWriter> huffmanHeaderWriterMock;
+        private Mock<IFileWriter> fileWriterMock;
         private HuffmanEncoder huffmanEncoder;
 
         [TestInitialize]
         public void Setup()
         {
             textAnalyzerMock = new Mock<ITextAnalyzer>();
-            huffmanNodesManagerMock = new Mock<IHuffmanNodesManager>();
-            huffmanEncoder = new HuffmanEncoder(textAnalyzerMock.Object, huffmanNodesManagerMock.Object);
+            huffmanEncodedBytesManagerMock = new Mock<IHuffmanEncodedBytesManager>();
+            huffmanHeaderWriterMock = new Mock<IHuffmanHeaderWriter>();
+            fileWriterMock = new Mock<IFileWriter>();
+
+            huffmanEncoder = new HuffmanEncoder(textAnalyzerMock.Object, huffmanEncodedBytesManagerMock.Object, huffmanHeaderWriterMock.Object);
 
             SetupTextAnalyzerMock();
-            SetupHuffmanNodesGeneratorMock();
+            SetupHuffmanEncodedBytesManagerMock();
         }
 
         private void SetupTextAnalyzerMock()
@@ -37,54 +42,59 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
                 .Returns(ConstantsEncodingSystems.TextCharacterStatistics1);
         }
 
-        private void SetupHuffmanNodesGeneratorMock()
+        private void SetupHuffmanEncodedBytesManagerMock()
         {
-            huffmanNodesManagerMock
-                .Setup(x => x.GetNodeFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()))
-                .Returns(ConstantsEncodingSystems.ExpectedNodeForText1());
+            huffmanEncodedBytesManagerMock
+                .Setup(x => x.GetEncodedBytesFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()))
+                .Returns(ConstantsEncodingSystems.EncodedBytes1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetNodesForTextThrowsArgumentNullExceptionForNullText()
+        public void EncodeTextToFileThrowsArgumentNullExceptionForNullText()
         {
-            huffmanEncoder.GetEncodedBytesForText(null);
+            huffmanEncoder.EncodeTextToFile(null, fileWriterMock.Object);
         }
 
         [TestMethod]
-        public void GetNodesForTextCallsTextAnalyzerGetCharacterStatisticsFromTextWithTextFromParameterOnce()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EncodeTextToFileThrowsArgumentNullExceptionForNullFileWriter()
         {
-            huffmanEncoder.GetEncodedBytesForText(ConstantsEncodingSystems.Text1);
+            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, null);
+        }
+
+        [TestMethod]
+        public void EncodeTextToFileCallsTextAnalyzerGetCharacterStatisticsFromTextWithTextFromParameterOnce()
+        {
+            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
 
             textAnalyzerMock.Verify(x => x.GetCharacterStatisticsFromText(ConstantsEncodingSystems.Text1), Times.Once);
         }
 
         [TestMethod]
-        public void GetNodesForTextCallsHuffmanNodesManagerGetNodeFromCharacterStatisticsOnce()
+        public void EncodeTextToFileCallsHuffmanEncodedBytesManagerMockGetEncodedBytesFromCharacterStatisticsOnce()
         {
-            huffmanEncoder.GetEncodedBytesForText(ConstantsEncodingSystems.Text1);
+            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
 
-            huffmanNodesManagerMock.Verify(x => x.GetNodeFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()), Times.Once);
+            huffmanEncodedBytesManagerMock.Verify(x => x.GetEncodedBytesFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()), Times.Once);
         }
 
         [TestMethod]
-        public void GetNodesForTextCallsHuffmanNodesManagerSetPathFromNodeToParentOnceForEachLeaf()
+        public void EncodeTextToFileCallsHuffmanHeaderWriterSetPathFromNodeToParentOnceForEachLeaf()
         {
-            huffmanEncoder.GetEncodedBytesForText(ConstantsEncodingSystems.Text1);
+            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
 
-            huffmanNodesManagerMock.Verify(x => 
-                x.SetPathFromNodeToParent(It.IsAny<List<bool>>(), It.IsAny<Node>(), It.IsAny<Node>(), It.IsAny<int>()), 
-                Times.Exactly(ConstantsEncodingSystems.NumberOfLeafs1));
+            huffmanHeaderWriterMock.Verify(x=>x.WriteHeaderToFile(It.IsAny<List<CharacterStatistics>>(), fileWriterMock.Object), Times.Once);
         }
 
         [TestMethod]
-        public void GetEncodedBytesForTextReturnsExpectedNumberOfEncodedBytes()
+        public void EncodeTextToFileCallsFileWriterWriteValueOnBitsForEachCharacterInText()
         {
-            var returnedEncodedBytes = huffmanEncoder.GetEncodedBytesForText(ConstantsEncodingSystems.Text1);
+            const string text = ConstantsEncodingSystems.Text1;
 
-            var comparer = new CompareLogic();
-            comparer.Config.IgnoreProperty<EncodedByte>(x => x.EncodingBits);
-            Assert.IsTrue(comparer.Compare(ConstantsEncodingSystems.EncodedBytes1(), returnedEncodedBytes).AreEqual);
+            huffmanEncoder.EncodeTextToFile(text, fileWriterMock.Object);
+
+            fileWriterMock.Verify(x => x.WriteValueOnBits(It.IsAny<uint>(), It.IsAny<byte>()), Times.Exactly(text.Length));
         }
     }
 }

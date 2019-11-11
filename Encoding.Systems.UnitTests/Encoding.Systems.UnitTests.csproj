@@ -69,6 +69,7 @@
     <Compile Include="DecodersUnitTests\HuffmanDecoderUnitTests.cs" />
     <Compile Include="EncodersUnitTests\HuffmanEncoderUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilitiesUnitTests\HuffmanEncodedBytesManagerUnitTests.cs" />
     <Compile Include="UtilitiesUnitTests\HuffmanHeaderWriterUnitTests.cs" />
     <Compile Include="UtilitiesUnitTests\HuffmanNodesManagerUnitTests.cs" />
     <Compile Include="UtilitiesUnitTests\TextAnalyzerUnitTests.cs" />

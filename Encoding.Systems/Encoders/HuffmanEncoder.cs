@@ -1,52 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using Encoding.Entities;
+using System.Linq;
+using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Interfaces.Utilities;
 
 namespace Encoding.Systems.Encoders
 {
     public class HuffmanEncoder
     {
-        public ITextAnalyzer TextAnalyzer { get; }
-        public IHuffmanNodesManager HuffmanNodesManager { get; }
+        private readonly ITextAnalyzer textAnalyzer;
+        private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
+        private readonly IHuffmanHeaderWriter huffmanHeaderWriter;
 
-        public HuffmanEncoder(ITextAnalyzer textAnalyzer, IHuffmanNodesManager huffmanNodesManager)
+        public HuffmanEncoder(ITextAnalyzer textAnalyzer, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
         {
-            TextAnalyzer = textAnalyzer;
-            HuffmanNodesManager = huffmanNodesManager;
+            this.textAnalyzer = textAnalyzer;
+            this.huffmanEncodedBytesManager = huffmanEncodedBytesManager;
+            this.huffmanHeaderWriter = huffmanHeaderWriter;
         }
 
-        public List<EncodedByte> GetEncodedBytesForText(string text)
+        public void EncodeTextToFile(string text, IFileWriter fileWriter)
         {
             if (text == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(text));
             }
 
-            var characterStatistics = TextAnalyzer.GetCharacterStatisticsFromText(text);
-            var huffmanTreeRoot = HuffmanNodesManager.GetNodeFromCharacterStatistics(characterStatistics);
-
-            var encodedBytes = new List<EncodedByte>();
-
-            foreach (var node in huffmanTreeRoot.NodesInPreOrder)
+            if (fileWriter == null)
             {
-                if (node == huffmanTreeRoot)
-                {
-                    continue;
-                }
-
-                if (!node.NodeInfo.Code.HasValue)
-                {
-                    continue;
-                }
-
-                var encodedByte = new EncodedByte {Byte = node.NodeInfo.Code.Value};
-                HuffmanNodesManager.SetPathFromNodeToParent(encodedByte.EncodingBits, node, huffmanTreeRoot, 20);
-
-                encodedBytes.Add(encodedByte);
+                throw new ArgumentNullException(nameof(fileWriter));
             }
 
-            return encodedBytes;
+            var characterStatistics = textAnalyzer.GetCharacterStatisticsFromText(text);
+            var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(characterStatistics);
+
+            huffmanHeaderWriter.WriteHeaderToFile(characterStatistics, fileWriter);
+
+            foreach (var character in text)
+            {
+                var encodedByteForCurrentCharacter = encodedBytes.First(x => x.Byte == (byte) character);
+                fileWriter.WriteValueOnBits(encodedByteForCurrentCharacter.EncodedValue, (byte)encodedByteForCurrentCharacter.EncodingBits.Count);
+            }
         }
     }
 }

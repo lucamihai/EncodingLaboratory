@@ -43,12 +43,14 @@
   <ItemGroup>
     <Compile Include="Decoders\HuffmanDecoder.cs" />
     <Compile Include="Encoders\HuffmanEncoder.cs" />
+    <Compile Include="Interfaces\Utilities\IHuffmanEncodedBytesManager.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanHeaderWriter.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanNodesManager.cs" />
     <Compile Include="Interfaces\Utilities\ITextAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\HuffmanHeaderWriter.cs" />
     <Compile Include="Utilities\HuffmanNodesManager.cs" />
+    <Compile Include="Utilities\HuffmanEncodedBytesManager.cs" />
     <Compile Include="Utilities\TextAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
