@@ -3,7 +3,7 @@
 namespace Encoding.FileOperations.IntegrationTests
 {
     [ExcludeFromCodeCoverage]
-    public static class Constants
+    internal static class Constants
     {
         public const string TestFileNameImage = "imageTest.png";
         public const string TestFileNameImageDestination = "imageTestWritten.png";

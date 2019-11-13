@@ -53,6 +53,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="EncodersIntegrationTests\HuffmanEncoderIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +64,10 @@
     <ProjectReference Include="..\Encoding.Entities\Encoding.Entities.csproj">
       <Project>{BE3FA299-F7E6-4648-8936-81D6CC89B4E2}</Project>
       <Name>Encoding.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
+      <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
+      <Name>Encoding.FileOperations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Encoding.Systems\Encoding.Systems.csproj">
       <Project>{8312489f-cf5f-4186-bd96-3c6e5c133a1c}</Project>
