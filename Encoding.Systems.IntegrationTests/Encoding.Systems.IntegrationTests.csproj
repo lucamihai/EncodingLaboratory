@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="EncoderPlusDecodersIntegrationTests\HuffmanEncoderPlusDecoderIntegrationTests.cs" />
     <Compile Include="EncodersIntegrationTests\HuffmanEncoderIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
