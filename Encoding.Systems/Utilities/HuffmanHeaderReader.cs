@@ -20,7 +20,7 @@ namespace Encoding.Systems.Utilities
 
             foreach (var characterStats in bitsNecessaryForCharacterStatistics.Keys)
             {
-                var bitsToRead = bitsNecessaryForCharacterStatistics[characterStats];
+                var bitsToRead = bitsNecessaryForCharacterStatistics[characterStats] * 8;
                 characterStats.Apparitions = fileReader.ReadBits((byte)bitsToRead);
 
                 characterStatistics.Add(characterStats);

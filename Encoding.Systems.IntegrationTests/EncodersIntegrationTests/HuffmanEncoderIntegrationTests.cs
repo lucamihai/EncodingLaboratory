@@ -14,7 +14,6 @@ namespace Encoding.Systems.IntegrationTests.EncodersIntegrationTests
     public class HuffmanEncoderIntegrationTests
     {
         private HuffmanEncoder huffmanEncoder;
-        private FileWriter fileWriter;
         private string filePath;
 
         [TestInitialize]
@@ -27,19 +26,32 @@ namespace Encoding.Systems.IntegrationTests.EncodersIntegrationTests
             var huffmanHeaderWriter = new HuffmanHeaderWriter();
 
             huffmanEncoder = new HuffmanEncoder(textAnalyzer, huffmanEncodedBytesManager, huffmanHeaderWriter);
-
-            fileWriter = new FileWriter(filePath, new Buffer());
         }
 
         [TestMethod]
-        public void EncodeTextToFileCreatesFile()
-        {
-            huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
-
-            fileWriter.Dispose();
+        public void EncodeTextToFileCreatesFileWithExpectedContent()
+        { 
+            using (var fileWriter = new FileWriter(filePath, new Buffer()))
+            {
+                huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
+            }
 
             Assert.IsTrue(File.Exists(filePath));
         }
+
+        //private bool TextIsValid()
+        //{
+            
+        //}
+
+        //private bool StatisticsFromTextAreValid(string text)
+        //{
+        //    var stringStatistics = text.Substring(0, 64);
+        //    foreach (var character in stringStatistics)
+        //    {
+                
+        //    }
+        //}
 
         [TestCleanup]
         public void Cleanup()

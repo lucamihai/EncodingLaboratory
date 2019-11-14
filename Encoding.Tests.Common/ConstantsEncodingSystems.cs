@@ -202,5 +202,6 @@ namespace Encoding.Tests.Common
 
             return encodedBytes;
         }
+        public const int NumberOfBitsForHuffmanEncoding1 = 43;
     }
 }

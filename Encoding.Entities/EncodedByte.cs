@@ -15,9 +15,9 @@ namespace Encoding.Entities
             {
                 uint value = 0;
 
-                for (int index = 0; index < EncodingBits.Count; index++)
+                for (int index = EncodingBits.Count - 1; index >= 0; index--)
                 {
-                    if (!EncodingBits[index])
+                    if (!EncodingBits[EncodingBits.Count - 1 - index])
                     {
                         continue;
                     }

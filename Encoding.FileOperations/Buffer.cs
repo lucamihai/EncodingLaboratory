@@ -85,8 +85,7 @@ namespace Encoding.FileOperations
 
         public void Flush()
         {
-            bitArray.SetAll(false);
-            CurrentBit = 0;
+            AddValueStartingFromCurrentBit(127, 7);
         }
 
         private byte GetByteFromBitArray(BitArray bitArray)

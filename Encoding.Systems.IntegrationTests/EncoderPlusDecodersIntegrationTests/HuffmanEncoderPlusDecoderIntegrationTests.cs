@@ -17,8 +17,6 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
     {
         private HuffmanEncoder huffmanEncoder;
         private HuffmanDecoder huffmanDecoder;
-        private FileWriter fileWriter;
-        private FileReader fileReader;
         private string filePathEncodedFile;
         private string filePathDecodedFile;
 
@@ -39,8 +37,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
             var huffmanHeaderReader = new HuffmanHeaderReader();
             huffmanDecoder = new HuffmanDecoder(huffmanHeaderReader, huffmanEncodedBytesManager);
 
-            fileWriter = new FileWriter(filePathEncodedFile, new Buffer());
-            fileReader = new FileReader(filePathDecodedFile, new Buffer());
+            
         }
 
         private void CreateOriginalFile()
@@ -49,14 +46,20 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        [Ignore("Endless loop")]
+        //[Ignore("Endless loop")]
         public void FileIsEncodedThenDecodedCorrectly()
         {
-            huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
-            var decodedText = huffmanDecoder.GetDecodedText(fileReader);
+            using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
+            {
+                huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
+                fileWriter.Buffer.Flush();
+            }
 
-            fileReader.Dispose();
-            fileWriter.Dispose();
+            string decodedText;
+            using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
+            {
+                decodedText = huffmanDecoder.GetDecodedText(fileReader);
+            }
 
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(Constants.Text1, decodedText).AreEqual);

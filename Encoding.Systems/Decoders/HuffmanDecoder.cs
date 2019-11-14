@@ -32,6 +32,7 @@ namespace Encoding.Systems.Decoders
 
             var characterStatistics = huffmanHeaderReader.ReadCharacterStatistics(fileReader);
             var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(characterStatistics);
+            var maximumNumberOfBits = encodedBytes.Max(x => x.EncodingBits.Count);
 
             var decodedText = string.Empty;
             var charactersLeftToRead = characterStatistics.Sum(x => x.Apparitions);
@@ -43,8 +44,13 @@ namespace Encoding.Systems.Decoders
 
                 while (currentCharacter == null)
                 {
+                    if (currentBits.Count >= maximumNumberOfBits)
+                    {
+                        throw new InvalidOperationException($"There is no character coded as '{string.Join("", currentBits)}'");
+                    }
+
                     currentBits.Add(fileReader.ReadBit());
-                    currentCharacter = GetCharIfThereIsAnEncodedByteForIt(currentBits, encodedBytes);
+                    currentCharacter = GetCharIfThereIsAnEncodedByteForIt(currentBits.AsQueryable().Reverse().ToList(), encodedBytes);
                 }
 
                 decodedText += currentCharacter.Value;
@@ -62,7 +68,7 @@ namespace Encoding.Systems.Decoders
             {
                 var encodedByteBits = encodedByte.EncodingBits;
 
-                if (comparer.Compare(currentBits, encodedByteBits).AreEqual)
+                if (comparer.Compare(currentBits, encodedByteBits).AreEqual && !ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(currentBits, encodedBytes))
                 {
                     character = (char)encodedByte.Byte;
                     break;
@@ -70,6 +76,32 @@ namespace Encoding.Systems.Decoders
             }
 
             return character;
+        }
+
+        private bool ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(List<bool> currentBits, List<EncodedByte> encodedBytes)
+        {
+            foreach (var encodedByte in encodedBytes)
+            {
+                var encodedByteBits = encodedByte.EncodingBits;
+
+                for (int index = 0; index < currentBits.Count; index++)
+                {
+                    if (currentBits[index] != encodedByteBits[index])
+                    {
+                        break;
+                    }
+
+                    if (index == currentBits.Count - 1)
+                    {
+                        if (currentBits.Count == encodedByteBits.Count)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
