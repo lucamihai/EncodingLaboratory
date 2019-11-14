@@ -74,8 +74,8 @@ namespace Encoding.FileOperations
 
                 while (numberOfBits > 0)
                 {
-                    var numberOfBitsToRead = numberOfBits > 8 
-                        ? (byte)8 
+                    var numberOfBitsToRead = numberOfBits > 8
+                        ? (byte)8
                         : numberOfBits;
 
                     returnedValue += (uint)Buffer.GetValueStartingFromCurrentBit(numberOfBitsToRead) << numberOfBitsRead;
