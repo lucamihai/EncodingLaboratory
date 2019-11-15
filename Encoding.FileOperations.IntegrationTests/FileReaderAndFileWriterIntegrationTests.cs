@@ -13,6 +13,7 @@ namespace Encoding.FileOperations.IntegrationTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
+    [Ignore]
     public class FileReaderAndFileWriterIntegrationTests
     {
         private FileReader fileReader;

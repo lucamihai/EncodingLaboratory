@@ -44,7 +44,6 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        //[Ignore("Endless loop")]
         public void FileIsEncodedThenDecodedCorrectly()
         {
             using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
@@ -59,8 +58,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
                 decodedText = huffmanDecoder.GetDecodedText(fileReader);
             }
 
-            var comparer = new CompareLogic();
-            Assert.IsTrue(comparer.Compare(Constants.Text1, decodedText).AreEqual);
+            Assert.AreEqual(Constants.Text1, decodedText);
         }
 
         [TestCleanup]

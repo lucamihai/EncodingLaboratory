@@ -50,7 +50,7 @@ namespace Encoding.Systems.Decoders
                     }
 
                     currentBits.Add(fileReader.ReadBit());
-                    currentCharacter = GetCharIfThereIsAnEncodedByteForIt(currentBits.AsQueryable().Reverse().ToList(), encodedBytes);
+                    currentCharacter = GetCharIfThereIsAnEncodedByteForIt(currentBits, encodedBytes);
                 }
 
                 decodedText += currentCharacter.Value;
@@ -64,56 +64,76 @@ namespace Encoding.Systems.Decoders
         {
             char? character = null;
 
-            if (!ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(currentBits, encodedBytes))
-            {
-                return null;
-            }
-
             foreach (var encodedByte in encodedBytes)
             {
                 var encodedByteBits = encodedByte.EncodingBits;
 
-                if (comparer.Compare(currentBits, encodedByteBits).AreEqual)
+                if (currentBits.Count != encodedByteBits.Count)
+                {
+                    continue;
+                }
+
+                if (GetValueFromBoolList(encodedByteBits) != GetValueFromBoolList(currentBits))
+                {
+                    continue;
+                }
+
+                if (!BitsAreContainedMoreThanOneTimeInEncodedBytes(currentBits, encodedBytes))
                 {
                     character = (char)encodedByte.Byte;
-                    break;
                 }
             }
 
             return character;
         }
 
-        private bool ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(List<bool> currentBits, List<EncodedByte> encodedBytes)
+        private uint GetValueFromBoolList(List<bool> boolList)
         {
-            foreach (var encodedByte in encodedBytes)
-            {
-                var encodedByteBits = encodedByte.EncodingBits.AsQueryable().Reverse().ToList();
+            uint value = 0;
 
-                if (ListContainsSubsequence(encodedByteBits, currentBits))
+            for (int index = 0; index < boolList.Count; index++)
+            {
+                if (!boolList[index])
                 {
-                    return false;
-                }
+                    continue;
+                } 
+
+                value += (uint)1 << index;
             }
 
-            return true;
+            return value;
         }
 
-        private bool ListContainsSubsequence(List<bool> mainList, List<bool> subsequence)
+        private bool BitsAreContainedMoreThanOneTimeInEncodedBytes(List<bool> bits, List<EncodedByte> encodedBytes)
         {
-            if (mainList.Count == subsequence.Count)
-            {
-                return false;
-            }
+            var count = 0;
 
-            for (int index = 0; index < subsequence.Count; index++)
+            foreach (var encodedByte in encodedBytes)
             {
-                if (mainList[index] != subsequence[index])
+                var encodedByteBits = encodedByte.EncodingBits;
+
+                if (encodedByteBits.Count < bits.Count)
                 {
-                    return false;
+                    continue;
+                }
+
+                var isFound = true;
+                for (int index = 0; index < bits.Count; index++)
+                {
+                    if (bits[index] != encodedByteBits[index])
+                    {
+                        isFound = false;
+                        break;
+                    }
+                }
+
+                if (isFound)
+                {
+                    count++;
                 }
             }
 
-            return true;
+            return count > 1;
         }
     }
 }

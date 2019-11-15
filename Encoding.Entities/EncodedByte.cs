@@ -15,14 +15,14 @@ namespace Encoding.Entities
             {
                 uint value = 0;
 
-                for (int index = EncodingBits.Count - 1; index >= 0; index--)
+                for (int index = 0; index < EncodingBits.Count; index++)
                 {
                     if (!EncodingBits[index])
                     {
                         continue;
                     }
 
-                    value += (uint)1 << (EncodingBits.Count - 1 - index);
+                    value += (uint)1 << index;
                 }
 
                 return value;
