@@ -64,11 +64,16 @@ namespace Encoding.Systems.Decoders
         {
             char? character = null;
 
+            if (!ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(currentBits, encodedBytes))
+            {
+                return null;
+            }
+
             foreach (var encodedByte in encodedBytes)
             {
                 var encodedByteBits = encodedByte.EncodingBits;
 
-                if (comparer.Compare(currentBits, encodedByteBits).AreEqual && !ThereAreNoEncodedBytesContainingThisSequenceOfBitesAsASubsequence(currentBits, encodedBytes))
+                if (comparer.Compare(currentBits, encodedByteBits).AreEqual)
                 {
                     character = (char)encodedByte.Byte;
                     break;
@@ -82,22 +87,29 @@ namespace Encoding.Systems.Decoders
         {
             foreach (var encodedByte in encodedBytes)
             {
-                var encodedByteBits = encodedByte.EncodingBits;
+                var encodedByteBits = encodedByte.EncodingBits.AsQueryable().Reverse().ToList();
 
-                for (int index = 0; index < currentBits.Count; index++)
+                if (ListContainsSubsequence(encodedByteBits, currentBits))
                 {
-                    if (currentBits[index] != encodedByteBits[index])
-                    {
-                        break;
-                    }
+                    return false;
+                }
+            }
 
-                    if (index == currentBits.Count - 1)
-                    {
-                        if (currentBits.Count == encodedByteBits.Count)
-                        {
-                            return false;
-                        }
-                    }
+            return true;
+        }
+
+        private bool ListContainsSubsequence(List<bool> mainList, List<bool> subsequence)
+        {
+            if (mainList.Count == subsequence.Count)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < subsequence.Count; index++)
+            {
+                if (mainList[index] != subsequence[index])
+                {
+                    return false;
                 }
             }
 

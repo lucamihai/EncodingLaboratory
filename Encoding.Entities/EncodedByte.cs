@@ -17,12 +17,12 @@ namespace Encoding.Entities
 
                 for (int index = EncodingBits.Count - 1; index >= 0; index--)
                 {
-                    if (!EncodingBits[EncodingBits.Count - 1 - index])
+                    if (!EncodingBits[index])
                     {
                         continue;
                     }
 
-                    value += (uint)1 << index;
+                    value += (uint)1 << (EncodingBits.Count - 1 - index);
                 }
 
                 return value;

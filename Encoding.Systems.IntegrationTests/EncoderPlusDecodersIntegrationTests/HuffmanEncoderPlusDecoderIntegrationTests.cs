@@ -36,8 +36,6 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
 
             var huffmanHeaderReader = new HuffmanHeaderReader();
             huffmanDecoder = new HuffmanDecoder(huffmanHeaderReader, huffmanEncodedBytesManager);
-
-            
         }
 
         private void CreateOriginalFile()

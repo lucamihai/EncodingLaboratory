@@ -61,10 +61,13 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
                 setupSequenceForFileReaderReadBits.Returns(0);
             }
 
-            fileReaderMock.Setup(x => x.ReadBits(1))
+            fileReaderMock.Setup(x => x.ReadBits(1 * 8))
                 .Returns(1);
 
-            fileReaderMock.Setup(x => x.ReadBits(3))
+            fileReaderMock.Setup(x => x.ReadBits(2 * 8))
+                .Returns(2);
+
+            fileReaderMock.Setup(x => x.ReadBits(3 * 8))
                 .Returns(3);
         }
 
@@ -94,7 +97,7 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToTwo256TimesPlusCharactersCodedInTwoBits()
+        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToTwo256Times()
         {
             huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
 
@@ -102,19 +105,27 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToOneExpectedNumberOfTimes()
+        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToOneByeExpectedNumberOfTimes()
         {
             huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
 
-            fileReaderMock.Verify(x => x.ReadBits(1), Times.Exactly(charactersCodedInOneBit));
+            fileReaderMock.Verify(x => x.ReadBits(1 * 8), Times.Exactly(charactersCodedInOneBit));
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToThreeExpectedNumberOfTimes()
+        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToTwoBytesExpectedNumberOfTimes()
         {
             huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
 
-            fileReaderMock.Verify(x => x.ReadBits(3), Times.Exactly(charactersCodedInThreeBits));
+            fileReaderMock.Verify(x => x.ReadBits(2 * 8), Times.Exactly(charactersCodedInTwoBits));
+        }
+
+        [TestMethod]
+        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToThreeBytesExpectedNumberOfTimes()
+        {
+            huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+
+            fileReaderMock.Verify(x => x.ReadBits(3 * 8), Times.Exactly(charactersCodedInThreeBits));
         }
 
         [TestMethod]

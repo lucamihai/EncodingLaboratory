@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Encoding.Entities;
 
 namespace Encoding.Tests.Common
 {
+    [ExcludeFromCodeCoverage]
     public static class ConstantsEncodingSystems
     {
         public const string Text1 = "Ana has apples";

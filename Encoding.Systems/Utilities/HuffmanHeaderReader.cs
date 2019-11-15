@@ -16,11 +16,11 @@ namespace Encoding.Systems.Utilities
             }
 
             var characterStatistics = new List<CharacterStatistics>();
-            var bitsNecessaryForCharacterStatistics = GetBitsNecessaryForCharacterStatistics(fileReader);
+            var bytesNecessaryForCharacterStatistics = GetBytesNecessaryForCharacterStatistics(fileReader);
 
-            foreach (var characterStats in bitsNecessaryForCharacterStatistics.Keys)
+            foreach (var characterStats in bytesNecessaryForCharacterStatistics.Keys)
             {
-                var bitsToRead = bitsNecessaryForCharacterStatistics[characterStats] * 8;
+                var bitsToRead = bytesNecessaryForCharacterStatistics[characterStats] * 8;
                 characterStats.Apparitions = fileReader.ReadBits((byte)bitsToRead);
 
                 characterStatistics.Add(characterStats);
@@ -29,24 +29,24 @@ namespace Encoding.Systems.Utilities
             return characterStatistics;
         }
 
-        private Dictionary<CharacterStatistics, uint> GetBitsNecessaryForCharacterStatistics(IFileReader fileReader)
+        private Dictionary<CharacterStatistics, uint> GetBytesNecessaryForCharacterStatistics(IFileReader fileReader)
         {
-            var bitsNecessaryForCharacterStatistics = new Dictionary<CharacterStatistics, uint>();
+            var bytesNecessaryForCharacterStatistics = new Dictionary<CharacterStatistics, uint>();
 
             for (int characterCode = 0; characterCode < 256; characterCode++)
             {
-                var bitsNecessaryForCurrentCharacterCode = fileReader.ReadBits(2);
+                var bytesNecessaryForCurrentCharacterCode = fileReader.ReadBits(2);
 
-                if (bitsNecessaryForCurrentCharacterCode == 0)
+                if (bytesNecessaryForCurrentCharacterCode == 0)
                 {
                     continue;
                 }
 
                 var characterStats = new CharacterStatistics { Character = (char)characterCode };
-                bitsNecessaryForCharacterStatistics.Add(characterStats, bitsNecessaryForCurrentCharacterCode);
+                bytesNecessaryForCharacterStatistics.Add(characterStats, bytesNecessaryForCurrentCharacterCode);
             }
 
-            return bitsNecessaryForCharacterStatistics;
+            return bytesNecessaryForCharacterStatistics;
         }
     }
 }

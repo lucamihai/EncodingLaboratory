@@ -237,41 +237,14 @@ namespace Encoding.FileOperations.UnitTests
         }
 
         [TestMethod]
-        public void FlushCallsOnCurrentBitResetDelegate()
+        public void FlushIncrementsCurrentBitBySeven()
         {
-            var currentBitResetDelegateHasBeenCalled = false;
             var buffer = new Buffer();
-            buffer.OnCurrentBitReset += delegate { currentBitResetDelegateHasBeenCalled = true; };
+            var currentBitValueBeforeFlush = buffer.CurrentBit;
 
             buffer.Flush();
 
-            Assert.IsTrue(currentBitResetDelegateHasBeenCalled);
-        }
-
-        [TestMethod]
-        public void FlushSetsValueToZero()
-        {
-            var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
-
-            Assert.AreNotEqual(0, buffer.Value);
-
-            buffer.Flush();
-
-            Assert.AreEqual(0, buffer.Value);
-        }
-
-        [TestMethod]
-        public void FlushSetsCurrentBitToZero()
-        {
-            var buffer = new Buffer();
-            buffer.AddValueStartingFromCurrentBit(Constants.Value2, 4);
-
-            Assert.AreNotEqual(0, buffer.CurrentBit);
-
-            buffer.Flush();
-
-            Assert.AreEqual(0, buffer.CurrentBit);
+            Assert.AreEqual(currentBitValueBeforeFlush + 7, buffer.CurrentBit);
         }
     }
 }
