@@ -102,6 +102,10 @@
       <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
       <Name>Encoding.FileOperations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Encoding.Systems\Encoding.Systems.csproj">
+      <Project>{8312489f-cf5f-4186-bd96-3c6e5c133a1c}</Project>
+      <Name>Encoding.Systems</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

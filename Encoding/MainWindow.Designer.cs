@@ -30,14 +30,15 @@
         {
             this.panelActiveUserControl = new System.Windows.Forms.Panel();
             this.panelRadioButtons = new System.Windows.Forms.Panel();
-            this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
             this.radioButtonHuffman = new System.Windows.Forms.RadioButton();
+            this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
             this.panelRadioButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelActiveUserControl
             // 
-            this.panelActiveUserControl.Location = new System.Drawing.Point(195, 29);
+            this.panelActiveUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelActiveUserControl.Location = new System.Drawing.Point(168, 29);
             this.panelActiveUserControl.Name = "panelActiveUserControl";
             this.panelActiveUserControl.Size = new System.Drawing.Size(800, 500);
             this.panelActiveUserControl.TabIndex = 0;
@@ -46,23 +47,10 @@
             // 
             this.panelRadioButtons.Controls.Add(this.radioButtonHuffman);
             this.panelRadioButtons.Controls.Add(this.radioButtonFileReadingAndWriting);
-            this.panelRadioButtons.Location = new System.Drawing.Point(25, 29);
+            this.panelRadioButtons.Location = new System.Drawing.Point(12, 29);
             this.panelRadioButtons.Name = "panelRadioButtons";
             this.panelRadioButtons.Size = new System.Drawing.Size(150, 500);
             this.panelRadioButtons.TabIndex = 1;
-            // 
-            // radioButtonFileReadingAndWriting
-            // 
-            this.radioButtonFileReadingAndWriting.AutoSize = true;
-            this.radioButtonFileReadingAndWriting.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonFileReadingAndWriting.Location = new System.Drawing.Point(22, 37);
-            this.radioButtonFileReadingAndWriting.Name = "radioButtonFileReadingAndWriting";
-            this.radioButtonFileReadingAndWriting.Size = new System.Drawing.Size(101, 23);
-            this.radioButtonFileReadingAndWriting.TabIndex = 0;
-            this.radioButtonFileReadingAndWriting.TabStop = true;
-            this.radioButtonFileReadingAndWriting.Text = "Read / write";
-            this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
-            this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.radioButtonFileReadingAndWriting_CheckedChanged);
             // 
             // radioButtonHuffman
             // 
@@ -76,6 +64,19 @@
             this.radioButtonHuffman.Text = "Huffman";
             this.radioButtonHuffman.UseVisualStyleBackColor = true;
             this.radioButtonHuffman.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // radioButtonFileReadingAndWriting
+            // 
+            this.radioButtonFileReadingAndWriting.AutoSize = true;
+            this.radioButtonFileReadingAndWriting.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonFileReadingAndWriting.Location = new System.Drawing.Point(22, 37);
+            this.radioButtonFileReadingAndWriting.Name = "radioButtonFileReadingAndWriting";
+            this.radioButtonFileReadingAndWriting.Size = new System.Drawing.Size(101, 23);
+            this.radioButtonFileReadingAndWriting.TabIndex = 0;
+            this.radioButtonFileReadingAndWriting.TabStop = true;
+            this.radioButtonFileReadingAndWriting.Text = "Read / write";
+            this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
+            this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.radioButtonFileReadingAndWriting_CheckedChanged);
             // 
             // MainWindow
             // 
