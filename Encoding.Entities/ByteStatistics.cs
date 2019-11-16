@@ -3,9 +3,9 @@
 namespace Encoding.Entities
 {
     [ExcludeFromCodeCoverage]
-    public class CharacterStatistics
+    public class ByteStatistics
     {
-        public char Character { get; set; }
+        public byte Byte { get; set; }
         public uint Apparitions { get; set; }
     }
 }

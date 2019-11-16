@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharacterStatistics.cs" />
+    <Compile Include="ByteStatistics.cs" />
     <Compile Include="EncodedByte.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeInfo.cs" />

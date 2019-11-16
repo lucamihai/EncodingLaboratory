@@ -30,31 +30,31 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         private void SetupHuffmanNodesManagerMock()
         {
             huffmanNodesManagerMock
-                .Setup(x => x.GetNodeFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()))
+                .Setup(x => x.GetNodeFromByteStatistics(It.IsAny<List<ByteStatistics>>()))
                 .Returns(ConstantsEncodingSystems.ExpectedNodeForText1());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetEncodedBytesFromCharacterStatisticsThrowsArgumentNullExceptionForNullList()
+        public void GetEncodedBytesFromByteStatisticsThrowsArgumentNullExceptionForNullList()
         {
-            huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(null);
+            huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(null);
         }
 
         [TestMethod]
-        public void GetEncodedBytesFromCharacterStatisticsCallsHuffmanNodesManagerGetNodeFromCharacterStatisticsOnce()
+        public void GetEncodedBytesFromByteStatisticsCallsHuffmanNodesManagerGetNodeFromByteStatisticsOnce()
         {
             var characterStatistics = ConstantsEncodingSystems.TextCharacterStatistics1;
 
-            huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(characterStatistics);
+            huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(characterStatistics);
 
-            huffmanNodesManagerMock.Verify(x=>x.GetNodeFromCharacterStatistics(characterStatistics), Times.Once);
+            huffmanNodesManagerMock.Verify(x=>x.GetNodeFromByteStatistics(characterStatistics), Times.Once);
         }
 
         [TestMethod]
-        public void GetEncodedBytesFromCharacterStatisticsCallsHuffmanNodesManagerSetPathFromNodeToParentOnceForEachLeaf()
+        public void GetEncodedBytesFromByteStatisticsCallsHuffmanNodesManagerSetPathFromNodeToParentOnceForEachLeaf()
         {
-            huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
+            huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
 
             huffmanNodesManagerMock.Verify(x =>
                     x.SetPathFromNodeToParent(It.IsAny<List<bool>>(), It.IsAny<Node>(), It.IsAny<Node>(), It.IsAny<int>()),
@@ -62,9 +62,9 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         }
 
         [TestMethod]
-        public void GetEncodedBytesFromCharacterStatisticsReturnsExpectedNumberOfEncodedBytes()
+        public void GetEncodedBytesFromByteStatisticsReturnsExpectedNumberOfEncodedBytes()
         {
-            var returnedEncodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
+            var returnedEncodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
 
             var comparer = new CompareLogic();
             comparer.Config.IgnoreProperty<EncodedByte>(x => x.EncodingBits);

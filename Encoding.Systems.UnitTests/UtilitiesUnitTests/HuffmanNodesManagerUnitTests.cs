@@ -23,15 +23,15 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetNodeFromCharacterStatisticsThrowsArgumentNullExceptionForNullCharacterStatistics()
+        public void GetNodeFromByteStatisticsThrowsArgumentNullExceptionForNullByteStatistics()
         {
-            huffmanNodesManager.GetNodeFromCharacterStatistics(null);
+            huffmanNodesManager.GetNodeFromByteStatistics(null);
         }
 
         [TestMethod]
-        public void GetNodeFromCharacterStatisticsReturnsExpectedNode()
+        public void GetNodeFromByteStatisticsReturnsExpectedNode()
         {
-            var node = huffmanNodesManager.GetNodeFromCharacterStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
+            var node = huffmanNodesManager.GetNodeFromByteStatistics(ConstantsEncodingSystems.TextCharacterStatistics1);
 
             var comparer = new CompareLogic();
             comparer.Config.IgnoreProperty<Node>(x => x.NodesInPreOrder);

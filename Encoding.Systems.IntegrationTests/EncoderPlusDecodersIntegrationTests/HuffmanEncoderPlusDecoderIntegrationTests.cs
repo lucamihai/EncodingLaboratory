@@ -30,7 +30,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
 
             var huffmanEncodedBytesManager = new HuffmanEncodedBytesManager(new HuffmanNodesManager());
 
-            var textAnalyzer = new TextAnalyzer();
+            var textAnalyzer = new BytesAnalyzer();
             var huffmanHeaderWriter = new HuffmanHeaderWriter();
             huffmanEncoder = new HuffmanEncoder(textAnalyzer, huffmanEncodedBytesManager, huffmanHeaderWriter);
 
@@ -44,21 +44,45 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectly()
+        public void FileIsEncodedThenDecodedCorrectly1()
         {
+            var bytes = Constants.Bytes1();
+
             using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
             {
-                huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
+                huffmanEncoder.EncodeBytesToFile(bytes, fileWriter);
                 fileWriter.Buffer.Flush();
             }
 
-            string decodedText;
+            byte[] decodedBytes;
             using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
             {
-                decodedText = huffmanDecoder.GetDecodedText(fileReader);
+                decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
             }
 
-            Assert.AreEqual(Constants.Text1, decodedText);
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(bytes, decodedBytes).AreEqual);
+        }
+
+        [TestMethod]
+        public void FileIsEncodedThenDecodedCorrectly2()
+        {
+            var bytes = Constants.Bytes2();
+
+            using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
+            {
+                huffmanEncoder.EncodeBytesToFile(bytes, fileWriter);
+                fileWriter.Buffer.Flush();
+            }
+
+            byte[] decodedBytes;
+            using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
+            {
+                decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
+            }
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(bytes, decodedBytes).AreEqual);
         }
 
         [TestCleanup]

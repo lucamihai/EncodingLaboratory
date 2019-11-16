@@ -4,7 +4,6 @@ using System.Linq;
 using Encoding.Entities;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Interfaces.Utilities;
-using KellermanSoftware.CompareNetObjects;
 
 namespace Encoding.Systems.Decoders
 {
@@ -13,36 +12,33 @@ namespace Encoding.Systems.Decoders
         private readonly IHuffmanHeaderReader huffmanHeaderReader;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
 
-        private readonly CompareLogic comparer;
-
         public HuffmanDecoder(IHuffmanHeaderReader huffmanHeaderReader, IHuffmanEncodedBytesManager huffmanEncodedBytesManager)
         {
             this.huffmanHeaderReader = huffmanHeaderReader;
             this.huffmanEncodedBytesManager = huffmanEncodedBytesManager;
-
-            comparer = new CompareLogic();
         }
 
-        public string GetDecodedText(IFileReader fileReader)
+        public byte[] GetDecodedBytes(IFileReader fileReader)
         {
             if (fileReader == null)
             {
                 throw new ArgumentNullException(nameof(fileReader));
             }
 
-            var characterStatistics = huffmanHeaderReader.ReadCharacterStatistics(fileReader);
-            var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(characterStatistics);
+            var byteStatistics = huffmanHeaderReader.ReadByteStatistics(fileReader);
+            var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
             var maximumNumberOfBits = encodedBytes.Max(x => x.EncodingBits.Count);
 
-            var decodedText = string.Empty;
-            var charactersLeftToRead = characterStatistics.Sum(x => x.Apparitions);
+            
+            var charactersLeftToRead = byteStatistics.Sum(x => x.Apparitions);
+            var bytes = new List<byte>();
 
             while (charactersLeftToRead > 0)
             {
-                char? currentCharacter = null;
+                byte? currentByte = null;
                 var currentBits = new List<bool>();
 
-                while (currentCharacter == null)
+                while (currentByte == null)
                 {
                     if (currentBits.Count >= maximumNumberOfBits)
                     {
@@ -50,19 +46,19 @@ namespace Encoding.Systems.Decoders
                     }
 
                     currentBits.Add(fileReader.ReadBit());
-                    currentCharacter = GetCharIfThereIsAnEncodedByteForIt(currentBits, encodedBytes);
+                    currentByte = GetByteIfThereIsAnEncodedByteForIt(currentBits, encodedBytes);
                 }
 
-                decodedText += currentCharacter.Value;
+                bytes.Add(currentByte.Value);
                 charactersLeftToRead--;
             }
 
-            return decodedText;
+            return bytes.ToArray();
         }
 
-        private char? GetCharIfThereIsAnEncodedByteForIt(List<bool> currentBits, List<EncodedByte> encodedBytes)
+        private byte? GetByteIfThereIsAnEncodedByteForIt(List<bool> currentBits, List<EncodedByte> encodedBytes)
         {
-            char? character = null;
+            byte? character = null;
 
             foreach (var encodedByte in encodedBytes)
             {
@@ -80,7 +76,7 @@ namespace Encoding.Systems.Decoders
 
                 if (!BitsAreContainedMoreThanOneTimeInEncodedBytes(currentBits, encodedBytes))
                 {
-                    character = (char)encodedByte.Byte;
+                    character = encodedByte.Byte;
                 }
             }
 

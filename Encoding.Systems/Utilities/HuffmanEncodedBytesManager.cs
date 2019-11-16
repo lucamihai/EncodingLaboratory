@@ -14,14 +14,14 @@ namespace Encoding.Systems.Utilities
             this.huffmanNodesManager = huffmanNodesManager;
         }
 
-        public List<EncodedByte> GetEncodedBytesFromCharacterStatistics(List<CharacterStatistics> characterStatistics)
+        public List<EncodedByte> GetEncodedBytesFromByteStatistics(List<ByteStatistics> characterStatistics)
         {
             if (characterStatistics == null)
             {
                 throw new ArgumentNullException(nameof(characterStatistics));
             }
 
-            var huffmanTreeRoot = huffmanNodesManager.GetNodeFromCharacterStatistics(characterStatistics);
+            var huffmanTreeRoot = huffmanNodesManager.GetNodeFromByteStatistics(characterStatistics);
 
             var encodedBytes = new List<EncodedByte>();
 

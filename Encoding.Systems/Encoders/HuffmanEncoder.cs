@@ -7,22 +7,22 @@ namespace Encoding.Systems.Encoders
 {
     public class HuffmanEncoder
     {
-        private readonly ITextAnalyzer textAnalyzer;
+        private readonly IBytesAnalyzer bytesAnalyzer;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
         private readonly IHuffmanHeaderWriter huffmanHeaderWriter;
 
-        public HuffmanEncoder(ITextAnalyzer textAnalyzer, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
+        public HuffmanEncoder(IBytesAnalyzer bytesAnalyzer, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
         {
-            this.textAnalyzer = textAnalyzer;
+            this.bytesAnalyzer = bytesAnalyzer;
             this.huffmanEncodedBytesManager = huffmanEncodedBytesManager;
             this.huffmanHeaderWriter = huffmanHeaderWriter;
         }
 
-        public void EncodeTextToFile(string text, IFileWriter fileWriter)
+        public void EncodeBytesToFile(byte[] bytes, IFileWriter fileWriter)
         {
-            if (text == null)
+            if (bytes == null)
             {
-                throw new ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(bytes));
             }
 
             if (fileWriter == null)
@@ -30,14 +30,14 @@ namespace Encoding.Systems.Encoders
                 throw new ArgumentNullException(nameof(fileWriter));
             }
 
-            var characterStatistics = textAnalyzer.GetCharacterStatisticsFromText(text);
-            var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromCharacterStatistics(characterStatistics);
+            var byteStatistics = bytesAnalyzer.GetByteStatisticsFromBytes(bytes);
+            var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
 
-            huffmanHeaderWriter.WriteHeaderToFile(characterStatistics, fileWriter);
+            huffmanHeaderWriter.WriteHeaderToFile(byteStatistics, fileWriter);
 
-            foreach (var character in text)
+            foreach (var currentByte in bytes)
             {
-                var encodedByteForCurrentCharacter = encodedBytes.First(x => x.Byte == (byte) character);
+                var encodedByteForCurrentCharacter = encodedBytes.First(x => x.Byte == currentByte);
                 fileWriter.WriteValueOnBits(encodedByteForCurrentCharacter.EncodedValue, (byte)encodedByteForCurrentCharacter.EncodingBits.Count);
             }
         }

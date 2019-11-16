@@ -8,13 +8,13 @@ namespace Encoding.Systems.Utilities
 {
     public class HuffmanHeaderWriter : IHuffmanHeaderWriter
     {
-        public void WriteHeaderToFile(List<CharacterStatistics> characterStatistics, IFileWriter fileWriter)
+        public void WriteHeaderToFile(List<ByteStatistics> characterStatistics, IFileWriter fileWriter)
         {
             var byteApparitionsToWrite = new List<uint>();
 
             for (int currentByte = 0; currentByte < 256; currentByte++)
             {
-                var stats = characterStatistics.FirstOrDefault(x => x.Character == (char)currentByte);
+                var stats = characterStatistics.FirstOrDefault(x => x.Byte == (char)currentByte);
                 if (stats != null)
                 {
                     byteApparitionsToWrite.Add(stats.Apparitions);

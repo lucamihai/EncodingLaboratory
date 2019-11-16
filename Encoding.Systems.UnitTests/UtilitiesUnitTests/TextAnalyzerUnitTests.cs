@@ -11,33 +11,25 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
     [ExcludeFromCodeCoverage]
     public class TextAnalyzerUnitTests
     {
-        private TextAnalyzer textAnalyzer;
+        private BytesAnalyzer bytesAnalyzer;
 
         [TestInitialize]
         public void Setup()
         {
-            textAnalyzer = new TextAnalyzer();
+            bytesAnalyzer = new BytesAnalyzer();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetCharacterStatisticsFromTextThrowsArgumentNullExceptionForNullText()
+        public void GetByteStatisticsFromBytesThrowsArgumentNullExceptionForNullBytes()
         {
-            textAnalyzer.GetCharacterStatisticsFromText(null);
+            bytesAnalyzer.GetByteStatisticsFromBytes(null);
         }
 
         [TestMethod]
-        public void GetCharacterStatisticsFromTextReturnsEmptyListForEmptyText()
+        public void GetByteStatisticsFromBytesReturnsExpectedList()
         {
-            var list = textAnalyzer.GetCharacterStatisticsFromText(string.Empty);
-
-            Assert.AreEqual(0, list.Count);
-        }
-
-        [TestMethod]
-        public void GetCharacterStatisticsFromTextReturnsExpectedList()
-        {
-            var characterStatistics = textAnalyzer.GetCharacterStatisticsFromText(ConstantsEncodingSystems.Text1);
+            var characterStatistics = bytesAnalyzer.GetByteStatisticsFromBytes(ConstantsEncodingSystems.Bytes1());
 
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(ConstantsEncodingSystems.TextCharacterStatistics1, characterStatistics).AreEqual);

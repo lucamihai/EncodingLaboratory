@@ -8,24 +8,23 @@ namespace Encoding.Systems.Utilities
 {
     public class HuffmanNodesManager : IHuffmanNodesManager
     {
-        public Node GetNodeFromCharacterStatistics(List<CharacterStatistics> characterStatistics)
+        public Node GetNodeFromByteStatistics(List<ByteStatistics> byteStatistics)
         {
-            if (characterStatistics == null)
+            if (byteStatistics == null)
             {
                 throw new ArgumentNullException();
             }
 
-            var nodes = GenerateNodeListFromCharacterStatisticsList(characterStatistics);
+            var nodes = GenerateNodeListFromByteStatisticsList(byteStatistics);
 
             while (nodes.Count > 1)
             {
-                var firstMinimum = nodes.Min(x => x.NodeInfo);
-                var firstNode = nodes.First(x => x.NodeInfo == firstMinimum);
-                nodes.Remove(firstNode);
+                nodes = nodes
+                    .OrderBy(x => x.NodeInfo)
+                    .ToList();
 
-                var secondMinimum = nodes.Min(x => x.NodeInfo);
-                var secondNode = nodes.First(x => x.NodeInfo == secondMinimum);
-                nodes.Remove(secondNode);
+                var firstNode = nodes[0];
+                var secondNode = nodes[1];
 
                 var newNode = new Node
                 {
@@ -36,10 +35,13 @@ namespace Encoding.Systems.Utilities
                         NumericValue = firstNode.NodeInfo.NumericValue + secondNode.NodeInfo.NumericValue
                     }
                 };
-                nodes.Add(newNode);
-
+                
                 firstNode.Parent = newNode;
                 secondNode.Parent = newNode;
+
+                nodes.Add(newNode);
+                nodes.Remove(secondNode);
+                nodes.Remove(firstNode);
             }
 
             return nodes.Count == 1
@@ -103,15 +105,15 @@ namespace Encoding.Systems.Utilities
             path.Reverse();
         }
 
-        private List<Node> GenerateNodeListFromCharacterStatisticsList(List<CharacterStatistics> characterStatisticsList)
+        private List<Node> GenerateNodeListFromByteStatisticsList(List<ByteStatistics> byteStatisticsList)
         {
             var nodes = new List<Node>();
 
-            foreach (var characterStatistics in characterStatisticsList)
+            foreach (var characterStatistics in byteStatisticsList)
             {
                 var node = new Node
                 {
-                    NodeInfo = new NodeInfo { NumericValue = characterStatistics.Apparitions, Code = (byte)characterStatistics.Character }
+                    NodeInfo = new NodeInfo { NumericValue = characterStatistics.Apparitions, Code = characterStatistics.Byte }
                 };
 
                 nodes.Add(node);

@@ -5,7 +5,7 @@ namespace Encoding.Systems.Interfaces.Utilities
 {
     public interface IHuffmanNodesManager
     {
-        Node GetNodeFromCharacterStatistics(List<CharacterStatistics> characterStatistics);
+        Node GetNodeFromByteStatistics(List<ByteStatistics> byteStatistics);
         void SetPathFromNodeToParent(List<bool> path, Node node, Node parent, int maxNodesToClimb);
     }
 }

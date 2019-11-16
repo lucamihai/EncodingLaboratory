@@ -21,7 +21,7 @@ namespace Encoding.Systems.IntegrationTests.EncodersIntegrationTests
         {
             filePath = $"{Environment.CurrentDirectory}\\{Constants.HuffmanEncodedFilePath}";
 
-            var textAnalyzer = new TextAnalyzer();
+            var textAnalyzer = new BytesAnalyzer();
             var huffmanEncodedBytesManager = new HuffmanEncodedBytesManager(new HuffmanNodesManager());
             var huffmanHeaderWriter = new HuffmanHeaderWriter();
 
@@ -29,11 +29,13 @@ namespace Encoding.Systems.IntegrationTests.EncodersIntegrationTests
         }
 
         [TestMethod]
-        public void EncodeTextToFileCreatesFileWithExpectedContent()
-        { 
+        public void EncodeBytesToFileCreatesFileWithExpectedContent()
+        {
+            var bytes = System.Text.Encoding.ASCII.GetBytes(Constants.Text1);
+
             using (var fileWriter = new FileWriter(filePath, new Buffer()))
             {
-                huffmanEncoder.EncodeTextToFile(Constants.Text1, fileWriter);
+                huffmanEncoder.EncodeBytesToFile(bytes, fileWriter);
             }
 
             Assert.IsTrue(File.Exists(filePath));

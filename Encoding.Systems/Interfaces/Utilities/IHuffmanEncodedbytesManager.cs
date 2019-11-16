@@ -5,6 +5,6 @@ namespace Encoding.Systems.Interfaces.Utilities
 {
     public interface IHuffmanEncodedBytesManager
     {
-        List<EncodedByte> GetEncodedBytesFromCharacterStatistics(List<CharacterStatistics> characterStatistics);
+        List<EncodedByte> GetEncodedBytesFromByteStatistics(List<ByteStatistics> characterStatistics);
     }
 }

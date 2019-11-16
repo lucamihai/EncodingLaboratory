@@ -3,8 +3,8 @@ using Encoding.Entities;
 
 namespace Encoding.Systems.Interfaces.Utilities
 {
-    public interface ITextAnalyzer
+    public interface IBytesAnalyzer
     {
-        List<CharacterStatistics> GetCharacterStatisticsFromText(string text);
+        List<ByteStatistics> GetByteStatisticsFromBytes(byte[] bytes);
     }
 }

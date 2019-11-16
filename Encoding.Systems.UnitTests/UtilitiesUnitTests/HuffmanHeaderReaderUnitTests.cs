@@ -22,7 +22,7 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         private int charactersCodedInTwoBits;
         private int charactersCodedInThreeBits;
 
-        private List<CharacterStatistics> expectedCharacterStatistics;
+        private List<ByteStatistics> expectedCharacterStatistics;
 
         [TestInitialize]
         public void Setup()
@@ -73,65 +73,65 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
 
         private void SetupExpectedCharacterStatistics()
         {
-            expectedCharacterStatistics = new List<CharacterStatistics>();
+            expectedCharacterStatistics = new List<ByteStatistics>();
 
             for (int i = 0; i < charactersCodedInOneBit; i++)
             {
-                expectedCharacterStatistics.Add(new CharacterStatistics { Apparitions = 1, Character = (char) i});
+                expectedCharacterStatistics.Add(new ByteStatistics { Apparitions = 1, Byte = (byte)i});
             }
             for (int i = charactersCodedInOneBit; i < charactersCodedInOneBit + charactersCodedInTwoBits; i++)
             {
-                expectedCharacterStatistics.Add(new CharacterStatistics { Apparitions = 2, Character = (char)i });
+                expectedCharacterStatistics.Add(new ByteStatistics { Apparitions = 2, Byte = (byte)i });
             }
             for (int i = charactersCodedInOneBit + charactersCodedInTwoBits; i < charactersCodedInOneBit + charactersCodedInTwoBits + charactersCodedInThreeBits; i++)
             {
-                expectedCharacterStatistics.Add(new CharacterStatistics { Apparitions = 3, Character = (char)i });
+                expectedCharacterStatistics.Add(new ByteStatistics { Apparitions = 3, Byte = (byte)i });
             }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ReadCharacterStatisticsThrowsArgumentNullExceptionForNullFileReader()
+        public void ReadByteStatisticsThrowsArgumentNullExceptionForNullFileReader()
         {
-            huffmanHeaderReader.ReadCharacterStatistics(null);
+            huffmanHeaderReader.ReadByteStatistics(null);
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToTwo256Times()
+        public void ReadByteStatisticsCallsFileReaderReadBitsWithParameterEqualToTwo256Times()
         {
-            huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+            huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBits(2), Times.Exactly(256 + charactersCodedInTwoBits));
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToOneByeExpectedNumberOfTimes()
+        public void ReadByteStatisticsCallsFileReaderReadBitsWithParameterEqualToOneByeExpectedNumberOfTimes()
         {
-            huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+            huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBits(1 * 8), Times.Exactly(charactersCodedInOneBit));
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToTwoBytesExpectedNumberOfTimes()
+        public void ReadByteStatisticsCallsFileReaderReadBitsWithParameterEqualToTwoBytesExpectedNumberOfTimes()
         {
-            huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+            huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBits(2 * 8), Times.Exactly(charactersCodedInTwoBits));
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsCallsFileReaderReadBitsWithParameterEqualToThreeBytesExpectedNumberOfTimes()
+        public void ReadByteStatisticsCallsFileReaderReadBitsWithParameterEqualToThreeBytesExpectedNumberOfTimes()
         {
-            huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+            huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBits(3 * 8), Times.Exactly(charactersCodedInThreeBits));
         }
 
         [TestMethod]
-        public void ReadCharacterStatisticsReturnsExpectedList()
+        public void ReadByteStatisticsReturnsExpectedList()
         {
-            var returnedCharacterStatistics = huffmanHeaderReader.ReadCharacterStatistics(fileReaderMock.Object);
+            var returnedCharacterStatistics = huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(expectedCharacterStatistics, returnedCharacterStatistics).AreEqual);

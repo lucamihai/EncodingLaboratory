@@ -8,14 +8,14 @@ namespace Encoding.Systems.Utilities
 {
     public class HuffmanHeaderReader : IHuffmanHeaderReader
     {
-        public List<CharacterStatistics> ReadCharacterStatistics(IFileReader fileReader)
+        public List<ByteStatistics> ReadByteStatistics(IFileReader fileReader)
         {
             if (fileReader == null)
             {
                 throw new ArgumentNullException(nameof(fileReader));
             }
 
-            var characterStatistics = new List<CharacterStatistics>();
+            var characterStatistics = new List<ByteStatistics>();
             var bytesNecessaryForCharacterStatistics = GetBytesNecessaryForCharacterStatistics(fileReader);
 
             foreach (var characterStats in bytesNecessaryForCharacterStatistics.Keys)
@@ -29,9 +29,9 @@ namespace Encoding.Systems.Utilities
             return characterStatistics;
         }
 
-        private Dictionary<CharacterStatistics, uint> GetBytesNecessaryForCharacterStatistics(IFileReader fileReader)
+        private Dictionary<ByteStatistics, uint> GetBytesNecessaryForCharacterStatistics(IFileReader fileReader)
         {
-            var bytesNecessaryForCharacterStatistics = new Dictionary<CharacterStatistics, uint>();
+            var bytesNecessaryForCharacterStatistics = new Dictionary<ByteStatistics, uint>();
 
             for (int characterCode = 0; characterCode < 256; characterCode++)
             {
@@ -42,7 +42,7 @@ namespace Encoding.Systems.Utilities
                     continue;
                 }
 
-                var characterStats = new CharacterStatistics { Character = (char)characterCode };
+                var characterStats = new ByteStatistics { Byte = (byte)characterCode };
                 bytesNecessaryForCharacterStatistics.Add(characterStats, bytesNecessaryForCurrentCharacterCode);
             }
 

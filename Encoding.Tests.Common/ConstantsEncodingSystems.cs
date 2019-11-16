@@ -8,51 +8,73 @@ namespace Encoding.Tests.Common
     public static class ConstantsEncodingSystems
     {
         public const string Text1 = "Ana has apples";
-        public static List<CharacterStatistics> TextCharacterStatistics1 => new List<CharacterStatistics>
+
+        public static byte[] Bytes1()
         {
-            new CharacterStatistics
+            return new byte[]
             {
-                Character = ' ',
+                (byte)'A',
+                (byte)'n',
+                (byte)'a',
+                (byte)' ',
+                (byte)'h',
+                (byte)'a',
+                (byte)'s',
+                (byte)' ',
+                (byte)'a',
+                (byte)'p',
+                (byte)'p',
+                (byte)'l',
+                (byte)'e',
+                (byte)'s'
+            };
+        }
+
+        public static List<ByteStatistics> TextCharacterStatistics1 => new List<ByteStatistics>
+        {
+            new ByteStatistics
+            {
+                Byte = (byte)' ',
                 Apparitions = 2
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'A',
+                Byte = (byte)'A',
                 Apparitions = 1
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'a',
+                Byte = (byte)'a',
                 Apparitions = 3
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'e',
+                Byte = (byte)'e',
                 Apparitions = 1
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'h',
+                Byte = (byte)'h',
                 Apparitions = 1
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'l',
+                Byte = (byte)'l',
                 Apparitions = 1
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'n',
+                Byte = (byte)'n',
                 Apparitions = 1
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 'p',
+                Byte = (byte)'p',
                 Apparitions = 2
             },
-            new CharacterStatistics
+            new ByteStatistics
             {
-                Character = 's',
+                Byte = (byte)'s',
                 Apparitions = 2
             }
         };

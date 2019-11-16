@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Encoding.FileOperations;
 using Encoding.Systems.Decoders;
@@ -14,14 +15,14 @@ namespace Encoding.UserControls
     public partial class UserControlHuffman : UserControl
     {
         private readonly HuffmanEncoder huffmanEncoder;
-        private HuffmanDecoder huffmanDecoder;
+        private readonly HuffmanDecoder huffmanDecoder;
 
         public UserControlHuffman()
         {
             InitializeComponent();
 
             // TODO: Find a more 'pleasant' way of initiating objects (maybe consider using AutoFac)
-            huffmanEncoder = new HuffmanEncoder(new TextAnalyzer(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
+            huffmanEncoder = new HuffmanEncoder(new BytesAnalyzer(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
             huffmanDecoder = new HuffmanDecoder(new HuffmanHeaderReader(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()));
 
             UpdateButtonsEnabledProperty();
@@ -30,19 +31,20 @@ namespace Encoding.UserControls
         private void buttonEncode_Click(object sender, EventArgs e)
         {
             string destinationFilePath;
-            string textToEncode;
+            byte[] bytesToEncode;
 
             if (radioButtonEncodeContentsFromFile.Checked)
             {
                 var sourceFilePath = textBoxFilePathSource.Text;
-                textToEncode = File.ReadAllText(sourceFilePath);
+                bytesToEncode = File.ReadAllBytes(sourceFilePath);
                 destinationFilePath = $"{sourceFilePath}.hs";
             }
             else
             {
                 if (radioButtonEncodeContentsFromTextBox.Checked)
                 {
-                    textToEncode = textBoxContents.Text;
+                    var textToEncode = textBoxContents.Text;
+                    bytesToEncode = new byte[2];
                     destinationFilePath = "";
                 }
                 else
@@ -53,7 +55,8 @@ namespace Encoding.UserControls
 
             using (var fileWriter = new FileWriter(destinationFilePath, new Buffer()))
             {
-                huffmanEncoder.EncodeTextToFile(textToEncode, fileWriter);
+                huffmanEncoder.EncodeBytesToFile(bytesToEncode, fileWriter);
+                fileWriter.Buffer.Flush();
             }
             
         }
@@ -67,16 +70,22 @@ namespace Encoding.UserControls
                 throw new InvalidOperationException($"Huffman decoding error: file '{fileInfoEncodedFile.FullName}' does not exist");
             }
 
-            string decodedText;
+            byte[] decodedBytes;
             using (var fileReader = new FileReader(fileInfoEncodedFile.FullName, new Buffer()))
             {
-                decodedText = huffmanDecoder.GetDecodedText(fileReader);
+                decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
             }
 
             var encodedFileExtension = GetExtensionOfEncodedFile(fileInfoEncodedFile);
             var decodedFileDestinationPath = $"{fileInfoEncodedFile.FullName}.{DateTime.Now:dd-MM-yyyy-hh-mm}.{encodedFileExtension}";
 
-            File.WriteAllText(decodedFileDestinationPath, decodedText);
+            var stringBuilder = new StringBuilder();
+            foreach (var decodedByte in decodedBytes)
+            {
+                stringBuilder.Append((char) decodedByte);
+            }
+
+            File.WriteAllText(decodedFileDestinationPath, stringBuilder.ToString());
         }
 
         private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)

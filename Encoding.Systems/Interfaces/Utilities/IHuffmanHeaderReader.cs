@@ -6,6 +6,6 @@ namespace Encoding.Systems.Interfaces.Utilities
 {
     public interface IHuffmanHeaderReader
     {
-        List<CharacterStatistics> ReadCharacterStatistics(IFileReader fileReader);
+        List<ByteStatistics> ReadByteStatistics(IFileReader fileReader);
     }
 }

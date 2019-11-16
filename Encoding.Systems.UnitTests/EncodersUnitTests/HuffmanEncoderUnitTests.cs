@@ -15,7 +15,7 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
     [ExcludeFromCodeCoverage]
     public class HuffmanEncoderUnitTests
     {
-        private Mock<ITextAnalyzer> textAnalyzerMock;
+        private Mock<IBytesAnalyzer> textAnalyzerMock;
         private Mock<IHuffmanEncodedBytesManager> huffmanEncodedBytesManagerMock;
         private Mock<IHuffmanHeaderWriter> huffmanHeaderWriterMock;
         private Mock<IFileWriter> fileWriterMock;
@@ -24,7 +24,7 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
         [TestInitialize]
         public void Setup()
         {
-            textAnalyzerMock = new Mock<ITextAnalyzer>();
+            textAnalyzerMock = new Mock<IBytesAnalyzer>();
             huffmanEncodedBytesManagerMock = new Mock<IHuffmanEncodedBytesManager>();
             huffmanHeaderWriterMock = new Mock<IHuffmanHeaderWriter>();
             fileWriterMock = new Mock<IFileWriter>();
@@ -38,63 +38,65 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
         private void SetupTextAnalyzerMock()
         {
             textAnalyzerMock
-                .Setup(x => x.GetCharacterStatisticsFromText(ConstantsEncodingSystems.Text1))
+                .Setup(x => x.GetByteStatisticsFromBytes(ConstantsEncodingSystems.Bytes1()))
                 .Returns(ConstantsEncodingSystems.TextCharacterStatistics1);
         }
 
         private void SetupHuffmanEncodedBytesManagerMock()
         {
             huffmanEncodedBytesManagerMock
-                .Setup(x => x.GetEncodedBytesFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()))
+                .Setup(x => x.GetEncodedBytesFromByteStatistics(It.IsAny<List<ByteStatistics>>()))
                 .Returns(ConstantsEncodingSystems.EncodedBytes1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EncodeTextToFileThrowsArgumentNullExceptionForNullText()
+        public void EncodeBytesToFileThrowsArgumentNullExceptionForNullBytes()
         {
-            huffmanEncoder.EncodeTextToFile(null, fileWriterMock.Object);
+            huffmanEncoder.EncodeBytesToFile(null, fileWriterMock.Object);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void EncodeTextToFileThrowsArgumentNullExceptionForNullFileWriter()
+        public void EncodeBytesToFileThrowsArgumentNullExceptionForNullFileWriter()
         {
-            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, null);
+            huffmanEncoder.EncodeBytesToFile(ConstantsEncodingSystems.Bytes1(), null);
         }
 
         [TestMethod]
-        public void EncodeTextToFileCallsTextAnalyzerGetCharacterStatisticsFromTextWithTextFromParameterOnce()
+        public void EncodeBytesToFileCallsTextAnalyzerGetCharacterStatisticsFromTextWithTextFromParameterOnce()
         {
-            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
+            var bytes = ConstantsEncodingSystems.Bytes1();
 
-            textAnalyzerMock.Verify(x => x.GetCharacterStatisticsFromText(ConstantsEncodingSystems.Text1), Times.Once);
+            huffmanEncoder.EncodeBytesToFile(bytes, fileWriterMock.Object);
+
+            textAnalyzerMock.Verify(x => x.GetByteStatisticsFromBytes(bytes), Times.Once);
         }
 
         [TestMethod]
-        public void EncodeTextToFileCallsHuffmanEncodedBytesManagerMockGetEncodedBytesFromCharacterStatisticsOnce()
+        public void EncodeBytesToFileCallsHuffmanEncodedBytesManagerMockGetEncodedBytesFromByteStatisticsOnce()
         {
-            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
+            huffmanEncoder.EncodeBytesToFile(ConstantsEncodingSystems.Bytes1(), fileWriterMock.Object);
 
-            huffmanEncodedBytesManagerMock.Verify(x => x.GetEncodedBytesFromCharacterStatistics(It.IsAny<List<CharacterStatistics>>()), Times.Once);
+            huffmanEncodedBytesManagerMock.Verify(x => x.GetEncodedBytesFromByteStatistics(It.IsAny<List<ByteStatistics>>()), Times.Once);
         }
 
         [TestMethod]
-        public void EncodeTextToFileCallsHuffmanHeaderWriterSetPathFromNodeToParentOnceForEachLeaf()
+        public void EncodeBytesToFileCallsHuffmanHeaderWriterSetPathFromNodeToParentOnceForEachLeaf()
         {
-            huffmanEncoder.EncodeTextToFile(ConstantsEncodingSystems.Text1, fileWriterMock.Object);
+            huffmanEncoder.EncodeBytesToFile(ConstantsEncodingSystems.Bytes1(), fileWriterMock.Object);
 
-            huffmanHeaderWriterMock.Verify(x=>x.WriteHeaderToFile(It.IsAny<List<CharacterStatistics>>(), fileWriterMock.Object), Times.Once);
+            huffmanHeaderWriterMock.Verify(x=>x.WriteHeaderToFile(It.IsAny<List<ByteStatistics>>(), fileWriterMock.Object), Times.Once);
         }
 
         [TestMethod]
-        public void EncodeTextToFileCallsFileWriterWriteValueOnBitsForEachCharacterInText()
+        public void EncodeBytesToFileCallsFileWriterWriteValueOnBitsForEachCharacterInText()
         {
-            const string text = ConstantsEncodingSystems.Text1;
+            var bytes = ConstantsEncodingSystems.Bytes1();
 
-            huffmanEncoder.EncodeTextToFile(text, fileWriterMock.Object);
+            huffmanEncoder.EncodeBytesToFile(bytes, fileWriterMock.Object);
 
-            fileWriterMock.Verify(x => x.WriteValueOnBits(It.IsAny<uint>(), It.IsAny<byte>()), Times.Exactly(text.Length));
+            fileWriterMock.Verify(x => x.WriteValueOnBits(It.IsAny<uint>(), It.IsAny<byte>()), Times.Exactly(bytes.Length));
         }
     }
 }
