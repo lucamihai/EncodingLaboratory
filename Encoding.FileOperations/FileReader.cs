@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations.Interfaces;
@@ -14,7 +13,7 @@ namespace Encoding.FileOperations
 
         private readonly FileStream fileStream;
 
-        private bool reachedEndOfFile;
+        public bool ReachedEndOfFile { get; private set; }
 
         public string FilePath { get; }
         public IBuffer Buffer { get; }
@@ -36,14 +35,14 @@ namespace Encoding.FileOperations
         [ExcludeFromCodeCoverage]
         private void OnCurrentBitReset(byte valueFromBuffer)
         {
-            if (reachedEndOfFile)
+            if (ReachedEndOfFile)
             {
                 return;
             }
 
             if (fileStream.Position == fileStream.Length)
             {
-                reachedEndOfFile = true;
+                ReachedEndOfFile = true;
                 Buffer.AddValueStartingFromCurrentBit(127, 7);
             }
 

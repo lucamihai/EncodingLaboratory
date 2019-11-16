@@ -28,20 +28,77 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panelActiveUserControl = new System.Windows.Forms.Panel();
+            this.panelRadioButtons = new System.Windows.Forms.Panel();
+            this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
+            this.radioButtonHuffman = new System.Windows.Forms.RadioButton();
+            this.panelRadioButtons.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panelActiveUserControl
+            // 
+            this.panelActiveUserControl.Location = new System.Drawing.Point(195, 29);
+            this.panelActiveUserControl.Name = "panelActiveUserControl";
+            this.panelActiveUserControl.Size = new System.Drawing.Size(800, 500);
+            this.panelActiveUserControl.TabIndex = 0;
+            // 
+            // panelRadioButtons
+            // 
+            this.panelRadioButtons.Controls.Add(this.radioButtonHuffman);
+            this.panelRadioButtons.Controls.Add(this.radioButtonFileReadingAndWriting);
+            this.panelRadioButtons.Location = new System.Drawing.Point(25, 29);
+            this.panelRadioButtons.Name = "panelRadioButtons";
+            this.panelRadioButtons.Size = new System.Drawing.Size(150, 500);
+            this.panelRadioButtons.TabIndex = 1;
+            // 
+            // radioButtonFileReadingAndWriting
+            // 
+            this.radioButtonFileReadingAndWriting.AutoSize = true;
+            this.radioButtonFileReadingAndWriting.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonFileReadingAndWriting.Location = new System.Drawing.Point(22, 37);
+            this.radioButtonFileReadingAndWriting.Name = "radioButtonFileReadingAndWriting";
+            this.radioButtonFileReadingAndWriting.Size = new System.Drawing.Size(101, 23);
+            this.radioButtonFileReadingAndWriting.TabIndex = 0;
+            this.radioButtonFileReadingAndWriting.TabStop = true;
+            this.radioButtonFileReadingAndWriting.Text = "Read / write";
+            this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
+            this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.radioButtonFileReadingAndWriting_CheckedChanged);
+            // 
+            // radioButtonHuffman
+            // 
+            this.radioButtonHuffman.AutoSize = true;
+            this.radioButtonHuffman.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonHuffman.Location = new System.Drawing.Point(22, 66);
+            this.radioButtonHuffman.Name = "radioButtonHuffman";
+            this.radioButtonHuffman.Size = new System.Drawing.Size(78, 23);
+            this.radioButtonHuffman.TabIndex = 1;
+            this.radioButtonHuffman.TabStop = true;
+            this.radioButtonHuffman.Text = "Huffman";
+            this.radioButtonHuffman.UseVisualStyleBackColor = true;
+            this.radioButtonHuffman.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.ClientSize = new System.Drawing.Size(1004, 541);
+            this.Controls.Add(this.panelRadioButtons);
+            this.Controls.Add(this.panelActiveUserControl);
             this.Name = "MainWindow";
             this.Text = "Encoding";
+            this.panelRadioButtons.ResumeLayout(false);
+            this.panelRadioButtons.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panelActiveUserControl;
+        private System.Windows.Forms.Panel panelRadioButtons;
+        private System.Windows.Forms.RadioButton radioButtonHuffman;
+        private System.Windows.Forms.RadioButton radioButtonFileReadingAndWriting;
     }
 }
 
