@@ -67,7 +67,7 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
             fileReaderMock.Setup(x => x.ReadBits(2 * 8))
                 .Returns(2);
 
-            fileReaderMock.Setup(x => x.ReadBits(3 * 8))
+            fileReaderMock.Setup(x => x.ReadBits(4 * 8))
                 .Returns(3);
         }
 
@@ -125,7 +125,7 @@ namespace Encoding.Systems.UnitTests.UtilitiesUnitTests
         {
             huffmanHeaderReader.ReadByteStatistics(fileReaderMock.Object);
 
-            fileReaderMock.Verify(x => x.ReadBits(3 * 8), Times.Exactly(charactersCodedInThreeBits));
+            fileReaderMock.Verify(x => x.ReadBits(4 * 8), Times.Exactly(charactersCodedInThreeBits));
         }
 
         [TestMethod]

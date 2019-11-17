@@ -38,7 +38,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectly1()
+        public void BytesAreEncodedThenDecodedCorrectly1()
         {
             var bytes = Constants.Bytes1();
 
@@ -59,7 +59,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectly2()
+        public void BytesAreEncodedThenDecodedCorrectly2()
         {
             var bytes = Constants.Bytes2();
 
@@ -80,7 +80,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectly3()
+        public void BytesAreEncodedThenDecodedCorrectly3()
         {
             var bytes = Constants.Bytes3();
 
@@ -101,7 +101,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectly4()
+        public void BytesAreEncodedThenDecodedCorrectly4()
         {
             var bytes = Constants.Bytes4();
 
@@ -122,11 +122,12 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
         }
 
         [TestMethod]
-        public void FileIsEncodedThenDecodedCorrectlyFromFile()
+        public void BytesFormTxtFileAreEncodedThenDecodedCorrectly()
         {
             var bytes = Constants.Bytes4();
             var temporaryFilePath = $"{Environment.CurrentDirectory}\\temp.txt";
             File.WriteAllBytes(temporaryFilePath, bytes);
+
             var bytesFromFile = File.ReadAllBytes(temporaryFilePath);
             File.Delete(temporaryFilePath);
 
@@ -167,9 +168,7 @@ namespace Encoding.Systems.IntegrationTests.EncoderPlusDecodersIntegrationTests
                 decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
             }
 
-            File.WriteAllBytes($"{Environment.CurrentDirectory}\\tempp.png", decodedBytes);
             File.Delete(temporaryFilePath);
-            File.Delete($"{Environment.CurrentDirectory}\\tempp.png");
 
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(bytesFromFile, decodedBytes).AreEqual);

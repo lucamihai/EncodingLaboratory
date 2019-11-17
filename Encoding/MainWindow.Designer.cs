@@ -63,7 +63,7 @@
             this.radioButtonHuffman.TabStop = true;
             this.radioButtonHuffman.Text = "Huffman";
             this.radioButtonHuffman.UseVisualStyleBackColor = true;
-            this.radioButtonHuffman.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButtonHuffman.CheckedChanged += new System.EventHandler(this.CheckedChangedHuffman);
             // 
             // radioButtonFileReadingAndWriting
             // 
@@ -76,7 +76,7 @@
             this.radioButtonFileReadingAndWriting.TabStop = true;
             this.radioButtonFileReadingAndWriting.Text = "Read / write";
             this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
-            this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.radioButtonFileReadingAndWriting_CheckedChanged);
+            this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.CheckedChangedFileReadingAndWriting);
             // 
             // MainWindow
             // 

@@ -27,7 +27,7 @@ namespace Encoding.UserControls
             UpdateButtonsEnabledProperty();
         }
 
-        private void buttonEncode_Click(object sender, EventArgs e)
+        private void ClickEncode(object sender, EventArgs e)
         {
             string destinationFilePath;
             byte[] bytesToEncode;
@@ -42,8 +42,8 @@ namespace Encoding.UserControls
             {
                 if (radioButtonEncodeContentsFromTextBox.Checked)
                 {
-                    var textToEncode = textBoxContents.Text;
-                    bytesToEncode = new byte[2];
+                    bytesToEncode = System.Text.Encoding.ASCII.GetBytes(textBoxContents.Text);
+                    // TODO: Determine filepath
                     destinationFilePath = "";
                 }
                 else
@@ -57,10 +57,9 @@ namespace Encoding.UserControls
                 huffmanEncoder.EncodeBytesToFile(bytesToEncode, fileWriter);
                 fileWriter.Buffer.Flush();
             }
-            
         }
 
-        private void buttonDecode_Click(object sender, EventArgs e)
+        private void ClickDecode(object sender, EventArgs e)
         {
             var fileInfoEncodedFile = new FileInfo(textBoxFilePathEncodedFile.Text);
 
@@ -90,7 +89,7 @@ namespace Encoding.UserControls
                 .Substring(nameWithoutHuffmanEncodedFileExtension.LastIndexOf('.') + 1);
         }
 
-        private void buttonSelectFile_Click(object sender, EventArgs e)
+        private void SelectFileClick(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog
             {
@@ -115,11 +114,11 @@ namespace Encoding.UserControls
             UpdateButtonsEnabledProperty();
         }
 
-        private void buttonSelectEncodedFile_Click(object sender, EventArgs e)
+        private void ClickSelectEncodedFile(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog
             {
-                Title = "Browse Json files",
+                Title = "Browse Huffman encoded files",
 
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -142,12 +141,12 @@ namespace Encoding.UserControls
             UpdateButtonsEnabledProperty();
         }
 
-        private void radioButtonEncodeContentsFromFile_CheckedChanged(object sender, EventArgs e)
+        private void CheckedChangedEncodeContentsFromFile(object sender, EventArgs e)
         {
             UpdateButtonsEnabledProperty();
         }
 
-        private void radioButtonEncodeContentsFromTextBox_CheckedChanged(object sender, EventArgs e)
+        private void CheckedChangedEncodeContentsFromTextBox(object sender, EventArgs e)
         {
             UpdateButtonsEnabledProperty();
         }

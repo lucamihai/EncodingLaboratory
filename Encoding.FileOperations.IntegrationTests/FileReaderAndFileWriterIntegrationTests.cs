@@ -13,11 +13,8 @@ namespace Encoding.FileOperations.IntegrationTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    [Ignore]
     public class FileReaderAndFileWriterIntegrationTests
     {
-        private FileReader fileReader;
-        private FileWriter fileWriter;
         private string filePathOriginalImage;
         private string filePathFinalImage;
         private byte[] bytesInOriginalImage;
@@ -30,9 +27,6 @@ namespace Encoding.FileOperations.IntegrationTests
 
             CreateOriginalImageFile();
             bytesInOriginalImage = File.ReadAllBytes(filePathOriginalImage);
-
-            fileReader = new FileReader(filePathOriginalImage, new Buffer());
-            fileWriter = new FileWriter(filePathFinalImage, new Buffer());
         }
 
         private void CreateOriginalImageFile()
@@ -46,28 +40,33 @@ namespace Encoding.FileOperations.IntegrationTests
         public void FileIsCopiedCorrectlyForNumberOfBitsBetween1And8()
         {
             var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var bitsRead = 0;
-            while (bitsRead < bytesInOriginalImage.Length * 8)
+            
+            using (var fileReader = new FileReader(filePathOriginalImage, new Buffer()))
             {
-                var random = new Random();
-                var numberOfBits = bitsRead + 8 > bytesInOriginalImage.Length * 8
-                    ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
-                    : (byte)random.Next(1, 8);
+                using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
+                {
+                    var bitsRead = 0;
+                    stopWatch.Start();
 
-                var readStuff = fileReader.ReadBits(numberOfBits);
+                    while (bitsRead < bytesInOriginalImage.Length * 8)
+                    {
+                        var random = new Random();
+                        var numberOfBits = bitsRead + 8 > bytesInOriginalImage.Length * 8
+                            ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
+                            : (byte)random.Next(1, 8);
 
-                fileWriter.WriteValueOnBits(readStuff, numberOfBits);
+                        var readStuff = fileReader.ReadBits(numberOfBits);
 
-                bitsRead += numberOfBits;
+                        fileWriter.WriteValueOnBits(readStuff, numberOfBits);
+
+                        bitsRead += numberOfBits;
+                    }
+
+                    stopWatch.Stop();
+                }
             }
 
-            stopWatch.Stop();
             Console.WriteLine($"File copying in '{GetCurrentMethod()}' took {stopWatch.ElapsedMilliseconds} ms for {bytesInOriginalImage.Length} bytes");
-
-            fileReader.Dispose();
-            fileWriter.Dispose();
 
             var bytesInFinalImage = File.ReadAllBytes(filePathFinalImage);
             var comparer = new CompareLogic();
@@ -78,33 +77,31 @@ namespace Encoding.FileOperations.IntegrationTests
         public void FileIsCopiedCorrectlyForNumberOfBitsBetween8And32()
         {
             var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            long bitsRead = 0;
-            while (bitsRead < bytesInOriginalImage.Length * 8)
+            using (var fileReader = new FileReader(filePathOriginalImage, new Buffer()))
             {
-                var random = new Random();
-                var numberOfBits = bitsRead + 32 > bytesInOriginalImage.Length * 8
-                    ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
-                    : (byte) random.Next(8, 32);
-                
-                if (bitsRead >= 4318400 * 8)
+                using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
                 {
+                    var bitsRead = 0;
+                    stopWatch.Start();
 
+                    while (bitsRead < bytesInOriginalImage.Length * 8)
+                    {
+                        var random = new Random();
+                        var numberOfBits = bitsRead + 32 > bytesInOriginalImage.Length * 8
+                            ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
+                            : (byte) random.Next(8, 32);
+
+                        var readStuff = fileReader.ReadBits(numberOfBits);
+
+                        fileWriter.WriteValueOnBits(readStuff, numberOfBits);
+
+                        bitsRead += numberOfBits;
+                    }
+
+                    stopWatch.Stop();
                 }
-
-                var readStuff = fileReader.ReadBits(numberOfBits);
-
-                fileWriter.WriteValueOnBits(readStuff, numberOfBits);
-
-                bitsRead += numberOfBits;
             }
-
-            stopWatch.Stop();
             Console.WriteLine($"File copying in '{GetCurrentMethod()}' took {stopWatch.ElapsedMilliseconds} ms for {bytesInOriginalImage.Length} bytes");
-
-            fileReader.Dispose();
-            fileWriter.Dispose();
 
             var bytesInFinalImage = File.ReadAllBytes(filePathFinalImage);
             var comparer = new CompareLogic();
@@ -123,9 +120,6 @@ namespace Encoding.FileOperations.IntegrationTests
         [TestCleanup]
         public void Cleanup()
         {
-            fileReader.Dispose();
-            fileWriter.Dispose();
-
             if (File.Exists(filePathOriginalImage))
             {
                 File.Delete(filePathOriginalImage);

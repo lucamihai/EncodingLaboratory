@@ -53,11 +53,7 @@ namespace Encoding.FileOperations
 
             for (int index = 0; index < numberOfBitsToWrite; index++)
             {
-                var valueToWrite = index < bitArray.Length
-                    ? valueBitArray[index]
-                    : false;
-
-                bitArray[CurrentBit] = valueToWrite;
+                bitArray[CurrentBit] = index < bitArray.Length && valueBitArray[index];
                 CurrentBit++;
             }
         }

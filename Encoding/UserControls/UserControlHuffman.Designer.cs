@@ -59,7 +59,7 @@
             this.buttonEncode.TabIndex = 0;
             this.buttonEncode.Text = "Encode contents from";
             this.buttonEncode.UseVisualStyleBackColor = true;
-            this.buttonEncode.Click += new System.EventHandler(this.buttonEncode_Click);
+            this.buttonEncode.Click += new System.EventHandler(this.ClickEncode);
             // 
             // radioButtonEncodeContentsFromFile
             // 
@@ -72,7 +72,7 @@
             this.radioButtonEncodeContentsFromFile.TabStop = true;
             this.radioButtonEncodeContentsFromFile.Text = "File";
             this.radioButtonEncodeContentsFromFile.UseVisualStyleBackColor = true;
-            this.radioButtonEncodeContentsFromFile.CheckedChanged += new System.EventHandler(this.radioButtonEncodeContentsFromFile_CheckedChanged);
+            this.radioButtonEncodeContentsFromFile.CheckedChanged += new System.EventHandler(this.CheckedChangedEncodeContentsFromFile);
             // 
             // textBoxFilePathSource
             // 
@@ -90,7 +90,7 @@
             this.buttonSelectFile.TabIndex = 3;
             this.buttonSelectFile.Text = "Select file";
             this.buttonSelectFile.UseVisualStyleBackColor = true;
-            this.buttonSelectFile.Click += new System.EventHandler(this.buttonSelectFile_Click);
+            this.buttonSelectFile.Click += new System.EventHandler(this.SelectFileClick);
             // 
             // radioButtonEncodeContentsFromTextBox
             // 
@@ -101,7 +101,7 @@
             this.radioButtonEncodeContentsFromTextBox.TabIndex = 4;
             this.radioButtonEncodeContentsFromTextBox.Text = "TextBox";
             this.radioButtonEncodeContentsFromTextBox.UseVisualStyleBackColor = true;
-            this.radioButtonEncodeContentsFromTextBox.CheckedChanged += new System.EventHandler(this.radioButtonEncodeContentsFromTextBox_CheckedChanged);
+            this.radioButtonEncodeContentsFromTextBox.CheckedChanged += new System.EventHandler(this.CheckedChangedEncodeContentsFromTextBox);
             // 
             // textBoxContents
             // 
@@ -156,7 +156,7 @@
             this.buttonSelectEncodedFile.TabIndex = 7;
             this.buttonSelectEncodedFile.Text = "Select encoded file";
             this.buttonSelectEncodedFile.UseVisualStyleBackColor = true;
-            this.buttonSelectEncodedFile.Click += new System.EventHandler(this.buttonSelectEncodedFile_Click);
+            this.buttonSelectEncodedFile.Click += new System.EventHandler(this.ClickSelectEncodedFile);
             // 
             // label2
             // 
@@ -207,7 +207,7 @@
             this.buttonDecode.TabIndex = 8;
             this.buttonDecode.Text = "Decode";
             this.buttonDecode.UseVisualStyleBackColor = true;
-            this.buttonDecode.Click += new System.EventHandler(this.buttonDecode_Click);
+            this.buttonDecode.Click += new System.EventHandler(this.ClickDecode);
             // 
             // panelCodes
             // 

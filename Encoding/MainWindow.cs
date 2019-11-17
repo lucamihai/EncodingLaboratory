@@ -15,12 +15,12 @@ namespace Encoding
             InitializeComponent();
         }
 
-        private void radioButtonFileReadingAndWriting_CheckedChanged(object sender, System.EventArgs e)
+        private void CheckedChangedFileReadingAndWriting(object sender, System.EventArgs e)
         {
             UpdatePanelBasedOnChoice();
         }
 
-        private void radioButton1_CheckedChanged(object sender, System.EventArgs e)
+        private void CheckedChangedHuffman(object sender, System.EventArgs e)
         {
             UpdatePanelBasedOnChoice();
         }
