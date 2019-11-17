@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Encoding.Systems.IntegrationTests
 {
@@ -54,6 +56,50 @@ namespace Encoding.Systems.IntegrationTests
                 89,68,82,8,70,
                 48,57,71,42,51
             };
+        }
+
+        public static byte[] Bytes3()
+        {
+            var list = new List<byte>(Bytes1());
+
+            for (int i = 0; i < Math.Pow(2, 8) + 2; i++)
+            {
+                list.Add(4);
+            }
+
+            return list.ToArray();
+        }
+
+        public static byte[] Bytes4()
+        {
+            var list = new List<byte>(Bytes1());
+
+            for (int i = 0; i < Math.Pow(2, 8) - 10; i++)
+            {
+                list.Add(3);
+            }
+
+            for (int i = 0; i < Math.Pow(2, 8) + 2; i++)
+            {
+                list.Add(4);
+            }
+
+            for (int i = 0; i < Math.Pow(2, 16) + 5; i++)
+            {
+                list.Add(5);
+            }
+
+            for (int i = 0; i < Math.Pow(2, 16) + 6; i++)
+            {
+                list.Add(41);
+            }
+
+            for (int i = 0; i < Math.Pow(2, 16) + 10; i++)
+            {
+                list.Add(66);
+            }
+
+            return list.ToArray();
         }
     }
 }

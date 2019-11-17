@@ -29,7 +29,6 @@ namespace Encoding.Systems.Decoders
             var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
             var maximumNumberOfBits = encodedBytes.Max(x => x.EncodingBits.Count);
 
-            
             var charactersLeftToRead = byteStatistics.Sum(x => x.Apparitions);
             var bytes = new List<byte>();
 

@@ -7,6 +7,6 @@ namespace Encoding.Systems.Interfaces.Utilities
 {
     public interface IHuffmanHeaderWriter
     {
-        void WriteHeaderToFile(List<ByteStatistics> characterStatistics, IFileWriter fileWriter);
+        void WriteHeaderToFile(List<ByteStatistics> byteStatistics, IFileWriter fileWriter);
     }
 }

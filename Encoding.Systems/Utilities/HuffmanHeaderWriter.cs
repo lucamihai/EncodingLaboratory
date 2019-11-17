@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Encoding.Entities;
 using Encoding.FileOperations.Interfaces;
@@ -8,19 +9,19 @@ namespace Encoding.Systems.Utilities
 {
     public class HuffmanHeaderWriter : IHuffmanHeaderWriter
     {
-        public void WriteHeaderToFile(List<ByteStatistics> characterStatistics, IFileWriter fileWriter)
+        public void WriteHeaderToFile(List<ByteStatistics> byteStatistics, IFileWriter fileWriter)
         {
             var byteApparitionsToWrite = new List<uint>();
 
             for (int currentByte = 0; currentByte < 256; currentByte++)
             {
-                var stats = characterStatistics.FirstOrDefault(x => x.Byte == (char)currentByte);
+                var stats = byteStatistics.FirstOrDefault(x => x.Byte == (char)currentByte);
                 if (stats != null)
                 {
                     byteApparitionsToWrite.Add(stats.Apparitions);
-                    var numberOfBitsNecessaryToWriteApparitions = stats.Apparitions > short.MaxValue
-                        ? 4
-                        : stats.Apparitions > byte.MaxValue
+                    var numberOfBitsNecessaryToWriteApparitions = stats.Apparitions > Math.Pow(2, 16)
+                        ? 3
+                        : stats.Apparitions > Math.Pow(2, 8)
                             ? 2
                             : 1;
 
@@ -34,9 +35,9 @@ namespace Encoding.Systems.Utilities
 
             foreach (var apparition in byteApparitionsToWrite)
             {
-                var numberOfBitsNecessaryToWriteApparitions = apparition > short.MaxValue
+                var numberOfBitsNecessaryToWriteApparitions = apparition > Math.Pow(2, 16)
                     ? 32
-                    : apparition > byte.MaxValue
+                    : apparition > Math.Pow(2, 8)
                         ? 16
                         : 8;
 

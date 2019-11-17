@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using Encoding.FileOperations;
 using Encoding.Systems.Decoders;
@@ -71,7 +70,7 @@ namespace Encoding.UserControls
             }
 
             byte[] decodedBytes;
-            using (var fileReader = new FileReader(fileInfoEncodedFile.FullName, new Buffer()))
+            using (var fileReader = new FileReader(textBoxFilePathEncodedFile.Text, new Buffer()))
             {
                 decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
             }
@@ -79,13 +78,7 @@ namespace Encoding.UserControls
             var encodedFileExtension = GetExtensionOfEncodedFile(fileInfoEncodedFile);
             var decodedFileDestinationPath = $"{fileInfoEncodedFile.FullName}.{DateTime.Now:dd-MM-yyyy-hh-mm}.{encodedFileExtension}";
 
-            var stringBuilder = new StringBuilder();
-            foreach (var decodedByte in decodedBytes)
-            {
-                stringBuilder.Append((char) decodedByte);
-            }
-
-            File.WriteAllText(decodedFileDestinationPath, stringBuilder.ToString());
+            File.WriteAllBytes(decodedFileDestinationPath, decodedBytes);
         }
 
         private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)

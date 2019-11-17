@@ -42,6 +42,11 @@ namespace Encoding.Systems.Utilities
                     continue;
                 }
 
+                if (bytesNecessaryForCurrentCharacterCode == 3)
+                {
+                    bytesNecessaryForCurrentCharacterCode = 4;
+                }
+
                 var characterStats = new ByteStatistics { Byte = (byte)characterCode };
                 bytesNecessaryForCharacterStatistics.Add(characterStats, bytesNecessaryForCurrentCharacterCode);
             }
