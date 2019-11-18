@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
+using Encoding.Entities;
 using Encoding.FileOperations;
 using Encoding.Systems.Decoders;
 using Encoding.Systems.Encoders;
@@ -23,6 +28,8 @@ namespace Encoding.UserControls
             // TODO: Find a more 'pleasant' way of initiating objects (maybe consider using AutoFac)
             huffmanEncoder = new HuffmanEncoder(new BytesAnalyzer(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
             huffmanDecoder = new HuffmanDecoder(new HuffmanHeaderReader(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()));
+
+            textBoxCodes.Font = new Font(FontFamily.GenericMonospace, textBoxCodes.Font.Size);
 
             UpdateButtonsEnabledProperty();
         }
@@ -57,6 +64,11 @@ namespace Encoding.UserControls
                 huffmanEncoder.EncodeBytesToFile(bytesToEncode, fileWriter);
                 fileWriter.Buffer.Flush();
             }
+
+            if (checkBoxShowCodesFromEncoding.Checked)
+            {
+                DisplayEncodedBytes(huffmanEncoder.EncodedBytesFromPreviousRun);
+            }
         }
 
         private void ClickDecode(object sender, EventArgs e)
@@ -78,6 +90,11 @@ namespace Encoding.UserControls
             var decodedFileDestinationPath = $"{fileInfoEncodedFile.FullName}.{DateTime.Now:dd-MM-yyyy-hh-mm}.{encodedFileExtension}";
 
             File.WriteAllBytes(decodedFileDestinationPath, decodedBytes);
+
+            if (checkBoxShowCodesFromDecoding.Checked)
+            {
+                DisplayEncodedBytes(huffmanDecoder.EncodedBytesFromPreviousRun);
+            }
         }
 
         private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)
@@ -157,6 +174,19 @@ namespace Encoding.UserControls
                 || (radioButtonEncodeContentsFromTextBox.Checked && !string.IsNullOrWhiteSpace(textBoxContents.Text));
 
             buttonDecode.Enabled = !string.IsNullOrWhiteSpace(textBoxFilePathEncodedFile.Text);
+        }
+
+        private void DisplayEncodedBytes(List<EncodedByte> encodedBytes)
+        {
+            var stringBuilder = new StringBuilder();
+
+            foreach (var encodedByte in encodedBytes.OrderBy(x => x.Byte))
+            {
+                stringBuilder.Append(encodedByte);
+                stringBuilder.Append(Environment.NewLine);
+            }
+
+            textBoxCodes.Text = stringBuilder.ToString();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Encoding.Entities;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Interfaces.Utilities;
 
@@ -10,6 +12,18 @@ namespace Encoding.Systems.Encoders
         private readonly IBytesAnalyzer bytesAnalyzer;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
         private readonly IHuffmanHeaderWriter huffmanHeaderWriter;
+
+        private List<EncodedByte> encodedBytesFromPreviousRun;
+        public List<EncodedByte> EncodedBytesFromPreviousRun
+        {
+            get
+            {
+                var encodedBytes = new List<EncodedByte>();
+                encodedBytes.AddRange(encodedBytesFromPreviousRun);
+
+                return encodedBytes;
+            }
+        }
 
         public HuffmanEncoder(IBytesAnalyzer bytesAnalyzer, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
         {
@@ -32,6 +46,7 @@ namespace Encoding.Systems.Encoders
 
             var byteStatistics = bytesAnalyzer.GetByteStatisticsFromBytes(bytes);
             var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
+            encodedBytesFromPreviousRun = encodedBytes;
 
             huffmanHeaderWriter.WriteHeaderToFile(byteStatistics, fileWriter);
 

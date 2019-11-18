@@ -8,7 +8,7 @@ namespace Encoding.FileOperations.IntegrationTests
         public const string TestFileNameImage = "imageTest.png";
         public const string TestFileNameImageDestination = "imageTestWritten.png";
         public const string TestFileName = "testFile.txt";
-        public static byte[] TestBytes = new byte[]
+        public static readonly byte[] TestBytes = new byte[]
         {
                 // Binary representation
             11, // 0000 1011

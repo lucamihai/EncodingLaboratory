@@ -57,5 +57,28 @@ namespace Encoding.Entities.UnitTests
 
             Assert.AreEqual((uint)15, encodedByte.EncodedValue);
         }
+
+        [TestMethod]
+        public void ToStringReturnsExpectedString1()
+        {
+            encodedByte.Byte = 2;
+            encodedByte.EncodingBits.Add(true);
+            encodedByte.EncodingBits.Add(false);
+            encodedByte.EncodingBits.Add(false);
+
+            Assert.AreEqual("2 - 100", encodedByte.ToString());
+        }
+
+        [TestMethod]
+        public void ToStringReturnsExpectedString2()
+        {
+            encodedByte.Byte = 31;
+            encodedByte.EncodingBits.Add(true);
+            encodedByte.EncodingBits.Add(true);
+            encodedByte.EncodingBits.Add(false);
+            encodedByte.EncodingBits.Add(false);
+
+            Assert.AreEqual("31 - 1100", encodedByte.ToString());
+        }
     }
 }

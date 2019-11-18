@@ -102,6 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Encoding.Entities\Encoding.Entities.csproj">
+      <Project>{be3fa299-f7e6-4648-8936-81d6cc89b4e2}</Project>
+      <Name>Encoding.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
       <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
       <Name>Encoding.FileOperations</Name>

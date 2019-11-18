@@ -12,6 +12,18 @@ namespace Encoding.Systems.Decoders
         private readonly IHuffmanHeaderReader huffmanHeaderReader;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
 
+        private List<EncodedByte> encodedBytesFromPreviousRun;
+        public List<EncodedByte> EncodedBytesFromPreviousRun
+        {
+            get
+            {
+                var encodedBytes = new List<EncodedByte>();
+                encodedBytes.AddRange(encodedBytesFromPreviousRun);
+
+                return encodedBytes;
+            }
+        }
+
         public HuffmanDecoder(IHuffmanHeaderReader huffmanHeaderReader, IHuffmanEncodedBytesManager huffmanEncodedBytesManager)
         {
             this.huffmanHeaderReader = huffmanHeaderReader;
@@ -28,6 +40,8 @@ namespace Encoding.Systems.Decoders
             var byteStatistics = huffmanHeaderReader.ReadByteStatistics(fileReader);
             var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
             var maximumNumberOfBits = encodedBytes.Max(x => x.EncodingBits.Count);
+
+            encodedBytesFromPreviousRun = encodedBytes;
 
             var charactersLeftToRead = byteStatistics.Sum(x => x.Apparitions);
             var bytes = new List<byte>();
@@ -91,7 +105,7 @@ namespace Encoding.Systems.Decoders
                 if (!boolList[index])
                 {
                     continue;
-                } 
+                }
 
                 value += (uint)1 << index;
             }

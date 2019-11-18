@@ -221,10 +221,12 @@
             // 
             // textBoxCodes
             // 
+            this.textBoxCodes.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxCodes.Location = new System.Drawing.Point(47, 41);
             this.textBoxCodes.Multiline = true;
             this.textBoxCodes.Name = "textBoxCodes";
             this.textBoxCodes.ReadOnly = true;
+            this.textBoxCodes.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxCodes.Size = new System.Drawing.Size(323, 326);
             this.textBoxCodes.TabIndex = 7;
             // 

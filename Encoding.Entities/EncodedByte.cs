@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Encoding.Entities
 {
@@ -32,6 +33,19 @@ namespace Encoding.Entities
         public EncodedByte()
         {
             EncodingBits = new List<bool>();
+        }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{Byte.ToString()} - ");
+
+            foreach (var encodingBit in EncodingBits)
+            {
+                stringBuilder.Append(encodingBit ? "1" : "0");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

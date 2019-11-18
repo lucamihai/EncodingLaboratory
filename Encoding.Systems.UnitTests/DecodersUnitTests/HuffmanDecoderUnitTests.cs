@@ -6,6 +6,7 @@ using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Decoders;
 using Encoding.Systems.Interfaces.Utilities;
 using Encoding.Tests.Common;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -88,6 +89,15 @@ namespace Encoding.Systems.UnitTests.DecodersUnitTests
             huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBit(), Times.Exactly(ConstantsEncodingSystems.NumberOfBitsForHuffmanEncoding1));
+        }
+
+        [TestMethod]
+        public void GetDecodedBytesSetsEncodedBytesFromPreviousRunWithEncodedBytesReturnedByHuffmanEncodedBytesManager()
+        {
+            huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(encodedBytesFromMock, huffmanDecoder.EncodedBytesFromPreviousRun).AreEqual);
         }
     }
 }

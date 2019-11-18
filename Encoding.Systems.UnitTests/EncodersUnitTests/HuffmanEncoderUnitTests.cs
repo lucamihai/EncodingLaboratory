@@ -6,6 +6,7 @@ using Encoding.FileOperations.Interfaces;
 using Encoding.Systems.Encoders;
 using Encoding.Systems.Interfaces.Utilities;
 using Encoding.Tests.Common;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -20,6 +21,8 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
         private Mock<IHuffmanHeaderWriter> huffmanHeaderWriterMock;
         private Mock<IFileWriter> fileWriterMock;
         private HuffmanEncoder huffmanEncoder;
+
+        private List<EncodedByte> encodedBytesReturnedByHuffmanEncodedBytesManager;
 
         [TestInitialize]
         public void Setup()
@@ -44,9 +47,11 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
 
         private void SetupHuffmanEncodedBytesManagerMock()
         {
+            encodedBytesReturnedByHuffmanEncodedBytesManager = ConstantsEncodingSystems.EncodedBytes1();
+
             huffmanEncodedBytesManagerMock
                 .Setup(x => x.GetEncodedBytesFromByteStatistics(It.IsAny<List<ByteStatistics>>()))
-                .Returns(ConstantsEncodingSystems.EncodedBytes1);
+                .Returns(encodedBytesReturnedByHuffmanEncodedBytesManager);
         }
 
         [TestMethod]
@@ -97,6 +102,15 @@ namespace Encoding.Systems.UnitTests.EncodersUnitTests
             huffmanEncoder.EncodeBytesToFile(bytes, fileWriterMock.Object);
 
             fileWriterMock.Verify(x => x.WriteValueOnBits(It.IsAny<uint>(), It.IsAny<byte>()), Times.Exactly(bytes.Length));
+        }
+
+        [TestMethod]
+        public void EncodeBytesToFileSetsEncodedBytesFromPreviousRunWithEncodedBytesReturnedByHuffmanEncodedBytesManager()
+        {
+            huffmanEncoder.EncodeBytesToFile(ConstantsEncodingSystems.Bytes1(), fileWriterMock.Object);
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(encodedBytesReturnedByHuffmanEncodedBytesManager, huffmanEncoder.EncodedBytesFromPreviousRun).AreEqual);
         }
     }
 }
