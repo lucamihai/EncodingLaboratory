@@ -70,6 +70,11 @@ namespace Encoding.FileOperations
             }
         }
 
+        public void Flush()
+        {
+            Buffer.Flush();
+        }
+
         [ExcludeFromCodeCoverage]
         ~FileWriter()
         {

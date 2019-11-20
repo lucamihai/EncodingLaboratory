@@ -4,5 +4,6 @@
     {
         void WriteBit(bool bitValue);
         void WriteValueOnBits(uint value, byte numberOfBits);
+        void Flush();
     }
 }
