@@ -6,11 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Encoding.Entities;
 using Encoding.FileOperations;
-using Encoding.Systems.Decoders;
-using Encoding.Systems.Encoders;
-using Encoding.Systems.Utilities;
+using Encoding.Huffman;
+using Encoding.Huffman.Entities;
+using Encoding.Huffman.Utilities;
 using Buffer = Encoding.FileOperations.Buffer;
 
 namespace Encoding.UserControls

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Encoding.Entities;
+using Encoding.Huffman.Entities;
 
 namespace Encoding.Tests.Common
 {
