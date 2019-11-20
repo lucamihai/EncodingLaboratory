@@ -13,11 +13,21 @@ namespace Encoding.Entities
 
         public Lz77Buffer(int offset, int length)
         {
+            if (offset < 1)
+            {
+                throw new ArgumentException($"{nameof(offset)} should be at least 1");
+            }
+
+            if (length < 1)
+            {
+                throw new ArgumentException($"{nameof(length)} should be at least 1");
+            }
+
             Offset = offset;
             Length = length;
 
-            var searchBufferCapacity = (int)Math.Pow(offset, 2) - 1;
-            var lookAheadBufferCapacity = (int)Math.Pow(length, 2) - 1;
+            var searchBufferCapacity = (int)Math.Pow(2, offset) - 1;
+            var lookAheadBufferCapacity = (int)Math.Pow(2, length) - 1;
 
             SearchBuffer = new List<byte>(searchBufferCapacity);
             LookAheadBuffer = new List<byte>(lookAheadBufferCapacity);

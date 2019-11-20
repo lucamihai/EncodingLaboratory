@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="EncodedByteUnitTests.cs" />
+    <Compile Include="Lz77BufferUnitTests.cs" />
     <Compile Include="NodeInfoUnitTests.cs" />
     <Compile Include="NodeUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
