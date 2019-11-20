@@ -4,8 +4,8 @@ using Encoding.FileOperations.Interfaces;
 
 namespace Encoding.Systems.Interfaces.Utilities
 {
-    public interface IHuffmanHeaderWriter
+    public interface ILz77HeaderWriter
     {
-        void WriteHeaderToFile(List<ByteStatistics> byteStatistics, IFileWriter fileWriter);
+        void WriteHeaderToFile(List<Lz77Token> lz77Tokens, IFileWriter fileWriter);
     }
 }

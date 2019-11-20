@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="ByteStatistics.cs" />
     <Compile Include="EncodedByte.cs" />
+    <Compile Include="Lz77Buffer.cs" />
+    <Compile Include="Lz77Token.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

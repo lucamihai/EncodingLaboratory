@@ -4,5 +4,7 @@
     {
         bool ReadBit();
         uint ReadBits(byte numberOfBits);
+
+        bool ReachedEndOfFile { get; }
     }
 }
