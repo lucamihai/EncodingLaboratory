@@ -69,6 +69,18 @@
     <Compile Include="UserControls\UserControlHuffman.Designer.cs">
       <DependentUpon>UserControlHuffman.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UserControlLz77.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UserControlLz77.Designer.cs">
+      <DependentUpon>UserControlLz77.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UserControlLzW.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UserControlLzW.Designer.cs">
+      <DependentUpon>UserControlLzW.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +98,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserControlHuffman.resx">
       <DependentUpon>UserControlHuffman.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UserControlLz77.resx">
+      <DependentUpon>UserControlLz77.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UserControlLzW.resx">
+      <DependentUpon>UserControlLzW.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -109,6 +127,10 @@
     <ProjectReference Include="..\Encoding.Huffman\Encoding.Huffman.csproj">
       <Project>{1BC37739-3F5A-416B-BAD8-AC6B83280673}</Project>
       <Name>Encoding.Huffman</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.LzW\Encoding.LzW.csproj">
+      <Project>{ECB0286C-CE0C-4363-80C3-A86B544EE80D}</Project>
+      <Name>Encoding.LzW</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

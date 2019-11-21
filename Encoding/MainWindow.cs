@@ -25,6 +25,16 @@ namespace Encoding
             UpdatePanelBasedOnChoice();
         }
 
+        private void radioButtonLz77_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdatePanelBasedOnChoice();
+        }
+
+        private void radioButtonLzW_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdatePanelBasedOnChoice();
+        }
+
         private void UpdatePanelBasedOnChoice()
         {
             var selectedRadioButton = panelRadioButtons
@@ -35,14 +45,24 @@ namespace Encoding
             if (selectedRadioButton == radioButtonFileReadingAndWriting)
             {
                 activeUserControl = new UserControlFileReadingAndWriting();
-                UpdatePanelUserControl();
             }
 
             if (selectedRadioButton == radioButtonHuffman)
             {
                 activeUserControl = new UserControlHuffman();
-                UpdatePanelUserControl();
             }
+
+            if (selectedRadioButton == radioButtonLz77)
+            {
+                activeUserControl = new UserControlLz77();
+            }
+
+            if (selectedRadioButton == radioButtonLzW)
+            {
+                activeUserControl = new UserControlLzW();
+            }
+
+            UpdatePanelUserControl();
         }
 
         private void UpdatePanelUserControl()

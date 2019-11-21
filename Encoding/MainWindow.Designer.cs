@@ -32,6 +32,8 @@
             this.panelRadioButtons = new System.Windows.Forms.Panel();
             this.radioButtonHuffman = new System.Windows.Forms.RadioButton();
             this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
+            this.radioButtonLz77 = new System.Windows.Forms.RadioButton();
+            this.radioButtonLzW = new System.Windows.Forms.RadioButton();
             this.panelRadioButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +47,8 @@
             // 
             // panelRadioButtons
             // 
+            this.panelRadioButtons.Controls.Add(this.radioButtonLzW);
+            this.panelRadioButtons.Controls.Add(this.radioButtonLz77);
             this.panelRadioButtons.Controls.Add(this.radioButtonHuffman);
             this.panelRadioButtons.Controls.Add(this.radioButtonFileReadingAndWriting);
             this.panelRadioButtons.Location = new System.Drawing.Point(12, 29);
@@ -78,6 +82,32 @@
             this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
             this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.CheckedChangedFileReadingAndWriting);
             // 
+            // radioButtonLz77
+            // 
+            this.radioButtonLz77.AutoSize = true;
+            this.radioButtonLz77.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonLz77.Location = new System.Drawing.Point(22, 95);
+            this.radioButtonLz77.Name = "radioButtonLz77";
+            this.radioButtonLz77.Size = new System.Drawing.Size(58, 23);
+            this.radioButtonLz77.TabIndex = 2;
+            this.radioButtonLz77.TabStop = true;
+            this.radioButtonLz77.Text = "Lz77";
+            this.radioButtonLz77.UseVisualStyleBackColor = true;
+            this.radioButtonLz77.CheckedChanged += new System.EventHandler(this.radioButtonLz77_CheckedChanged);
+            // 
+            // radioButtonLzW
+            // 
+            this.radioButtonLzW.AutoSize = true;
+            this.radioButtonLzW.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonLzW.Location = new System.Drawing.Point(22, 124);
+            this.radioButtonLzW.Name = "radioButtonLzW";
+            this.radioButtonLzW.Size = new System.Drawing.Size(57, 23);
+            this.radioButtonLzW.TabIndex = 3;
+            this.radioButtonLzW.TabStop = true;
+            this.radioButtonLzW.Text = "LzW";
+            this.radioButtonLzW.UseVisualStyleBackColor = true;
+            this.radioButtonLzW.CheckedChanged += new System.EventHandler(this.radioButtonLzW_CheckedChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -100,6 +130,8 @@
         private System.Windows.Forms.Panel panelRadioButtons;
         private System.Windows.Forms.RadioButton radioButtonHuffman;
         private System.Windows.Forms.RadioButton radioButtonFileReadingAndWriting;
+        private System.Windows.Forms.RadioButton radioButtonLzW;
+        private System.Windows.Forms.RadioButton radioButtonLz77;
     }
 }
 
