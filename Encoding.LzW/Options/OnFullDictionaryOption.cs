@@ -2,7 +2,7 @@
 {
     public enum OnFullDictionaryOption
     {
-        Freeze,
-        Empty
+        Empty,
+        Freeze
     }
 }

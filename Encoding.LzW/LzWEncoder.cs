@@ -10,6 +10,7 @@ namespace Encoding.LzW
     {
         public Dictionary<string, int> Dictionary { get; private set; }
         public int DictionaryKeysLimit { get; private set; }
+        public List<int> IndexesFromLastRun { get; }
 
         private int dictionaryLastIndex;
 
@@ -23,10 +24,14 @@ namespace Encoding.LzW
             }
 
             dictionaryLastIndex = 255;
+
+            IndexesFromLastRun = new List<int>();
         }
 
         public void EncodeFile(IFileReader fileReader, IFileWriter fileWriter, OnFullDictionaryOption onFullDictionaryOption, int numberOfBitsIndex)
         {
+            EmptyDictionaryExceptDefaultPairs();
+
             if (fileReader == null)
             {
                 throw new ArgumentNullException(nameof(fileReader));
@@ -44,20 +49,14 @@ namespace Encoding.LzW
 
             DictionaryKeysLimit = (int)Math.Pow(2, numberOfBitsIndex) - 1;
             WriteHeader(fileWriter, onFullDictionaryOption, numberOfBitsIndex);
+            IndexesFromLastRun.Clear();
 
-            char? lastCharacter = null;
+            var lastCharacter = (char)fileReader.ReadBits(8);
 
             while (!fileReader.ReachedEndOfFile)
             {
-                var currentString = lastCharacter.HasValue ? lastCharacter.Value.ToString() : string.Empty;
+                var currentString = lastCharacter.ToString();
                 var lastIndex = 0;
-
-                if (currentString == string.Empty)
-                {
-                    var readByte = (byte)fileReader.ReadBits(8);
-                    currentString += (char)readByte;
-                    lastCharacter = (char)readByte;
-                }
 
                 while (true)
                 {
@@ -73,17 +72,18 @@ namespace Encoding.LzW
                             {
                                 EmptyDictionaryExceptDefaultPairs();
 
-                                Dictionary.Add(currentString, dictionaryLastIndex);
                                 dictionaryLastIndex++;
+                                Dictionary.Add(currentString, dictionaryLastIndex);
                             }
                         }
                         else
                         {
-                            Dictionary.Add(currentString, dictionaryLastIndex);
                             dictionaryLastIndex++;
+                            Dictionary.Add(currentString, dictionaryLastIndex);
                         }
 
                         fileWriter.WriteValueOnBits((uint)lastIndex, (byte)numberOfBitsIndex);
+                        IndexesFromLastRun.Add(lastIndex);
 
                         break;
                     }
@@ -99,10 +99,8 @@ namespace Encoding.LzW
 
         private void WriteHeader(IFileWriter fileWriter, OnFullDictionaryOption onFullDictionaryOption, int numberOfBitsIndex)
         {
-            var cv = (uint)onFullDictionaryOption;
-
             fileWriter.WriteValueOnBits((uint)numberOfBitsIndex, 4);
-            fileWriter.WriteValueOnBits(onFullDictionaryOption == OnFullDictionaryOption.Empty ? (uint)0 : (uint)1, 1);
+            fileWriter.WriteValueOnBits((uint)onFullDictionaryOption, 1);
         }
 
         private void EmptyDictionaryExceptDefaultPairs()

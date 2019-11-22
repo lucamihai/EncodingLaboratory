@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 using Encoding.FileOperations;
 using Encoding.LzW;
@@ -87,6 +88,11 @@ namespace Encoding.UserControls
                     lzWEncoder.EncodeFile(fileReader, fileWriter, onFullDictionaryOption, bits);
                 }
             }
+
+            if (checkBoxShowIndexes.Checked)
+            {
+                DisplayIndexes();
+            }
         }
 
         private void buttonDecode_Click(object sender, EventArgs e)
@@ -98,6 +104,21 @@ namespace Encoding.UserControls
         {
             buttonEncode.Enabled = !string.IsNullOrWhiteSpace(textBoxFilePathSource.Text);
             buttonDecode.Enabled = !string.IsNullOrWhiteSpace(textBoxFilePathEncodedFile.Text);
+        }
+
+        private void DisplayIndexes()
+        {
+            var stringBuilder = new StringBuilder();
+
+            for (int currentIndex = 0; currentIndex < lzWEncoder.IndexesFromLastRun.Count; currentIndex++)
+            {
+                stringBuilder.Append(currentIndex + 1);
+                stringBuilder.Append(". ");
+                stringBuilder.Append(lzWEncoder.IndexesFromLastRun[currentIndex]);
+                stringBuilder.Append(Environment.NewLine);
+            }
+
+            textBoxIndexes.Text = stringBuilder.ToString();
         }
     }
 }
