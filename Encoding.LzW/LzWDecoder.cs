@@ -6,7 +6,7 @@ namespace Encoding.LzW
     {
         public void DecodeFile(IFileReader fileReader, IFileWriter fileWriter)
         {
-
+            
         }
     }
 }
