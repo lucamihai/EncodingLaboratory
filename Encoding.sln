@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.Lz77.UnitTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.LzW", "Encoding.LzW\Encoding.LzW.csproj", "{ECB0286C-CE0C-4363-80C3-A86B544EE80D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding.LzW.IntegrationTests", "Encoding.LzW.IntegrationTests\Encoding.LzW.IntegrationTests.csproj", "{61998E96-E50A-45F3-A180-EBC6AD8A553C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{ECB0286C-CE0C-4363-80C3-A86B544EE80D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECB0286C-CE0C-4363-80C3-A86B544EE80D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECB0286C-CE0C-4363-80C3-A86B544EE80D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61998E96-E50A-45F3-A180-EBC6AD8A553C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61998E96-E50A-45F3-A180-EBC6AD8A553C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61998E96-E50A-45F3-A180-EBC6AD8A553C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61998E96-E50A-45F3-A180-EBC6AD8A553C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{365E3934-D293-4D56-A48E-CA126D41F2C0} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 		{2A9B4599-9853-4DA0-86AD-31531999ADCD} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 		{21AEF325-9CE6-41B3-ACAC-B59E071D93D6} = {57F6C81C-3164-405D-80CE-20C254A2C484}
+		{61998E96-E50A-45F3-A180-EBC6AD8A553C} = {57F6C81C-3164-405D-80CE-20C254A2C484}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA6E45BE-EDB4-4B8C-9243-09C5B054A692}

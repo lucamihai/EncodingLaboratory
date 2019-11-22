@@ -52,21 +52,35 @@ namespace Encoding.LzW
             IndexesFromLastRun.Clear();
 
             var lastCharacter = (char)fileReader.ReadBits(8);
+            var shouldStop = false;
 
-            while (!fileReader.ReachedEndOfFile)
+            while (true)
             {
                 var currentString = lastCharacter.ToString();
                 var lastIndex = 0;
+
+                if (shouldStop)
+                {
+                    break;
+                }
 
                 while (true)
                 {
                     if (Dictionary.ContainsKey(currentString))
                     {
                         lastIndex = Dictionary[currentString];
+
+                        if (shouldStop)
+                        {
+                            fileWriter.WriteValueOnBits((uint)lastIndex, (byte)numberOfBitsIndex);
+                            IndexesFromLastRun.Add(lastIndex);
+
+                            break;
+                        }
                     }
                     else
                     {
-                        if (Dictionary.Count >= DictionaryKeysLimit)
+                        if (Dictionary.Count > DictionaryKeysLimit)
                         {
                             if (onFullDictionaryOption == OnFullDictionaryOption.Empty)
                             {
@@ -88,9 +102,16 @@ namespace Encoding.LzW
                         break;
                     }
 
-                    var readByte = (byte)fileReader.ReadBits(8);
-                    currentString += (char)readByte;
-                    lastCharacter = (char)readByte;
+                    if (!fileReader.ReachedEndOfFile)
+                    {
+                        var readByte = (byte)fileReader.ReadBits(8);
+                        currentString += (char)readByte;
+                        lastCharacter = (char)readByte;
+                    }
+                    else
+                    {
+                        shouldStop = true;
+                    }
                 }
             }
 
