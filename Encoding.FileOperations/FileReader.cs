@@ -17,7 +17,7 @@ namespace Encoding.FileOperations
         public long BitsLeft { get; private set; }
 
         public string FilePath { get; }
-        public IBuffer Buffer { get; }
+        public IBuffer Buffer { get; private set; }
 
         public FileReader(string filePath, IBuffer buffer)
         {
@@ -48,6 +48,17 @@ namespace Encoding.FileOperations
                 Buffer.AddValueStartingFromCurrentBit(127, 7);
             }
 
+            Buffer.Value = (byte)fileStream.ReadByte();
+        }
+
+        public void Reset()
+        {
+            fileStream.Position = 0;
+            BitsLeft = fileStream.Length * 8;
+            ReachedEndOfFile = false;
+            
+            Buffer = new Buffer();
+            Buffer.OnCurrentBitReset += OnCurrentBitReset;
             Buffer.Value = (byte)fileStream.ReadByte();
         }
 

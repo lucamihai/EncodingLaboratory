@@ -30,11 +30,16 @@ namespace Encoding.Huffman
             this.huffmanEncodedBytesManager = huffmanEncodedBytesManager;
         }
 
-        public byte[] GetDecodedBytes(IFileReader fileReader)
+        public void DecodeFile(IFileReader fileReader, IFileWriter fileWriter)
         {
             if (fileReader == null)
             {
                 throw new ArgumentNullException(nameof(fileReader));
+            }
+
+            if (fileWriter == null)
+            {
+                throw new ArgumentNullException(nameof(fileWriter));
             }
 
             var byteStatistics = huffmanHeaderReader.ReadByteStatistics(fileReader);
@@ -44,7 +49,6 @@ namespace Encoding.Huffman
             encodedBytesFromPreviousRun = encodedBytes;
 
             var charactersLeftToRead = byteStatistics.Sum(x => x.Apparitions);
-            var bytes = new List<byte>();
 
             while (charactersLeftToRead > 0)
             {
@@ -62,11 +66,9 @@ namespace Encoding.Huffman
                     currentByte = GetByteIfThereIsAnEncodedByteForIt(currentBits, encodedBytes);
                 }
 
-                bytes.Add(currentByte.Value);
+                fileWriter.WriteValueOnBits(currentByte.Value, 8);
                 charactersLeftToRead--;
             }
-
-            return bytes.ToArray();
         }
 
         private byte? GetByteIfThereIsAnEncodedByteForIt(List<bool> currentBits, List<EncodedByte> encodedBytes)

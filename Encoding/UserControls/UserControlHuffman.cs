@@ -25,7 +25,7 @@ namespace Encoding.UserControls
             InitializeComponent();
 
             // TODO: Find a more 'pleasant' way of initiating objects (maybe consider using AutoFac)
-            huffmanEncoder = new HuffmanEncoder(new BytesAnalyzer(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
+            huffmanEncoder = new HuffmanEncoder(new StatisticsGenerator(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
             huffmanDecoder = new HuffmanDecoder(new HuffmanHeaderReader(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()));
 
             textBoxCodes.Font = new Font(FontFamily.GenericMonospace, textBoxCodes.Font.Size);
@@ -35,22 +35,23 @@ namespace Encoding.UserControls
 
         private void ClickEncode(object sender, EventArgs e)
         {
+            string sourceFilePath;
             string destinationFilePath;
-            byte[] bytesToEncode;
 
             if (radioButtonEncodeContentsFromFile.Checked)
             {
-                var sourceFilePath = textBoxFilePathSource.Text;
-                bytesToEncode = File.ReadAllBytes(sourceFilePath);
+                sourceFilePath = textBoxFilePathSource.Text;
                 destinationFilePath = $"{sourceFilePath}.hs";
             }
             else
             {
                 if (radioButtonEncodeContentsFromTextBox.Checked)
                 {
-                    bytesToEncode = System.Text.Encoding.ASCII.GetBytes(textBoxContents.Text);
-                    // TODO: Determine filepath
+                    // TODO: Determine filepaths
+                    sourceFilePath = "";
                     destinationFilePath = "";
+
+                    File.WriteAllText(sourceFilePath, textBoxContents.Text);
                 }
                 else
                 {
@@ -58,10 +59,13 @@ namespace Encoding.UserControls
                 }
             }
 
-            using (var fileWriter = new FileWriter(destinationFilePath, new Buffer()))
+            using (var fileReader = new FileReader(sourceFilePath, new Buffer()))
             {
-                huffmanEncoder.EncodeBytesToFile(bytesToEncode, fileWriter);
-                fileWriter.Buffer.Flush();
+                using (var fileWriter = new FileWriter(destinationFilePath, new Buffer()))
+                {
+                    huffmanEncoder.EncodeFile(fileReader, fileWriter);
+                    fileWriter.Buffer.Flush();
+                }
             }
 
             if (checkBoxShowCodesFromEncoding.Checked)
@@ -79,16 +83,16 @@ namespace Encoding.UserControls
                 throw new InvalidOperationException($"Huffman decoding error: file '{fileInfoEncodedFile.FullName}' does not exist");
             }
 
-            byte[] decodedBytes;
-            using (var fileReader = new FileReader(textBoxFilePathEncodedFile.Text, new Buffer()))
-            {
-                decodedBytes = huffmanDecoder.GetDecodedBytes(fileReader);
-            }
-
             var encodedFileExtension = GetExtensionOfEncodedFile(fileInfoEncodedFile);
             var decodedFileDestinationPath = $"{fileInfoEncodedFile.FullName}.{DateTime.Now:dd-MM-yyyy-hh-mm}.{encodedFileExtension}";
 
-            File.WriteAllBytes(decodedFileDestinationPath, decodedBytes);
+            using (var fileReader = new FileReader(textBoxFilePathEncodedFile.Text, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(decodedFileDestinationPath, new Buffer()))
+                {
+                    huffmanDecoder.DecodeFile(fileReader, fileWriter);
+                }
+            }
 
             if (checkBoxShowCodesFromDecoding.Checked)
             {

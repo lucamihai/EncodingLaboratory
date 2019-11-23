@@ -2,6 +2,8 @@
 {
     public interface IFileReader
     {
+        void Reset();
+
         bool ReadBit();
         uint ReadBits(byte numberOfBits);
 

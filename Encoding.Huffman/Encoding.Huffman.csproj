@@ -47,13 +47,13 @@
     <Compile Include="Entities\NodeInfo.cs" />
     <Compile Include="HuffmanDecoder.cs" />
     <Compile Include="HuffmanEncoder.cs" />
-    <Compile Include="Interfaces\Utilities\IBytesAnalyzer.cs" />
+    <Compile Include="Interfaces\Utilities\IStatisticsGenerator.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanEncodedbytesManager.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanHeaderReader.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanHeaderWriter.cs" />
     <Compile Include="Interfaces\Utilities\IHuffmanNodesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\BytesAnalyzer.cs" />
+    <Compile Include="Utilities\StatisticsGenerator.cs" />
     <Compile Include="Utilities\HuffmanEncodedBytesManager.cs" />
     <Compile Include="Utilities\HuffmanHeaderReader.cs" />
     <Compile Include="Utilities\HuffmanHeaderWriter.cs" />

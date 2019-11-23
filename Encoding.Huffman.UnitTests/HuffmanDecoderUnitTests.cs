@@ -19,6 +19,7 @@ namespace Encoding.Huffman.UnitTests
         private Mock<IHuffmanHeaderReader> huffmanReaderMock;
         private Mock<IHuffmanEncodedBytesManager> huffmanEncodedBytesManagerMock;
         private Mock<IFileReader> fileReaderMock;
+        private Mock<IFileWriter> fileWriterMock;
 
         private List<ByteStatistics> characterStatisticsFromMock;
         private List<EncodedByte> encodedBytesFromMock;
@@ -32,6 +33,7 @@ namespace Encoding.Huffman.UnitTests
             huffmanReaderMock = new Mock<IHuffmanHeaderReader>();
             huffmanEncodedBytesManagerMock = new Mock<IHuffmanEncodedBytesManager>();
             fileReaderMock = new Mock<IFileReader>();
+            fileWriterMock = new Mock<IFileWriter>();
 
             huffmanDecoder = new HuffmanDecoder(huffmanReaderMock.Object, huffmanEncodedBytesManagerMock.Object);
 
@@ -61,31 +63,38 @@ namespace Encoding.Huffman.UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetDecodedTextThrowsArgumentNullExceptionForNullFileReader()
+        public void DecodeFileThrowsArgumentNullExceptionForNullFileReader()
         {
-            huffmanDecoder.GetDecodedBytes(null);
+            huffmanDecoder.DecodeFile(null, fileWriterMock.Object);
         }
 
         [TestMethod]
-        public void GetDecodedTextCallsHuffmanHeaderReaderReadByteStatisticsOnce()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DecodeFileThrowsArgumentNullExceptionForNullFileWriter()
         {
-            huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
+            huffmanDecoder.DecodeFile(fileReaderMock.Object, null);
+        }
+
+        [TestMethod]
+        public void DecodeFileCallsHuffmanHeaderReaderReadByteStatisticsOnce()
+        {
+            huffmanDecoder.DecodeFile(fileReaderMock.Object, fileWriterMock.Object);
 
             huffmanReaderMock.Verify(x => x.ReadByteStatistics(fileReaderMock.Object), Times.Once);
         }
 
         [TestMethod]
-        public void GetDecodedTextCallsHuffmanEncodedBytesManagerGetEncodedBytesFromByteStatisticsOnce()
+        public void DecodeFileCallsHuffmanEncodedBytesManagerGetEncodedBytesFromByteStatisticsOnce()
         {
-            huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
+            huffmanDecoder.DecodeFile(fileReaderMock.Object, fileWriterMock.Object);
 
             huffmanReaderMock.Verify(x => x.ReadByteStatistics(fileReaderMock.Object), Times.Once);
         }
 
         [TestMethod]
-        public void GetDecodedTextCallsFileReaderReadBitExpectedNumberOfTimes()
+        public void DecodeFileCallsFileReaderReadBitExpectedNumberOfTimes()
         {
-            huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
+            huffmanDecoder.DecodeFile(fileReaderMock.Object, fileWriterMock.Object);
 
             fileReaderMock.Verify(x => x.ReadBit(), Times.Exactly(ConstantsEncodingSystems.NumberOfBitsForHuffmanEncoding1));
         }
@@ -93,7 +102,7 @@ namespace Encoding.Huffman.UnitTests
         [TestMethod]
         public void GetDecodedBytesSetsEncodedBytesFromPreviousRunWithEncodedBytesReturnedByHuffmanEncodedBytesManager()
         {
-            huffmanDecoder.GetDecodedBytes(fileReaderMock.Object);
+            huffmanDecoder.DecodeFile(fileReaderMock.Object, fileWriterMock.Object);
 
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(encodedBytesFromMock, huffmanDecoder.EncodedBytesFromPreviousRun).AreEqual);

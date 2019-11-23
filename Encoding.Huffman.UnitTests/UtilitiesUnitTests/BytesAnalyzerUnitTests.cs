@@ -11,28 +11,19 @@ namespace Encoding.Huffman.UnitTests.UtilitiesUnitTests
     [ExcludeFromCodeCoverage]
     public class BytesAnalyzerUnitTests
     {
-        private BytesAnalyzer bytesAnalyzer;
+        private StatisticsGenerator statisticsGenerator;
 
         [TestInitialize]
         public void Setup()
         {
-            bytesAnalyzer = new BytesAnalyzer();
+            statisticsGenerator = new StatisticsGenerator();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetByteStatisticsFromBytesThrowsArgumentNullExceptionForNullBytes()
         {
-            bytesAnalyzer.GetByteStatisticsFromBytes(null);
-        }
-
-        [TestMethod]
-        public void GetByteStatisticsFromBytesReturnsExpectedList()
-        {
-            var characterStatistics = bytesAnalyzer.GetByteStatisticsFromBytes(ConstantsEncodingSystems.Bytes1());
-
-            var comparer = new CompareLogic();
-            Assert.IsTrue(comparer.Compare(ConstantsEncodingSystems.TextCharacterStatistics1, characterStatistics).AreEqual);
+            statisticsGenerator.GetByteStatisticsFromFile(null);
         }
     }
 }

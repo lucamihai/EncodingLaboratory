@@ -9,7 +9,7 @@ namespace Encoding.Huffman
 {
     public class HuffmanEncoder
     {
-        private readonly IBytesAnalyzer bytesAnalyzer;
+        private readonly IStatisticsGenerator statisticsGenerator;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;
         private readonly IHuffmanHeaderWriter huffmanHeaderWriter;
 
@@ -25,18 +25,18 @@ namespace Encoding.Huffman
             }
         }
 
-        public HuffmanEncoder(IBytesAnalyzer bytesAnalyzer, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
+        public HuffmanEncoder(IStatisticsGenerator statisticsGenerator, IHuffmanEncodedBytesManager huffmanEncodedBytesManager, IHuffmanHeaderWriter huffmanHeaderWriter)
         {
-            this.bytesAnalyzer = bytesAnalyzer;
+            this.statisticsGenerator = statisticsGenerator;
             this.huffmanEncodedBytesManager = huffmanEncodedBytesManager;
             this.huffmanHeaderWriter = huffmanHeaderWriter;
         }
 
-        public void EncodeBytesToFile(byte[] bytes, IFileWriter fileWriter)
+        public void EncodeFile(IFileReader fileReader, IFileWriter fileWriter)
         {
-            if (bytes == null)
+            if (fileReader == null)
             {
-                throw new ArgumentNullException(nameof(bytes));
+                throw new ArgumentNullException(nameof(fileReader));
             }
 
             if (fileWriter == null)
@@ -44,14 +44,16 @@ namespace Encoding.Huffman
                 throw new ArgumentNullException(nameof(fileWriter));
             }
 
-            var byteStatistics = bytesAnalyzer.GetByteStatisticsFromBytes(bytes);
+            var byteStatistics = statisticsGenerator.GetByteStatisticsFromFile(fileReader);
             var encodedBytes = huffmanEncodedBytesManager.GetEncodedBytesFromByteStatistics(byteStatistics);
             encodedBytesFromPreviousRun = encodedBytes;
 
             huffmanHeaderWriter.WriteHeaderToFile(byteStatistics, fileWriter);
+            fileReader.Reset();
 
-            foreach (var currentByte in bytes)
+            while (!fileReader.ReachedEndOfFile)
             {
+                var currentByte = fileReader.ReadBits(8);
                 var encodedByteForCurrentCharacter = encodedBytes.First(x => x.Byte == currentByte);
                 fileWriter.WriteValueOnBits(encodedByteForCurrentCharacter.EncodedValue, (byte)encodedByteForCurrentCharacter.EncodingBits.Count);
             }
