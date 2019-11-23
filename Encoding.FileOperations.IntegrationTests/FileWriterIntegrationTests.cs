@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations.Interfaces;
+using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Encoding.FileOperations.IntegrationTests
@@ -30,6 +31,8 @@ namespace Encoding.FileOperations.IntegrationTests
         public void Cleanup()
         {
             fileWriter?.Dispose();
+
+            TestMethods.DeleteFileIfExists(filePath);
         }
 
         [TestMethod]

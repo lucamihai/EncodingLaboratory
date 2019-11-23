@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations.Interfaces;
+using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -21,14 +22,24 @@ namespace Encoding.FileOperations.UnitTests
             filePath = $"{Environment.CurrentDirectory}\\{Constants.TestFileName}";
             bufferMock = new Mock<IBuffer>();
 
+            SetupBufferMock();
+
             File.WriteAllBytes(filePath, Constants.TestFileBytes);
+        }
+
+        private void SetupBufferMock()
+        {
+            bufferMock
+                .Setup(x => x.GetValueStartingFromCurrentBit(It.IsAny<byte>()))
+                .Returns(1);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
             fileReader?.Dispose();
-            File.Delete(filePath);
+
+            TestMethods.DeleteFileIfExists(filePath);
         }
 
         [TestMethod]
@@ -49,7 +60,7 @@ namespace Encoding.FileOperations.UnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void ConstructorThrowsArgumentExceptionForFileNotExisting()
         {
-            File.Delete(filePath);
+            TestMethods.DeleteFileIfExists(filePath);
 
             fileReader = new FileReader(filePath, bufferMock.Object);
         }
@@ -81,13 +92,10 @@ namespace Encoding.FileOperations.UnitTests
         public void ReadBitCallsBufferGetValueStartingFromCurrentBitWith1BitToReadOnce()
         {
             fileReader = new FileReader(filePath, bufferMock.Object);
-            bufferMock
-                .Setup(x => x.GetValueStartingFromCurrentBit(It.IsAny<byte>()))
-                .Returns(1);
 
             fileReader.ReadBit();
 
-            bufferMock.Verify(x => x.GetValueStartingFromCurrentBit(It.IsAny<byte>()), Times.Once);
+            bufferMock.Verify(x => x.GetValueStartingFromCurrentBit(1), Times.Once);
         }
 
         [TestMethod]
@@ -102,11 +110,8 @@ namespace Encoding.FileOperations.UnitTests
         [TestMethod]
         public void ReadBitsCallsBufferGetValueStartingFromCurrentBitWithProvidedNumberOfBitsOnce()
         {
-            const byte numberOfBits = 5;
             fileReader = new FileReader(filePath, bufferMock.Object);
-            bufferMock
-                .Setup(x => x.GetValueStartingFromCurrentBit(numberOfBits))
-                .Returns(1);
+            const byte numberOfBits = 5;
 
             fileReader.ReadBits(numberOfBits);
 

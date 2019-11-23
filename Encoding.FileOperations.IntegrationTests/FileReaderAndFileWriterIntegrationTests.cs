@@ -4,9 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.CompilerServices;
 using Encoding.FileOperations.IntegrationTests.Properties;
-using KellermanSoftware.CompareNetObjects;
+using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Encoding.FileOperations.IntegrationTests
@@ -17,7 +16,7 @@ namespace Encoding.FileOperations.IntegrationTests
     {
         private string filePathOriginalImage;
         private string filePathFinalImage;
-        private byte[] bytesInOriginalImage;
+        private long originalFileSizeInBytes;
 
         [TestInitialize]
         public void Setup()
@@ -26,7 +25,8 @@ namespace Encoding.FileOperations.IntegrationTests
             filePathFinalImage = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImageDestination}";
 
             CreateOriginalImageFile();
-            bytesInOriginalImage = File.ReadAllBytes(filePathOriginalImage);
+
+            originalFileSizeInBytes = new FileInfo(filePathOriginalImage).Length;
         }
 
         private void CreateOriginalImageFile()
@@ -45,32 +45,26 @@ namespace Encoding.FileOperations.IntegrationTests
             {
                 using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
                 {
-                    var bitsRead = 0;
                     stopWatch.Start();
 
-                    while (bitsRead < bytesInOriginalImage.Length * 8)
+                    while (!fileReader.ReachedEndOfFile)
                     {
                         var random = new Random();
-                        var numberOfBits = bitsRead + 8 > bytesInOriginalImage.Length * 8
-                            ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
+                        var numberOfBits = fileReader.BitsLeft < 8
+                            ? (byte)fileReader.BitsLeft
                             : (byte)random.Next(1, 8);
 
                         var readStuff = fileReader.ReadBits(numberOfBits);
-
                         fileWriter.WriteValueOnBits(readStuff, numberOfBits);
-
-                        bitsRead += numberOfBits;
                     }
 
                     stopWatch.Stop();
                 }
             }
 
-            Console.WriteLine($"File copying in '{GetCurrentMethod()}' took {stopWatch.ElapsedMilliseconds} ms for {bytesInOriginalImage.Length} bytes");
+            Console.WriteLine($"File copying in '{TestMethods.GetCurrentMethodName()}' took {stopWatch.ElapsedMilliseconds} ms for {originalFileSizeInBytes} bytes");
 
-            var bytesInFinalImage = File.ReadAllBytes(filePathFinalImage);
-            var comparer = new CompareLogic();
-            Assert.IsTrue(comparer.Compare(bytesInOriginalImage, bytesInFinalImage).AreEqual);
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathOriginalImage, filePathFinalImage));
         }
 
         [TestMethod]
@@ -81,54 +75,33 @@ namespace Encoding.FileOperations.IntegrationTests
             {
                 using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
                 {
-                    var bitsRead = 0;
                     stopWatch.Start();
 
-                    while (bitsRead < bytesInOriginalImage.Length * 8)
+                    while (!fileReader.ReachedEndOfFile)
                     {
                         var random = new Random();
-                        var numberOfBits = bitsRead + 32 > bytesInOriginalImage.Length * 8
-                            ? (byte)(bytesInOriginalImage.Length * 8 - bitsRead)
-                            : (byte) random.Next(8, 32);
+                        var numberOfBits = fileReader.BitsLeft < 32
+                            ? (byte)fileReader.BitsLeft
+                            : (byte)random.Next(8, 32);
 
                         var readStuff = fileReader.ReadBits(numberOfBits);
 
                         fileWriter.WriteValueOnBits(readStuff, numberOfBits);
-
-                        bitsRead += numberOfBits;
                     }
 
                     stopWatch.Stop();
                 }
             }
-            Console.WriteLine($"File copying in '{GetCurrentMethod()}' took {stopWatch.ElapsedMilliseconds} ms for {bytesInOriginalImage.Length} bytes");
+            Console.WriteLine($"File copying in '{TestMethods.GetCurrentMethodName()}' took {stopWatch.ElapsedMilliseconds} ms for {originalFileSizeInBytes} bytes");
 
-            var bytesInFinalImage = File.ReadAllBytes(filePathFinalImage);
-            var comparer = new CompareLogic();
-            Assert.IsTrue(comparer.Compare(bytesInOriginalImage, bytesInFinalImage).AreEqual);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private string GetCurrentMethod()
-        {
-            var st = new StackTrace();
-            var sf = st.GetFrame(1);
-
-            return sf.GetMethod().Name;
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathOriginalImage, filePathFinalImage));
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            if (File.Exists(filePathOriginalImage))
-            {
-                File.Delete(filePathOriginalImage);
-            }
-
-            if (File.Exists(filePathFinalImage))
-            {
-                File.Delete(filePathFinalImage);
-            }
+            TestMethods.DeleteFileIfExists(filePathOriginalImage);
+            TestMethods.DeleteFileIfExists(filePathFinalImage);
         }
     }
 }

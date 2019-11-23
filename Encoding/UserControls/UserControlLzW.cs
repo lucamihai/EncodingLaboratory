@@ -104,7 +104,7 @@ namespace Encoding.UserControls
 
             if (!fileInfoEncodedFile.Exists)
             {
-                throw new InvalidOperationException($"Huffman decoding error: file '{fileInfoEncodedFile.FullName}' does not exist");
+                throw new InvalidOperationException($"LzW decoding error: file '{fileInfoEncodedFile.FullName}' does not exist");
             }
 
             var encodedFileExtension = GetExtensionOfEncodedFile(fileInfoEncodedFile);
@@ -143,10 +143,10 @@ namespace Encoding.UserControls
         private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)
         {
             var splitName = fileInfoEncodedFile.Name.Split('.');
-            var nameWithoutHuffmanEncodedFileExtension = splitName[splitName.Length - 3];
+            var nameWithoutLzWEncodedFileExtension = splitName[splitName.Length - 3];
 
-            return nameWithoutHuffmanEncodedFileExtension
-                .Substring(nameWithoutHuffmanEncodedFileExtension.LastIndexOf('.') + 1);
+            return nameWithoutLzWEncodedFileExtension
+                .Substring(nameWithoutLzWEncodedFileExtension.LastIndexOf('.') + 1);
         }
     }
 }

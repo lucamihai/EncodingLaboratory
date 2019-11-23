@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations.Interfaces;
+using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -28,7 +29,8 @@ namespace Encoding.FileOperations.UnitTests
         public void Cleanup()
         {
             fileWriter?.Dispose();
-            File.Delete(filePath);
+
+            TestMethods.DeleteFileIfExists(filePath);
         }
 
         [TestMethod]
@@ -74,8 +76,6 @@ namespace Encoding.FileOperations.UnitTests
         public void WriteBitCallsBufferAddValueStartingFromCurrentBitWithValue1And1BitIfBitValueIsTrue()
         {
             fileWriter = new FileWriter(filePath, bufferMock.Object);
-            bufferMock
-                .Setup(x => x.AddValueStartingFromCurrentBit(It.IsAny<byte>(), 1));
 
             fileWriter.WriteBit(true);
 
@@ -86,8 +86,6 @@ namespace Encoding.FileOperations.UnitTests
         public void WriteBitCallsBufferAddValueStartingFromCurrentBitWithValue0And1BitIfBitValueIsFalse()
         {
             fileWriter = new FileWriter(filePath, bufferMock.Object);
-            bufferMock
-                .Setup(x => x.AddValueStartingFromCurrentBit(It.IsAny<byte>(), 1));
 
             fileWriter.WriteBit(false);
 
@@ -107,8 +105,6 @@ namespace Encoding.FileOperations.UnitTests
         public void WriteValueOnBitsCallsBufferAddValueStartingFromCurrentBitWithValueAndBitNumberFromParameters()
         {
             fileWriter = new FileWriter(filePath, bufferMock.Object);
-            bufferMock
-                .Setup(x => x.AddValueStartingFromCurrentBit(Constants.Value1, Constants.Value1BitsRequired));
 
             fileWriter.WriteValueOnBits(Constants.Value1, Constants.Value1BitsRequired);
 

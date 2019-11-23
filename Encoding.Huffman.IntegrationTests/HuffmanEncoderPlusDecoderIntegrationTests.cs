@@ -6,6 +6,7 @@ using System.IO;
 using Encoding.FileOperations;
 using Encoding.Huffman.IntegrationTests.Properties;
 using Encoding.Huffman.Utilities;
+using Encoding.Tests.Common;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
@@ -175,10 +176,7 @@ namespace Encoding.Huffman.IntegrationTests
         [TestCleanup]
         public void Cleanup()
         {
-            if (File.Exists(filePathEncodedFile))
-            {
-                File.Delete(filePathEncodedFile);
-            }
+            TestMethods.DeleteFileIfExists(filePathEncodedFile);
         }
     }
 }

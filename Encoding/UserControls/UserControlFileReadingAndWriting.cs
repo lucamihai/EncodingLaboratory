@@ -67,7 +67,7 @@ namespace Encoding.UserControls
             var stopWatch = new Stopwatch();
             var stringBuilder = new StringBuilder();
 
-            using (var fileReader = new FileReader(textBoxSourceFilePath.Text, new FileOperations.Buffer()))
+            using (var fileReader = new FileReader(textBoxSourceFilePath.Text, new Buffer()))
             {
                 stopWatch.Start();
 

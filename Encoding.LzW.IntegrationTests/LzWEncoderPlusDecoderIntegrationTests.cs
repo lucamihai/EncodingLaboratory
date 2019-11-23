@@ -2,11 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using Encoding.FileOperations;
 using Encoding.LzW.IntegrationTests.Properties;
 using Encoding.LzW.Options;
-using KellermanSoftware.CompareNetObjects;
+using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
 
@@ -54,7 +53,7 @@ namespace Encoding.LzW.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
         [TestMethod]
@@ -76,7 +75,7 @@ namespace Encoding.LzW.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
         [TestMethod]
@@ -98,7 +97,7 @@ namespace Encoding.LzW.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
         [TestMethod]
@@ -120,15 +119,15 @@ namespace Encoding.LzW.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            DeleteFileIfExists(filePathSource);
-            DeleteFileIfExists(filePathEncodedFile);
-            DeleteFileIfExists(filePathDecodedFile);
+            TestMethods.DeleteFileIfExists(filePathSource);
+            TestMethods.DeleteFileIfExists(filePathEncodedFile);
+            TestMethods.DeleteFileIfExists(filePathDecodedFile);
         }
 
         private void CreateInitialFile()
@@ -136,23 +135,6 @@ namespace Encoding.LzW.IntegrationTests
             var img = new Bitmap(Resources.capture);
             img.Save(filePathSource, ImageFormat.Png);
             img.Dispose();
-        }
-
-        private bool FilesHaveTheSameContent(string filePath1, string filePath2)
-        {
-            var bytesFromFile1 = File.ReadAllBytes(filePath1);
-            var bytesFromFile2 = File.ReadAllBytes(filePath2);
-            
-            var comparer = new CompareLogic();
-            return comparer.Compare(bytesFromFile1, bytesFromFile2).AreEqual;
-        }
-
-        private void DeleteFileIfExists(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
         }
     }
 }

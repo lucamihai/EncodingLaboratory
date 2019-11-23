@@ -85,6 +85,10 @@
       <Project>{1BC37739-3F5A-416B-BAD8-AC6B83280673}</Project>
       <Name>Encoding.Huffman</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Encoding.Tests.Common\Encoding.Tests.Common.csproj">
+      <Project>{7F9671D8-9284-4501-A77D-46992DF62FE4}</Project>
+      <Name>Encoding.Tests.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

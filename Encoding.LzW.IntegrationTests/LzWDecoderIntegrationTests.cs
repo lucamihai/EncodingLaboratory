@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations;
+using Encoding.Tests.Common;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
@@ -46,15 +47,8 @@ namespace Encoding.LzW.IntegrationTests
         [TestCleanup]
         public void Cleanup()
         {
-            if (File.Exists(filePathFile))
-            {
-                File.Delete(filePathFile);
-            }
-
-            if (File.Exists(filePathEncodedFile))
-            {
-                File.Delete(filePathEncodedFile);
-            }
+            TestMethods.DeleteFileIfExists(filePathFile);
+            TestMethods.DeleteFileIfExists(filePathEncodedFile);
         }
     }
 }
