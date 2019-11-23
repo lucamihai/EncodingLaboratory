@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Encoding.FileOperations;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
 
@@ -37,9 +38,9 @@ namespace Encoding.LzW.IntegrationTests
                 }
             }
 
-            var bytes = File.ReadAllBytes(filePathEncodedFile);
-            var textFromDecodedFile = File.ReadAllText(filePathFile);
-            Assert.AreEqual(Constants.FileContents, textFromDecodedFile);
+            var bytes = File.ReadAllBytes(filePathFile);
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(Constants.FileContentsBytes.ToArray(), bytes).AreEqual);
         }
 
         [TestCleanup]

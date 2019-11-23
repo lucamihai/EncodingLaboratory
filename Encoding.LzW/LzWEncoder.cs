@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Encoding.FileOperations.Interfaces;
 using Encoding.LzW.Entities;
 using Encoding.LzW.Options;
@@ -11,8 +10,6 @@ namespace Encoding.LzW
     {
         public LzWDictionary LzWDictionary{ get; private set; }
         public List<int> IndexesFromLastRun { get; }
-
-        private int dictionaryLastIndex;
 
         public LzWEncoder()
         {
@@ -58,7 +55,7 @@ namespace Encoding.LzW
                 {
                     if (LzWDictionary.ContainsString(currentString))
                     {
-                        lastIndex = LzWDictionary.GetIndex(currentString);
+                        lastIndex = LzWDictionary.GetIndexByString(currentString);
 
                         if (shouldStop)
                         {

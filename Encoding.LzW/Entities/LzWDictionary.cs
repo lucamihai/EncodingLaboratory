@@ -51,9 +51,19 @@ namespace Encoding.LzW.Entities
             return dictionary.ContainsKey(s);
         }
 
-        public int GetIndex(string s)
+        public int GetIndexByString(string s)
         {
             return dictionary[s];
+        }
+
+        public bool ContainsIndex(int index)
+        {
+            return dictionary.ContainsValue(index);
+        }
+
+        public string GetStringByIndex(int index)
+        {
+            return dictionary.First(x => x.Value == index).Key;
         }
 
         private void EmptyDictionaryExceptDefaultPairs()

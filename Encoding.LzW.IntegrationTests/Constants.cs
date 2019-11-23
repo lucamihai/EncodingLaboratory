@@ -7,7 +7,22 @@ namespace Encoding.LzW.IntegrationTests
     internal static class Constants
     {
         public const string FileName = "test.txt";
-        public const string FileContents = "ABCDABCDABDCABCDABDDCD";
+        public const string FileContents = "ABCD" +
+                                           "ABCD" +
+                                           "ABDC" +
+                                           "ABCD" +
+                                           "ABDD" +
+                                           "CD";
+
+        public static List<byte> FileContentsBytes => new List<byte>
+        {
+            65, 66, 67, 68,
+            65, 66, 67, 68, 
+            65, 66, 68, 67,
+            65, 66, 67, 68,
+            65, 66, 68, 68,
+            67, 68
+        };
 
         public static List<byte> EncodedFileBytes => new List<byte>
         {
