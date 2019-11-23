@@ -6,5 +6,6 @@
         uint ReadBits(byte numberOfBits);
 
         bool ReachedEndOfFile { get; }
+        long BitsLeft { get; }
     }
 }

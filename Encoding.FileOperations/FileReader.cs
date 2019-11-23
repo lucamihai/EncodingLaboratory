@@ -14,6 +14,7 @@ namespace Encoding.FileOperations
         private readonly FileStream fileStream;
 
         public bool ReachedEndOfFile { get; private set; }
+        public long BitsLeft { get; private set; }
 
         public string FilePath { get; }
         public IBuffer Buffer { get; }
@@ -27,6 +28,7 @@ namespace Encoding.FileOperations
             Buffer = buffer;
 
             fileStream = new FileStream(filePath, FileMode.Open);
+            BitsLeft = fileStream.Length * 8;
 
             Buffer.OnCurrentBitReset += OnCurrentBitReset;
             Buffer.Value = (byte)fileStream.ReadByte();
@@ -51,6 +53,7 @@ namespace Encoding.FileOperations
 
         public bool ReadBit()
         {
+            BitsLeft -= 1;
             return Buffer.GetValueStartingFromCurrentBit(1) == 1;
         }
 
@@ -62,6 +65,8 @@ namespace Encoding.FileOperations
             {
                 throw new ArgumentException();
             }
+
+            BitsLeft -= numberOfBits;
 
             if (numberOfBits <= 8)
             {

@@ -16,22 +16,32 @@ namespace Encoding.LzW
 
             var firstIndex = (int)fileReader.ReadBits(numberOfBitsForIndex);
             var firstString = lzWDictionary.GetStringByIndex(firstIndex);
-            var lastString = firstString;
-            
-            WriteString(firstString, fileWriter);
+            WriteStringToFile(firstString, fileWriter);
 
-            while (!fileReader.ReachedEndOfFile)
+            var lastString = firstString;
+
+            while (!fileReader.ReachedEndOfFile && fileReader.BitsLeft >= numberOfBitsForIndex)
             {
                 var currentIndex = (int)fileReader.ReadBits(numberOfBitsForIndex);
+                string currentString;
 
                 if (lzWDictionary.ContainsIndex(currentIndex))
                 {
-                    var currentString = lzWDictionary.GetStringByIndex(currentIndex);
-                    WriteString(currentString, fileWriter);
+                    currentString = lzWDictionary.GetStringByIndex(currentIndex);
 
-                    lzWDictionary.Add(lastString + currentString[0]);
-                    lastString = currentString;
+                    var dictionaryNewString = lastString + currentString[0];
+                    lzWDictionary.Add(dictionaryNewString);
                 }
+                else
+                {
+                    var dictionaryNewString = lastString + lastString[0];
+                    lzWDictionary.Add(dictionaryNewString);
+
+                    currentString = lzWDictionary.GetStringByIndex(currentIndex);
+                }
+
+                WriteStringToFile(currentString, fileWriter);
+                lastString = currentString;
             }
         }
 
@@ -46,11 +56,10 @@ namespace Encoding.LzW
             lzWDictionary = new LzWDictionary((int)Math.Pow(2, numberOfBitsForIndex) - 1, onFullDictionaryOption);
         }
 
-        private void WriteString(string s, IFileWriter fileWriter)
+        private void WriteStringToFile(string s, IFileWriter fileWriter)
         {
             foreach (var character in s)
             {
-                var b = (byte) character;
                 fileWriter.WriteValueOnBits((byte)character, 8);
             }
         }

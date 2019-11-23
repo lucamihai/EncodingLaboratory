@@ -9,7 +9,7 @@ namespace Encoding.LzW.Entities
         private Dictionary<string, int> dictionary;
         private int dictionaryLastIndex;
 
-        public int Limit { get;}
+        public int Limit { get; }
         public OnFullDictionaryOption OnFullDictionaryOption { get; }
 
         public LzWDictionary(int limit, OnFullDictionaryOption onFullDictionaryOption)

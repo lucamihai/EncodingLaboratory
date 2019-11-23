@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Encoding.FileOperations;
@@ -10,12 +11,14 @@ namespace Encoding.UserControls
     public partial class UserControlLzW : UserControl
     {
         private readonly LzWEncoder lzWEncoder;
+        private readonly LzWDecoder lzWDecoder;
 
         public UserControlLzW()
         {
             InitializeComponent();
 
             lzWEncoder = new LzWEncoder();
+            lzWDecoder = new LzWDecoder();
 
             UpdateButtonsEnabledProperty();
         }
@@ -97,7 +100,23 @@ namespace Encoding.UserControls
 
         private void buttonDecode_Click(object sender, EventArgs e)
         {
+            var fileInfoEncodedFile = new FileInfo(textBoxFilePathEncodedFile.Text);
 
+            if (!fileInfoEncodedFile.Exists)
+            {
+                throw new InvalidOperationException($"Huffman decoding error: file '{fileInfoEncodedFile.FullName}' does not exist");
+            }
+
+            var encodedFileExtension = GetExtensionOfEncodedFile(fileInfoEncodedFile);
+            var decodedFileDestinationPath = $"{fileInfoEncodedFile.FullName}.{encodedFileExtension}";
+
+            using (var fileReader = new FileReader(textBoxFilePathEncodedFile.Text, new FileOperations.Buffer()))
+            {
+                using (var fileWriter = new FileWriter(decodedFileDestinationPath, new FileOperations.Buffer()))
+                {
+                    lzWDecoder.DecodeFile(fileReader, fileWriter);
+                }
+            }
         }
 
         private void UpdateButtonsEnabledProperty()
@@ -119,6 +138,15 @@ namespace Encoding.UserControls
             }
 
             textBoxIndexes.Text = stringBuilder.ToString();
+        }
+
+        private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)
+        {
+            var splitName = fileInfoEncodedFile.Name.Split('.');
+            var nameWithoutHuffmanEncodedFileExtension = splitName[splitName.Length - 3];
+
+            return nameWithoutHuffmanEncodedFileExtension
+                .Substring(nameWithoutHuffmanEncodedFileExtension.LastIndexOf('.') + 1);
         }
     }
 }
