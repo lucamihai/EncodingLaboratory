@@ -9,11 +9,11 @@ namespace Encoding.LzW
     public class LzWEncoder
     {
         public LzWDictionary LzWDictionary{ get; private set; }
-        public List<int> IndexesFromLastRun { get; }
+        public List<uint> IndexesFromLastRun { get; }
 
         public LzWEncoder()
         {
-            IndexesFromLastRun = new List<int>();
+            IndexesFromLastRun = new List<uint>();
         }
 
         public void EncodeFile(IFileReader fileReader, IFileWriter fileWriter, OnFullDictionaryOption onFullDictionaryOption, int numberOfBitsIndex)
@@ -44,7 +44,7 @@ namespace Encoding.LzW
             while (true)
             {
                 var currentString = lastCharacter.ToString();
-                var lastIndex = 0;
+                uint lastIndex = 0;
 
                 if (shouldStop)
                 {
@@ -59,7 +59,7 @@ namespace Encoding.LzW
 
                         if (shouldStop)
                         {
-                            fileWriter.WriteValueOnBits((uint)lastIndex, (byte)numberOfBitsIndex);
+                            fileWriter.WriteValueOnBits(lastIndex, (byte)numberOfBitsIndex);
                             IndexesFromLastRun.Add(lastIndex);
 
                             break;
@@ -69,7 +69,7 @@ namespace Encoding.LzW
                     {
                         LzWDictionary.Add(currentString);
 
-                        fileWriter.WriteValueOnBits((uint)lastIndex, (byte)numberOfBitsIndex);
+                        fileWriter.WriteValueOnBits(lastIndex, (byte)numberOfBitsIndex);
                         IndexesFromLastRun.Add(lastIndex);
 
                         break;

@@ -66,6 +66,7 @@
     <Compile Include="BufferUnitTests.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Entities.cs" />
+    <Compile Include="ExtensionsUnitTests.cs" />
     <Compile Include="FileReaderUnitTests.cs" />
     <Compile Include="FileWriterUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

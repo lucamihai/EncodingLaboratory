@@ -1,4 +1,5 @@
 ﻿using System;
+using Encoding.FileOperations;
 using Encoding.FileOperations.Interfaces;
 using Encoding.LzW.Entities;
 using Encoding.LzW.Options;
@@ -14,15 +15,15 @@ namespace Encoding.LzW
         {
             InterpretHeader(fileReader);
 
-            var firstIndex = (int)fileReader.ReadBits(numberOfBitsForIndex);
+            var firstIndex = fileReader.ReadBits(numberOfBitsForIndex);
             var firstString = lzWDictionary.GetStringByIndex(firstIndex);
-            WriteStringToFile(firstString, fileWriter);
+            firstString.WriteToFile(fileWriter);
 
             var lastString = firstString;
 
             while (!fileReader.ReachedEndOfFile && fileReader.BitsLeft >= numberOfBitsForIndex)
             {
-                var currentIndex = (int)fileReader.ReadBits(numberOfBitsForIndex);
+                var currentIndex = fileReader.ReadBits(numberOfBitsForIndex);
                 string currentString;
 
                 if (lzWDictionary.ContainsIndex(currentIndex))
@@ -40,7 +41,7 @@ namespace Encoding.LzW
                     currentString = lzWDictionary.GetStringByIndex(currentIndex);
                 }
 
-                WriteStringToFile(currentString, fileWriter);
+                currentString.WriteToFile(fileWriter);
                 lastString = currentString;
             }
         }
@@ -54,14 +55,6 @@ namespace Encoding.LzW
                 : OnFullDictionaryOption.Empty;
 
             lzWDictionary = new LzWDictionary((int)Math.Pow(2, numberOfBitsForIndex) - 1, onFullDictionaryOption);
-        }
-
-        private void WriteStringToFile(string s, IFileWriter fileWriter)
-        {
-            foreach (var character in s)
-            {
-                fileWriter.WriteValueOnBits((byte)character, 8);
-            }
         }
     }
 }

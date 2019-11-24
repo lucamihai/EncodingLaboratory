@@ -6,8 +6,8 @@ namespace Encoding.LzW.Entities
 {
     public class LzWDictionary
     {
-        private Dictionary<string, int> dictionary;
-        private int dictionaryLastIndex;
+        private Dictionary<string, uint> dictionary;
+        private uint dictionaryLastIndex;
 
         public int Limit { get; }
         public OnFullDictionaryOption OnFullDictionaryOption { get; }
@@ -17,8 +17,8 @@ namespace Encoding.LzW.Entities
             Limit = limit;
             OnFullDictionaryOption = onFullDictionaryOption;
 
-            dictionary = new Dictionary<string, int>();
-            for (int key = 0; key < 256; key++)
+            dictionary = new Dictionary<string, uint>();
+            for (uint key = 0; key < 256; key++)
             {
                 dictionary.Add(((char)key).ToString(), key);
             }
@@ -51,17 +51,17 @@ namespace Encoding.LzW.Entities
             return dictionary.ContainsKey(s);
         }
 
-        public int GetIndexByString(string s)
+        public uint GetIndexByString(string s)
         {
             return dictionary[s];
         }
 
-        public bool ContainsIndex(int index)
+        public bool ContainsIndex(uint index)
         {
             return dictionary.ContainsValue(index);
         }
 
-        public string GetStringByIndex(int index)
+        public string GetStringByIndex(uint index)
         {
             return dictionary.First(x => x.Value == index).Key;
         }
