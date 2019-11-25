@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using Encoding.LzW.Options;
 
 namespace Encoding.UserControls
 {
+    [ExcludeFromCodeCoverage]
     public partial class UserControlLzW : UserControl
     {
         private readonly LzWEncoder lzWEncoder;
