@@ -66,7 +66,7 @@ namespace Encoding.Lz77.UnitTests
             return new Lz77Token
             {
                 Byte = 22,
-                Length = 3,
+                Length = 2,
                 Position = 2
             };
         }

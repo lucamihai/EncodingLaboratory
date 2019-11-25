@@ -31,20 +31,25 @@ namespace Encoding.Lz77.Utilities
                 };
             }
 
-            var bytesFound = 1;
+            var bytesFound = 0;
             var bytesToLookFor = new List<byte> {firstByteToLookFor};
             var indexOfFirstByteFoundInSearchBuffer = lz77Buffer.SearchBuffer.IndexOf(firstByteToLookFor);
-            byte byteThatWasNotContained;
+            byte byteThatWasNotContained = 0;
 
-            while (Lz77BufferContainsGivenSequence(lz77Buffer, bytesToLookFor, indexOfFirstByteFoundInSearchBuffer, out byteThatWasNotContained))
+            var indexes = GetIndexesOfGivenByte(lz77Buffer, firstByteToLookFor);
+
+            foreach (var index in indexes)
             {
-                if (bytesFound >= lz77Buffer.LookAheadBuffer.Count)
+                while (Lz77BufferContainsGivenSequence(lz77Buffer, bytesToLookFor, index, out byteThatWasNotContained))
                 {
-                    break;
-                }
+                    if (bytesFound >= lz77Buffer.LookAheadBuffer.Count)
+                    {
+                        break;
+                    }
 
-                bytesToLookFor.Add(lz77Buffer.LookAheadBuffer[bytesFound]);
-                bytesFound++;
+                    bytesFound++;
+                    bytesToLookFor.Add(lz77Buffer.LookAheadBuffer[bytesFound]);
+                }
             }
 
             return new Lz77Token
@@ -55,6 +60,26 @@ namespace Encoding.Lz77.Utilities
             };
         }
 
+        private List<int> GetIndexesOfGivenByte(Lz77Buffer lz77Buffer, byte b)
+        {
+            if (!lz77Buffer.SearchBuffer.Contains(b))
+            {
+                return new List<int>();
+            }
+
+            var indexes = new List<int>();
+
+            for (int index = 0; index < lz77Buffer.SearchBuffer.Count; index++)
+            {
+                if (lz77Buffer.SearchBuffer[index] == b)
+                {
+                    indexes.Add(index);
+                }
+            }
+
+            return indexes;
+        }
+
         private bool Lz77BufferContainsGivenSequence(Lz77Buffer lz77Buffer, List<byte> sequence, int indexOfFirstByteFoundInSearchBuffer, out byte byteThatWasNotContained)
         {
             var lookAheadBufferIndex = 0;
@@ -62,24 +87,29 @@ namespace Encoding.Lz77.Utilities
             for (int index = 0; index < sequence.Count; index++)
             {
                 var searchBufferIndex = indexOfFirstByteFoundInSearchBuffer - index;
+                var contains = true;
 
                 if (searchBufferIndex >= 0)
                 {
                     if (lz77Buffer.SearchBuffer[searchBufferIndex] != sequence[index])
                     {
-                        byteThatWasNotContained = sequence[index];
-                        return false;
+                        contains = false;
                     }
                 }
                 else
                 {
                     if (lz77Buffer.LookAheadBuffer[lookAheadBufferIndex] != sequence[index])
                     {
-                        byteThatWasNotContained = sequence[index];
-                        return false;
+                        contains = false;
                     }
 
                     lookAheadBufferIndex++;
+                }
+
+                if (!contains)
+                {
+                    byteThatWasNotContained = sequence[index];
+                    return false;
                 }
             }
 

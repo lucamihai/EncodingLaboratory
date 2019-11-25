@@ -71,6 +71,7 @@
     <Compile Include="Lz77EncoderUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilitiesUnitTests\Lz77TokenExtractorUnitTests.cs" />
+    <Compile Include="UtilitiesUnitTests\Lz77TokenWriterUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

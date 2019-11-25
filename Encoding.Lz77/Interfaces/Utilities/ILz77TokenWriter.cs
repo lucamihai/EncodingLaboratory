@@ -5,6 +5,6 @@ namespace Encoding.Lz77.Interfaces.Utilities
 {
     public interface ILz77TokenWriter
     {
-        void WriteToken(Lz77Token lz77Token, IFileWriter fileWriter);
+        void WriteToken(Lz77Token lz77Token, IFileWriter fileWriter, int bitsForOffset, int bitsForLength);
     }
 }

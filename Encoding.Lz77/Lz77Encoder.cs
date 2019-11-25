@@ -20,7 +20,7 @@ namespace Encoding.Lz77
             this.lz77TokenWriter = lz77TokenWriter;
         }
 
-        public void EncodeFile(IFileReader fileReaderForFileToEncode, IFileWriter fileWriterForDestinationFile)
+        public void EncodeFile(IFileReader fileReaderForFileToEncode, IFileWriter fileWriterForDestinationFile, int bitsForOffset, int bitsForLength)
         {
             if (fileReaderForFileToEncode == null)
             {
@@ -32,13 +32,23 @@ namespace Encoding.Lz77
                 throw new ArgumentNullException(nameof(fileWriterForDestinationFile));
             }
 
+            if (bitsForOffset < 3 || bitsForOffset > 15)
+            {
+                throw new ArgumentException($"{nameof(bitsForOffset)} should be between 3 and 15");
+            }
+
+            if (bitsForLength < 2 || bitsForLength > 7)
+            {
+                throw new ArgumentException($"{nameof(bitsForLength)} should be between 3 and 15");
+            }
+
             InitializeLz77BufferContents(fileReaderForFileToEncode);
 
             while (lz77Buffer.LookAheadBuffer.Count > 0)
             {
                 var token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(lz77Buffer);
                 lz77BufferManager.ChangeLz77BufferContentsBasedOnToken(lz77Buffer, token, fileReaderForFileToEncode);
-                lz77TokenWriter.WriteToken(token, fileWriterForDestinationFile);
+                lz77TokenWriter.WriteToken(token, fileWriterForDestinationFile, bitsForOffset, bitsForLength);
             }
 
             fileWriterForDestinationFile.Flush();

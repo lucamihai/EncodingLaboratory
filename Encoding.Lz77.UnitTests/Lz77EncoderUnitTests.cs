@@ -76,20 +76,48 @@ namespace Encoding.Lz77.UnitTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EncodeFileThrowsArgumentNullExceptionForNullFileReader()
         {
-            lz77Encoder.EncodeFile(null, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(null, fileWriterMock.Object, 4 ,4);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EncodeFileThrowsArgumentNullExceptionForNullFileWriter()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, null);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, null, 4, 4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EncodeFileThrowsArgumentExceptionForBitsForOffsetSmallerThan3()
+        {
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 2, 4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EncodeFileThrowsArgumentExceptionForBitsForOffsetBiggerThan15()
+        {
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 16, 4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EncodeFileThrowsArgumentExceptionForBitsForLengthSmallerThan2()
+        {
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EncodeFileThrowsArgumentExceptionForBitsForLengthBiggerThan7()
+        {
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 8);
         }
 
         [TestMethod]
         public void EncodeFileCallsFileReaderReadBitsExpectedNumberOfTimes()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
             fileReaderMock.Verify(x => x.ReadBits(8), Times.Exactly(lz77Buffer.LookAheadBuffer.Capacity));
         }
@@ -97,7 +125,7 @@ namespace Encoding.Lz77.UnitTests
         [TestMethod]
         public void EncodeFileCallsLz77TokenExtractorGetLz77TokenFromLz77BufferOnceForEachIteration()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
             lz77TokenExtractorMock.Verify(x => x.GetLz77TokenFromLz77Buffer(lz77Buffer), Times.Exactly(numberOfIterations));
         }
@@ -105,7 +133,7 @@ namespace Encoding.Lz77.UnitTests
         [TestMethod]
         public void EncodeFileCallsLz77BufferManagerChangeLz77BufferContentsBasedOnTokenOnceForEachIteration()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
             lz77BufferManagerMock
                 .Verify(x => x.ChangeLz77BufferContentsBasedOnToken(lz77Buffer, lz77TokenReturnedByLz77TokenExtractor, fileReaderMock.Object)
@@ -115,15 +143,15 @@ namespace Encoding.Lz77.UnitTests
         [TestMethod]
         public void EncodeFileCallsLz77TokenWriterWriteTokenOnceForEachIteration()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
-            lz77TokenWriterMock.Verify(x => x.WriteToken(lz77TokenReturnedByLz77TokenExtractor, fileWriterMock.Object), Times.Exactly(numberOfIterations));
+            lz77TokenWriterMock.Verify(x => x.WriteToken(lz77TokenReturnedByLz77TokenExtractor, fileWriterMock.Object, 4, 4), Times.Exactly(numberOfIterations));
         }
 
         [TestMethod]
         public void EncodeFileCallsFileWriterFlushOnce()
         {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object);
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
             fileWriterMock.Verify(x => x.Flush(), Times.Once);
         }
