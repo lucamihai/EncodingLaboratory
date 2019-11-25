@@ -50,6 +50,10 @@ namespace Encoding.Lz77.UnitTests
             length = 2;
 
             lz77Buffer = new Lz77Buffer(offset, length);
+
+            lz77Buffer.LookAheadBuffer.Add(3);
+            lz77Buffer.LookAheadBuffer.Add(3);
+            lz77Buffer.LookAheadBuffer.Add(3);
         }
 
         private void InitializeLz77TokenExtractorMock()
@@ -66,7 +70,7 @@ namespace Encoding.Lz77.UnitTests
             var bytesRemovedFromLookAheadBufferPerIteration = 1;
 
             lz77BufferManagerMock
-                .Setup(x => x.ChangeLz77BufferContentsBasedOnToken(It.IsAny<Lz77Buffer>(), It.IsAny<Lz77Token>(), It.IsAny<IFileReader>()))
+                .Setup(x => x.EmptyLookAheadBufferBasedOnLz77Token(It.IsAny<Lz77Buffer>(), It.IsAny<Lz77Token>()))
                 .Callback(() => lz77Buffer.LookAheadBuffer.RemoveRange(0, bytesRemovedFromLookAheadBufferPerIteration));
 
             numberOfIterations = lz77Buffer.LookAheadBuffer.Capacity / bytesRemovedFromLookAheadBufferPerIteration;
@@ -115,14 +119,6 @@ namespace Encoding.Lz77.UnitTests
         }
 
         [TestMethod]
-        public void EncodeFileCallsFileReaderReadBitsExpectedNumberOfTimes()
-        {
-            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
-
-            fileReaderMock.Verify(x => x.ReadBits(8), Times.Exactly(lz77Buffer.LookAheadBuffer.Capacity));
-        }
-
-        [TestMethod]
         public void EncodeFileCallsLz77TokenExtractorGetLz77TokenFromLz77BufferOnceForEachIteration()
         {
             lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
@@ -131,13 +127,21 @@ namespace Encoding.Lz77.UnitTests
         }
 
         [TestMethod]
-        public void EncodeFileCallsLz77BufferManagerChangeLz77BufferContentsBasedOnTokenOnceForEachIteration()
+        public void EncodeFileCallsLz77BufferManagerEmptyLookAheadBufferBasedOnLz77TokenOnceForEachIteration()
         {
             lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
 
             lz77BufferManagerMock
-                .Verify(x => x.ChangeLz77BufferContentsBasedOnToken(lz77Buffer, lz77TokenReturnedByLz77TokenExtractor, fileReaderMock.Object)
+                .Verify(x => x.EmptyLookAheadBufferBasedOnLz77Token(lz77Buffer, lz77TokenReturnedByLz77TokenExtractor)
                     , Times.Exactly(numberOfIterations));
+        }
+
+        [TestMethod]
+        public void EncodeFileCallsTryToFillLookAheadBufferOnceForEachIterationPlusOne()
+        {
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
+
+            lz77BufferManagerMock.Verify(x => x.TryToFillLookAheadBuffer(lz77Buffer, fileReaderMock.Object), Times.Exactly(numberOfIterations + 1));
         }
 
         [TestMethod]

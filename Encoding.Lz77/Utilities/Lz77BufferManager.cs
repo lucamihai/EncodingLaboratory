@@ -7,7 +7,25 @@ namespace Encoding.Lz77.Utilities
 {
     public class Lz77BufferManager : ILz77BufferManager
     {
-        public void ChangeLz77BufferContentsBasedOnToken(Lz77Buffer lz77Buffer, Lz77Token lz77Token, IFileReader fileReader)
+        public void TryToFillLookAheadBuffer(Lz77Buffer lz77Buffer, IFileReader fileReader)
+        {
+            if (lz77Buffer == null)
+            {
+                throw new ArgumentNullException(nameof(lz77Buffer));
+            }
+
+            if (fileReader == null)
+            {
+                throw new ArgumentNullException(nameof(fileReader));
+            }
+
+            while (lz77Buffer.LookAheadBuffer.Count < lz77Buffer.LookAheadBuffer.Capacity && !fileReader.ReachedEndOfFile)
+            {
+                lz77Buffer.LookAheadBuffer.Add((byte)fileReader.ReadBits(8));
+            }
+        }
+
+        public void EmptyLookAheadBufferBasedOnLz77Token(Lz77Buffer lz77Buffer, Lz77Token lz77Token)
         {
             if (lz77Buffer == null)
             {
@@ -19,12 +37,12 @@ namespace Encoding.Lz77.Utilities
                 throw new ArgumentNullException(nameof(lz77Token));
             }
 
-            if (fileReader == null)
+            var bytesToRemove = lz77Token.Length + 1;
+            while (bytesToRemove > 0 && lz77Buffer.LookAheadBuffer.Count > 0)
             {
-                throw new ArgumentNullException(nameof(fileReader));
+                lz77Buffer.LookAheadBuffer.RemoveAt(0);
+                bytesToRemove--;
             }
-
-            throw new NotImplementedException();
         }
     }
 }

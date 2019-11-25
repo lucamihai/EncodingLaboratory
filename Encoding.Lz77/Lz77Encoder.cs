@@ -20,16 +20,16 @@ namespace Encoding.Lz77
             this.lz77TokenWriter = lz77TokenWriter;
         }
 
-        public void EncodeFile(IFileReader fileReaderForFileToEncode, IFileWriter fileWriterForDestinationFile, int bitsForOffset, int bitsForLength)
+        public void EncodeFile(IFileReader fileReader, IFileWriter fileWriter, int bitsForOffset, int bitsForLength)
         {
-            if (fileReaderForFileToEncode == null)
+            if (fileReader == null)
             {
-                throw new ArgumentNullException(nameof(fileReaderForFileToEncode));
+                throw new ArgumentNullException(nameof(fileReader));
             }
 
-            if (fileWriterForDestinationFile == null)
+            if (fileWriter == null)
             {
-                throw new ArgumentNullException(nameof(fileWriterForDestinationFile));
+                throw new ArgumentNullException(nameof(fileWriter));
             }
 
             if (bitsForOffset < 3 || bitsForOffset > 15)
@@ -42,33 +42,19 @@ namespace Encoding.Lz77
                 throw new ArgumentException($"{nameof(bitsForLength)} should be between 3 and 15");
             }
 
-            InitializeLz77BufferContents(fileReaderForFileToEncode);
+            lz77BufferManager.TryToFillLookAheadBuffer(lz77Buffer, fileReader);
 
             while (lz77Buffer.LookAheadBuffer.Count > 0)
             {
-                var token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(lz77Buffer);
-                lz77BufferManager.ChangeLz77BufferContentsBasedOnToken(lz77Buffer, token, fileReaderForFileToEncode);
-                lz77TokenWriter.WriteToken(token, fileWriterForDestinationFile, bitsForOffset, bitsForLength);
+                var lz77Token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(lz77Buffer);
+
+                lz77BufferManager.EmptyLookAheadBufferBasedOnLz77Token(lz77Buffer, lz77Token);
+                lz77BufferManager.TryToFillLookAheadBuffer(lz77Buffer, fileReader);
+
+                lz77TokenWriter.WriteToken(lz77Token, fileWriter, bitsForOffset, bitsForLength);
             }
 
-            fileWriterForDestinationFile.Flush();
-        }
-
-        private void InitializeLz77BufferContents(IFileReader fileReaderForFileToEncode)
-        {
-            var lookAheadBufferBytesLimit = lz77Buffer.LookAheadBuffer.Capacity;
-            var bytesRead = 0;
-
-            while (bytesRead < lookAheadBufferBytesLimit)
-            {
-                if (fileReaderForFileToEncode.ReachedEndOfFile)
-                {
-                    break;
-                }
-
-                lz77Buffer.LookAheadBuffer.Add((byte)fileReaderForFileToEncode.ReadBits(8));
-                bytesRead++;
-            }
+            fileWriter.Flush();
         }
     }
 }
