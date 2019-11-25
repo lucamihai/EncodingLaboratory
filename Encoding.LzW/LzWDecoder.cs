@@ -13,6 +13,16 @@ namespace Encoding.LzW
 
         public void DecodeFile(IFileReader fileReader, IFileWriter fileWriter)
         {
+            if (fileReader == null)
+            {
+                throw new ArgumentNullException(nameof(fileReader));
+            }
+
+            if (fileWriter == null)
+            {
+                throw new ArgumentNullException(nameof(fileWriter));
+            }
+
             InterpretHeader(fileReader);
 
             var firstIndex = fileReader.ReadBits(numberOfBitsForIndex);

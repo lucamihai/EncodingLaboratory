@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Encoding.LzW.Options;
 
@@ -14,6 +15,11 @@ namespace Encoding.LzW.Entities
 
         public LzWDictionary(int limit, OnFullDictionaryOption onFullDictionaryOption)
         {
+            if (limit < 256)
+            {
+                throw new ArgumentException($"{nameof(limit)} must be at least 256");
+            }
+
             Limit = limit;
             OnFullDictionaryOption = onFullDictionaryOption;
 
