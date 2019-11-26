@@ -70,5 +70,31 @@ namespace Encoding.Lz77.UnitTests
                 Position = 2
             };
         }
+
+        public static Lz77Buffer GetLz77Buffer4()
+        {
+            var lz77Buffer = new Lz77Buffer(4, 4);
+
+            lz77Buffer.LookAheadBuffer.Add(20);
+            lz77Buffer.LookAheadBuffer.Add(21);
+            lz77Buffer.LookAheadBuffer.Add(22);
+            lz77Buffer.SearchBuffer.Add(22);
+            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(20);
+
+            return lz77Buffer;
+        }
+
+        public static Lz77Token ExpectedTokenForLz77Buffer4()
+        {
+            return new Lz77Token
+            {
+                Byte = 22,
+                Length = 3,
+                Position = 5
+            };
+        }
     }
 }

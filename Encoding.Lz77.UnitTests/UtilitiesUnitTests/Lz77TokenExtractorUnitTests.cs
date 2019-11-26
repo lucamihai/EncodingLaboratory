@@ -59,5 +59,14 @@ namespace Encoding.Lz77.UnitTests.UtilitiesUnitTests
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(Constants.ExpectedTokenForLz77Buffer3(), returnedLz77Token).AreEqual);
         }
+
+        [TestMethod]
+        public void GetLz77TokenFromLz77BufferReturnsExpectedLz77Token4()
+        {
+            var returnedLz77Token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(Constants.GetLz77Buffer4());
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(Constants.ExpectedTokenForLz77Buffer4(), returnedLz77Token).AreEqual);
+        }
     }
 }

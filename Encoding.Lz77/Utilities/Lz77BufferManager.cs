@@ -7,21 +7,31 @@ namespace Encoding.Lz77.Utilities
 {
     public class Lz77BufferManager : ILz77BufferManager
     {
-        public void TryToFillLookAheadBuffer(Lz77Buffer lz77Buffer, IFileReader fileReader)
+        public void TryToFillSearchBufferBasedOnLz77Token(Lz77Buffer lz77Buffer, Lz77Token lz77Token)
         {
             if (lz77Buffer == null)
             {
                 throw new ArgumentNullException(nameof(lz77Buffer));
             }
 
-            if (fileReader == null)
+            if (lz77Token == null)
             {
-                throw new ArgumentNullException(nameof(fileReader));
+                throw new ArgumentNullException(nameof(lz77Token));
             }
 
-            while (lz77Buffer.LookAheadBuffer.Count < lz77Buffer.LookAheadBuffer.Capacity && !fileReader.ReachedEndOfFile)
+            for (int index = 0; index < lz77Token.Length + 1; index++)
             {
-                lz77Buffer.LookAheadBuffer.Add((byte)fileReader.ReadBits(8));
+                if (lz77Buffer.SearchBuffer.Count >= lz77Buffer.SearchBuffer.Capacity)
+                {
+                    break;
+                }
+
+                if (index > lz77Buffer.LookAheadBuffer.Count - 1)
+                {
+                    break;
+                }
+
+                lz77Buffer.SearchBuffer.Add(lz77Buffer.LookAheadBuffer[index]);
             }
         }
 
@@ -42,6 +52,24 @@ namespace Encoding.Lz77.Utilities
             {
                 lz77Buffer.LookAheadBuffer.RemoveAt(0);
                 bytesToRemove--;
+            }
+        }
+
+        public void TryToFillLookAheadBuffer(Lz77Buffer lz77Buffer, IFileReader fileReader)
+        {
+            if (lz77Buffer == null)
+            {
+                throw new ArgumentNullException(nameof(lz77Buffer));
+            }
+
+            if (fileReader == null)
+            {
+                throw new ArgumentNullException(nameof(fileReader));
+            }
+
+            while (lz77Buffer.LookAheadBuffer.Count < lz77Buffer.LookAheadBuffer.Capacity && !fileReader.ReachedEndOfFile)
+            {
+                lz77Buffer.LookAheadBuffer.Add((byte)fileReader.ReadBits(8));
             }
         }
     }

@@ -37,6 +37,30 @@ namespace Encoding.Lz77.UnitTests.UtilitiesUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
+        public void TryToFillSearchBufferBasedOnLz77TokenThrowsArgumentNullExceptionForNullLz77Buffer()
+        {
+            lz77BufferManager.TryToFillSearchBufferBasedOnLz77Token(null, lz77Token);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TryToFillSearchBufferBasedOnLz77TokenThrowsArgumentNullExceptionForNullLz77Token()
+        {
+            lz77BufferManager.TryToFillSearchBufferBasedOnLz77Token(lz77Buffer, null);
+        }
+
+        [TestMethod]
+        public void TryToFillSearchBufferBasedOnLz77TokenChangesSearchBufferAsExpected()
+        {
+            var searchBufferCountBeforeCall = lz77Buffer.SearchBuffer.Count;
+
+            lz77BufferManager.TryToFillSearchBufferBasedOnLz77Token(lz77Buffer, lz77Token);
+
+            Assert.IsTrue(lz77Buffer.SearchBuffer.Count == searchBufferCountBeforeCall + lz77Token.Length + 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TryToFillLookAheadBufferThrowsArgumentNullExceptionForNullLz77Buffer()
         {
             lz77BufferManager.TryToFillLookAheadBuffer(null, fileReaderMock.Object);

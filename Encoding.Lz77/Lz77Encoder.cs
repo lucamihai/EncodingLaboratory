@@ -48,6 +48,7 @@ namespace Encoding.Lz77
             {
                 var lz77Token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(lz77Buffer);
 
+                lz77BufferManager.TryToFillSearchBufferBasedOnLz77Token(lz77Buffer, lz77Token);
                 lz77BufferManager.EmptyLookAheadBufferBasedOnLz77Token(lz77Buffer, lz77Token);
                 lz77BufferManager.TryToFillLookAheadBuffer(lz77Buffer, fileReader);
 
