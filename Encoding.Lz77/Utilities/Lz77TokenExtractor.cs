@@ -64,10 +64,6 @@ namespace Encoding.Lz77.Utilities
                 if (bytesFoundInCurrentIteration > bytesFoundFinal)
                 {
                     bytesFoundFinal = bytesFoundInCurrentIteration;
-                }
-
-                if (index > indexFinal)
-                {
                     indexFinal = index;
                 }
             }

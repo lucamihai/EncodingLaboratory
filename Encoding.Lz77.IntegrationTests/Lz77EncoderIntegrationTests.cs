@@ -4,6 +4,7 @@ using System.IO;
 using Encoding.FileOperations;
 using Encoding.Lz77.Utilities;
 using Encoding.Tests.Common;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
 
@@ -39,7 +40,8 @@ namespace Encoding.Lz77.IntegrationTests
                 }
             }
 
-            // TODO: Check tokens
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(Constants.GetTokens1(), lz77Encoder.TokensFromPreviousRun).AreEqual);
         }
 
         [TestCleanup]

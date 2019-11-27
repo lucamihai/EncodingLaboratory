@@ -21,14 +21,14 @@ namespace Encoding.Lz77.Utilities
 
             for (int index = 0; index < lz77Token.Length + 1; index++)
             {
-                if (lz77Buffer.SearchBuffer.Count >= lz77Buffer.SearchBuffer.Capacity)
+                if (index > lz77Buffer.LookAheadBuffer.Count - 1)
                 {
                     break;
                 }
 
-                if (index > lz77Buffer.LookAheadBuffer.Count - 1)
+                if (lz77Buffer.SearchBuffer.Count >= lz77Buffer.SearchBuffer.Capacity)
                 {
-                    break;
+                    lz77Buffer.SearchBuffer.RemoveAt(0);
                 }
 
                 lz77Buffer.SearchBuffer.Add(lz77Buffer.LookAheadBuffer[index]);
