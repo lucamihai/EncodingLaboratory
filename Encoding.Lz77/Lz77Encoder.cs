@@ -53,6 +53,8 @@ namespace Encoding.Lz77
                 Lz77Buffer.SetOffsetAndLimit(bitsForLength, bitsForLength);
             }
 
+            WriteHeader(fileWriter, bitsForOffset, bitsForLength);
+
             TokensFromPreviousRun.Clear();
             lz77BufferManager.TryToFillLookAheadBuffer(Lz77Buffer, fileReader);
 
@@ -70,6 +72,12 @@ namespace Encoding.Lz77
             }
 
             fileWriter.Flush();
+        }
+
+        private void WriteHeader(IFileWriter fileWriter, int bitsForOffset, int bitsForLength)
+        {
+            fileWriter.WriteValueOnBits((uint)bitsForOffset, 4);
+            fileWriter.WriteValueOnBits((uint)bitsForLength, 3);
         }
     }
 }

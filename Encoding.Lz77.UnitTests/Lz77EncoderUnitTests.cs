@@ -118,6 +118,18 @@ namespace Encoding.Lz77.UnitTests
         }
 
         [TestMethod]
+        public void EncodeFileMakesExpectedCallsToFileWriter()
+        {
+            const int bitsForOffset = 8;
+            const int bitsForLength = 6;
+
+            lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, bitsForOffset, bitsForLength);
+
+            fileWriterMock.Verify(x => x.WriteValueOnBits(bitsForOffset, 4));
+            fileWriterMock.Verify(x => x.WriteValueOnBits(bitsForLength, 3));
+        }
+
+        [TestMethod]
         public void EncodeFileCallsLz77TokenExtractorGetLz77TokenFromLz77BufferOnceForEachIteration()
         {
             lz77Encoder.EncodeFile(fileReaderMock.Object, fileWriterMock.Object, 4, 4);
