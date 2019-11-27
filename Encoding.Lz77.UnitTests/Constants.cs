@@ -55,8 +55,9 @@ namespace Encoding.Lz77.UnitTests
             lz77Buffer.LookAheadBuffer.Add(20);
             lz77Buffer.LookAheadBuffer.Add(21);
             lz77Buffer.LookAheadBuffer.Add(22);
-            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(19);
             lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
 
             return lz77Buffer;
         }
@@ -71,6 +72,7 @@ namespace Encoding.Lz77.UnitTests
             };
         }
 
+
         public static Lz77Buffer GetLz77Buffer4()
         {
             var lz77Buffer = new Lz77Buffer(4, 4);
@@ -78,11 +80,13 @@ namespace Encoding.Lz77.UnitTests
             lz77Buffer.LookAheadBuffer.Add(20);
             lz77Buffer.LookAheadBuffer.Add(21);
             lz77Buffer.LookAheadBuffer.Add(22);
+            lz77Buffer.LookAheadBuffer.Add(31);
+            lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
             lz77Buffer.SearchBuffer.Add(22);
-            lz77Buffer.SearchBuffer.Add(21);
-            lz77Buffer.SearchBuffer.Add(20);
-            lz77Buffer.SearchBuffer.Add(21);
-            lz77Buffer.SearchBuffer.Add(20);
+
 
             return lz77Buffer;
         }
@@ -91,9 +95,74 @@ namespace Encoding.Lz77.UnitTests
         {
             return new Lz77Token
             {
-                Byte = 22,
+                Byte = 31,
                 Length = 3,
-                Position = 5
+                Position = 3
+            };
+        }
+
+
+        public static Lz77Buffer GetLz77Buffer5()
+        {
+            var lz77Buffer = new Lz77Buffer(4, 4);
+
+            lz77Buffer.LookAheadBuffer.Add(20);
+            lz77Buffer.LookAheadBuffer.Add(21);
+            lz77Buffer.LookAheadBuffer.Add(22);
+            lz77Buffer.LookAheadBuffer.Add(23);
+            lz77Buffer.LookAheadBuffer.Add(24);
+            lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(22);
+            lz77Buffer.SearchBuffer.Add(23);
+
+            return lz77Buffer;
+        }
+
+        public static Lz77Token ExpectedTokenForLz77Buffer5()
+        {
+            return new Lz77Token
+            {
+                Byte = 24,
+                Length = 4,
+                Position = 1
+            };
+        }
+
+
+        public static Lz77Buffer GetLz77Buffer6()
+        {
+            var lz77Buffer = new Lz77Buffer(4, 4);
+
+            lz77Buffer.LookAheadBuffer.Add(21);
+            lz77Buffer.LookAheadBuffer.Add(22);
+            lz77Buffer.LookAheadBuffer.Add(23);
+            lz77Buffer.LookAheadBuffer.Add(24);
+            lz77Buffer.LookAheadBuffer.Add(25);
+            lz77Buffer.LookAheadBuffer.Add(26);
+            lz77Buffer.LookAheadBuffer.Add(27);
+            lz77Buffer.LookAheadBuffer.Add(28);
+            lz77Buffer.LookAheadBuffer.Add(31);
+            lz77Buffer.SearchBuffer.Add(20);
+            lz77Buffer.SearchBuffer.Add(21);
+            lz77Buffer.SearchBuffer.Add(22);
+            lz77Buffer.SearchBuffer.Add(23);
+            lz77Buffer.SearchBuffer.Add(24);
+            lz77Buffer.SearchBuffer.Add(25);
+            lz77Buffer.SearchBuffer.Add(26);
+            lz77Buffer.SearchBuffer.Add(27);
+            lz77Buffer.SearchBuffer.Add(28);
+
+            return lz77Buffer;
+        }
+
+        public static Lz77Token ExpectedTokenForLz77Buffer6()
+        {
+            return new Lz77Token
+            {
+                Byte = 31,
+                Length = 8,
+                Position = 2
             };
         }
     }

@@ -32,7 +32,6 @@ namespace Encoding.Lz77.Utilities
             }
 
             var bytesFoundFinal = 0;
-            var bytesToLookFor = new List<byte> {firstByteToLookFor};
             var indexFinal = lz77Buffer.SearchBuffer.IndexOf(firstByteToLookFor);
             byte byteThatWasNotContained = 0;
 
@@ -41,10 +40,11 @@ namespace Encoding.Lz77.Utilities
             foreach (var index in indexes)
             {
                 var bytesFoundInCurrentIteration = 0;
+                var bytesToLookFor = new List<byte> { firstByteToLookFor };
 
                 while (Lz77BufferContainsGivenSequence(lz77Buffer, bytesToLookFor, index, out byteThatWasNotContained))
                 {
-                    if (bytesFoundFinal >= lz77Buffer.LookAheadBuffer.Count)
+                    if (bytesFoundInCurrentIteration >= lz77Buffer.LookAheadBuffer.Count)
                     {
                         break;
                     }
@@ -107,30 +107,37 @@ namespace Encoding.Lz77.Utilities
 
             for (int index = 0; index < sequence.Count; index++)
             {
-                var searchBufferIndex = indexOfFirstByteFoundInSearchBuffer - index;
+                var searchBufferIndex = indexOfFirstByteFoundInSearchBuffer + index;
                 var contains = true;
 
-                if (searchBufferIndex >= 0)
-                {
-                    if (lz77Buffer.SearchBuffer[searchBufferIndex] != sequence[index])
-                    {
-                        contains = false;
-                    }
-                }
-                else
+                if (searchBufferIndex > lz77Buffer.SearchBuffer.Count - 1)
                 {
                     contains = false;
                 }
-                // TODO: Maybe implement properly at some other time
-                //else
-                //{
-                //    if (lz77Buffer.LookAheadBuffer[lookAheadBufferIndex] != sequence[index])
-                //    {
-                //        contains = false;
-                //    }
+                else
+                {
+                    if (searchBufferIndex >= 0)
+                    {
+                        if (lz77Buffer.SearchBuffer[searchBufferIndex] != sequence[index])
+                        {
+                            contains = false;
+                        }
+                    }
+                    else
+                    {
+                        contains = false;
+                    }
+                    // TODO: Maybe implement properly at some other time
+                    //else
+                    //{
+                    //    if (Lz77Buffer.LookAheadBuffer[lookAheadBufferIndex] != sequence[index])
+                    //    {
+                    //        contains = false;
+                    //    }
 
-                //    lookAheadBufferIndex++;
-                //}
+                    //    lookAheadBufferIndex++;
+                    //}
+                }
 
                 if (!contains)
                 {

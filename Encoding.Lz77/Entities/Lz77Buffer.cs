@@ -5,13 +5,18 @@ namespace Encoding.Lz77.Entities
 {
     public class Lz77Buffer
     {
-        public int Offset { get; }
-        public int Length { get; }
+        public int Offset { get; private set; }
+        public int Length { get; private set; }
 
-        public List<byte> SearchBuffer { get; }
-        public List<byte> LookAheadBuffer { get; }
+        public List<byte> SearchBuffer { get; private set; }
+        public List<byte> LookAheadBuffer { get; private set; }
 
         public Lz77Buffer(int offset, int length)
+        {
+            SetOffsetAndLimit(offset, length);
+        }
+
+        public void SetOffsetAndLimit(int offset, int length)
         {
             if (offset < 1)
             {

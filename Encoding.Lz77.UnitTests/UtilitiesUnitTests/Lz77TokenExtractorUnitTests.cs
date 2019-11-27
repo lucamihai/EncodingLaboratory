@@ -68,5 +68,23 @@ namespace Encoding.Lz77.UnitTests.UtilitiesUnitTests
             var comparer = new CompareLogic();
             Assert.IsTrue(comparer.Compare(Constants.ExpectedTokenForLz77Buffer4(), returnedLz77Token).AreEqual);
         }
+
+        [TestMethod]
+        public void GetLz77TokenFromLz77BufferReturnsExpectedLz77Token5()
+        {
+            var returnedLz77Token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(Constants.GetLz77Buffer5());
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(Constants.ExpectedTokenForLz77Buffer5(), returnedLz77Token).AreEqual);
+        }
+
+        [TestMethod]
+        public void GetLz77TokenFromLz77BufferReturnsExpectedLz77Token6()
+        {
+            var returnedLz77Token = lz77TokenExtractor.GetLz77TokenFromLz77Buffer(Constants.GetLz77Buffer6());
+
+            var comparer = new CompareLogic();
+            Assert.IsTrue(comparer.Compare(Constants.ExpectedTokenForLz77Buffer6(), returnedLz77Token).AreEqual);
+        }
     }
 }
