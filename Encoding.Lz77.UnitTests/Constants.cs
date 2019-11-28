@@ -125,7 +125,7 @@ namespace Encoding.Lz77.UnitTests
             {
                 Byte = 24,
                 Length = 4,
-                Position = 0
+                Position = 3
             };
         }
 
@@ -162,7 +162,7 @@ namespace Encoding.Lz77.UnitTests
             {
                 Byte = 31,
                 Length = 8,
-                Position = 1
+                Position = 7
             };
         }
     }

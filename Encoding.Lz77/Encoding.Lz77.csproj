@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\Utilities\ILz77BufferManager.cs" />
     <Compile Include="Interfaces\Utilities\ILz77TokenExtractor.cs" />
     <Compile Include="Interfaces\Utilities\ILz77TokenWriter.cs" />
+    <Compile Include="Lz77Decoder.cs" />
     <Compile Include="Lz77Encoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Lz77BufferManager.cs" />
