@@ -26,11 +26,15 @@ namespace Encoding.Lz77
 
             while (!fileReader.ReachedEndOfFile && fileReader.BitsLeft >= tokenLengthInBits)
             {
+                var position = (int) fileReader.ReadBits(bitsForOffset);
+                var length = (int) fileReader.ReadBits(bitsForLength);
+                var byteRead = (byte) fileReader.ReadBits(8);
+
                 var lz77Token = new Lz77Token
                 {
-                    Position = (int)fileReader.ReadBits(bitsForOffset),
-                    Length = (int)fileReader.ReadBits(bitsForLength),
-                    Byte = (byte)fileReader.ReadBits(8)
+                    Position = position,
+                    Length = length,
+                    Byte = byteRead
                 };
                 TokensFromPreviousRun.Add(lz77Token);
 

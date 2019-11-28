@@ -8,5 +8,10 @@ namespace Encoding.Lz77.Entities
         public int Position { get; set; }
         public int Length { get; set; }
         public byte Byte { get; set; }
+
+        public override string ToString()
+        {
+            return $"({Position} {Length} {Byte})";
+        }
     }
 }
