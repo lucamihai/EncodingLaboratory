@@ -33,7 +33,7 @@ namespace Encoding.Lz77.Utilities
 
             var bytesFoundFinal = 0;
             var indexFinal = lz77Buffer.SearchBuffer.Count - 1 - lz77Buffer.SearchBuffer.IndexOf(firstByteToLookFor);
-            byte byteThatWasNotContained = 0;
+            byte byteThatWasNotContainedFinal = 0;
 
             var indexes = GetIndexesOfGivenByte(lz77Buffer, firstByteToLookFor);
 
@@ -41,6 +41,7 @@ namespace Encoding.Lz77.Utilities
             {
                 var bytesFoundInCurrentIteration = 0;
                 var bytesToLookFor = new List<byte> { firstByteToLookFor };
+                byte byteThatWasNotContained = 0;
 
                 while (Lz77BufferContainsGivenSequence(lz77Buffer, bytesToLookFor, index, out byteThatWasNotContained))
                 {
@@ -65,12 +66,13 @@ namespace Encoding.Lz77.Utilities
                 {
                     bytesFoundFinal = bytesFoundInCurrentIteration;
                     indexFinal = lz77Buffer.SearchBuffer.Count - 1 - index;
+                    byteThatWasNotContainedFinal = byteThatWasNotContained;
                 }
             }
 
             return new Lz77Token
             {
-                Byte = byteThatWasNotContained,
+                Byte = byteThatWasNotContainedFinal,
                 Length = bytesFoundFinal,
                 Position = indexFinal
             };
