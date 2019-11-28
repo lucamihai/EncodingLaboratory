@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using Encoding.FileOperations;
+using Encoding.Lz77.IntegrationTests.Properties;
 using Encoding.Lz77.Utilities;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -54,6 +57,55 @@ namespace Encoding.Lz77.IntegrationTests
             Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
+        [TestMethod]
+        public void FileIsEncodedThenDecodedCorrectly2()
+        {
+            File.WriteAllText(filePathSource, Properties.Resources.Text1);
+
+            using (var fileReader = new FileReader(filePathSource, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
+                {
+                    lz77Encoder.EncodeFile(fileReader, fileWriter, Constants.BitsForOffset1, Constants.BitsForLength1);
+                }
+            }
+
+            using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathDecodedFile, new Buffer()))
+                {
+                    lz77Decoder.DecodeFile(fileReader, fileWriter);
+                }
+            }
+
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+        }
+
+        [TestMethod]
+        public void FileIsEncodedThenDecodedCorrectly3()
+        {
+            var img = new Bitmap(Resources.capture);
+            img.Save(filePathSource, ImageFormat.Png);
+            img.Dispose();
+
+            using (var fileReader = new FileReader(filePathSource, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
+                {
+                    lz77Encoder.EncodeFile(fileReader, fileWriter, Constants.BitsForOffset1, Constants.BitsForLength1);
+                }
+            }
+
+            using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathDecodedFile, new Buffer()))
+                {
+                    lz77Decoder.DecodeFile(fileReader, fileWriter);
+                }
+            }
+
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+        }
 
         [TestCleanup]
         public void TestCleanup()
