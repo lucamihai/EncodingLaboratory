@@ -4,6 +4,7 @@ using System.IO;
 using Encoding.FileOperations;
 using Encoding.Lz77.Utilities;
 using Encoding.Tests.Common;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
 
