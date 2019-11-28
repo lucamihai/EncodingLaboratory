@@ -44,19 +44,19 @@ namespace Encoding.Lz77.IntegrationTests
                 new Lz77Token
                 {
                     Length = 4,
-                    Position = 1,
+                    Position = 0,
                     Byte = (byte)'a'
                 },
                 new Lz77Token
                 {
                     Length = 8,
-                    Position = 2,
+                    Position = 1,
                     Byte = (byte)'b'
                 },
                 new Lz77Token
                 {
                     Length = 2,
-                    Position = 4,
+                    Position = 3,
                     Byte = (byte)'e'
                 },
             };

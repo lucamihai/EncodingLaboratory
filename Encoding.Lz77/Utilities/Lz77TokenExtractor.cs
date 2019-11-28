@@ -72,7 +72,7 @@ namespace Encoding.Lz77.Utilities
             {
                 Byte = byteThatWasNotContained,
                 Length = bytesFoundFinal,
-                Position = indexFinal + 1
+                Position = indexFinal
             };
         }
 
