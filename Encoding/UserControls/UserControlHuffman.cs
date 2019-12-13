@@ -6,10 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.Huffman;
 using Encoding.Huffman.Entities;
-using Encoding.Huffman.Utilities;
+using Encoding.Huffman.Interfaces;
 using Buffer = Encoding.FileOperations.Buffer;
 
 namespace Encoding.UserControls
@@ -24,9 +25,9 @@ namespace Encoding.UserControls
         {
             InitializeComponent();
 
-            // TODO: Find a more 'pleasant' way of initiating objects (maybe consider using AutoFac)
-            huffmanEncoder = new HuffmanEncoder(new StatisticsGenerator(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()), new HuffmanHeaderWriter());
-            huffmanDecoder = new HuffmanDecoder(new HuffmanHeaderReader(), new HuffmanEncodedBytesManager(new HuffmanNodesManager()));
+            var dependencyResolver = new DependencyResolver();
+            huffmanEncoder = (HuffmanEncoder)dependencyResolver.GetObject<IHuffmanEncoder>();
+            huffmanDecoder = (HuffmanDecoder)dependencyResolver.GetObject<IHuffmanDecoder>();
 
             textBoxCodes.Font = new Font(FontFamily.GenericMonospace, textBoxCodes.Font.Size);
 
@@ -47,9 +48,8 @@ namespace Encoding.UserControls
             {
                 if (radioButtonEncodeContentsFromTextBox.Checked)
                 {
-                    // TODO: Determine filepaths
-                    sourceFilePath = "";
-                    destinationFilePath = "";
+                    sourceFilePath = $"{Environment.CurrentDirectory}\\textFormTextBox.txt";
+                    destinationFilePath = $"{sourceFilePath}.hs";
 
                     File.WriteAllText(sourceFilePath, textBoxContents.Text);
                 }
@@ -173,8 +173,10 @@ namespace Encoding.UserControls
 
         private void UpdateButtonsEnabledProperty()
         {
-            buttonEncode.Enabled = (radioButtonEncodeContentsFromFile.Checked && !string.IsNullOrWhiteSpace(textBoxFilePathSource.Text))
-                || (radioButtonEncodeContentsFromTextBox.Checked && !string.IsNullOrWhiteSpace(textBoxContents.Text));
+            //buttonEncode.Enabled = (radioButtonEncodeContentsFromFile.Checked && !string.IsNullOrWhiteSpace(textBoxFilePathSource.Text))
+            //    || (radioButtonEncodeContentsFromTextBox.Checked && !string.IsNullOrWhiteSpace(textBoxContents.Text));
+
+            buttonEncode.Enabled = true;
 
             buttonDecode.Enabled = !string.IsNullOrWhiteSpace(textBoxFilePathEncodedFile.Text);
         }

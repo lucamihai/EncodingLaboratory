@@ -76,6 +76,10 @@
     <None Include="Resources\capture.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Encoding.DI\Encoding.DI.csproj">
+      <Project>{aedb5db2-7da0-4e8c-a4aa-b87137634935}</Project>
+      <Name>Encoding.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
       <Project>{BBAF1E3F-63C2-4F30-86B8-5A77DDB0EABC}</Project>
       <Name>Encoding.FileOperations</Name>

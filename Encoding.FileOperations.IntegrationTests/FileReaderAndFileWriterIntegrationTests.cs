@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using Encoding.FileOperations.IntegrationTests.Properties;
 using Encoding.Tests.Common;
@@ -14,36 +12,29 @@ namespace Encoding.FileOperations.IntegrationTests
     [ExcludeFromCodeCoverage]
     public class FileReaderAndFileWriterIntegrationTests
     {
-        private string filePathOriginalImage;
-        private string filePathFinalImage;
+        private string filePathSource;
+        private string filePathDestination;
         private long originalFileSizeInBytes;
 
         [TestInitialize]
         public void Setup()
         {
-            filePathOriginalImage = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImage}";
-            filePathFinalImage = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImageDestination}";
+            filePathSource = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImage}";
+            filePathDestination = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImageDestination}";
 
-            CreateOriginalImageFile();
+            TestMethods.CreateFileFromPngImage(filePathSource, Resources.testImage);
 
-            originalFileSizeInBytes = new FileInfo(filePathOriginalImage).Length;
-        }
-
-        private void CreateOriginalImageFile()
-        {
-            var img = new Bitmap(Resources.testImage);
-            img.Save(filePathOriginalImage, ImageFormat.Png);
-            img.Dispose();
+            originalFileSizeInBytes = new FileInfo(filePathSource).Length;
         }
 
         [TestMethod]
         public void FileIsCopiedCorrectlyForNumberOfBitsBetween1And8()
         {
             var stopWatch = new Stopwatch();
-            
-            using (var fileReader = new FileReader(filePathOriginalImage, new Buffer()))
+
+            using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {
-                using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
+                using (var fileWriter = new FileWriter(filePathDestination, new Buffer()))
                 {
                     stopWatch.Start();
 
@@ -64,16 +55,16 @@ namespace Encoding.FileOperations.IntegrationTests
 
             Console.WriteLine($"File copying in '{TestMethods.GetCurrentMethodName()}' took {stopWatch.ElapsedMilliseconds} ms for {originalFileSizeInBytes} bytes");
 
-            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathOriginalImage, filePathFinalImage));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDestination));
         }
 
         [TestMethod]
         public void FileIsCopiedCorrectlyForNumberOfBitsBetween8And32()
         {
             var stopWatch = new Stopwatch();
-            using (var fileReader = new FileReader(filePathOriginalImage, new Buffer()))
+            using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {
-                using (var fileWriter = new FileWriter(filePathFinalImage, new Buffer()))
+                using (var fileWriter = new FileWriter(filePathDestination, new Buffer()))
                 {
                     stopWatch.Start();
 
@@ -94,14 +85,14 @@ namespace Encoding.FileOperations.IntegrationTests
             }
             Console.WriteLine($"File copying in '{TestMethods.GetCurrentMethodName()}' took {stopWatch.ElapsedMilliseconds} ms for {originalFileSizeInBytes} bytes");
 
-            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathOriginalImage, filePathFinalImage));
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDestination));
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            TestMethods.DeleteFileIfExists(filePathOriginalImage);
-            TestMethods.DeleteFileIfExists(filePathFinalImage);
+            TestMethods.DeleteFileIfExists(filePathSource);
+            TestMethods.DeleteFileIfExists(filePathDestination);
         }
     }
 }

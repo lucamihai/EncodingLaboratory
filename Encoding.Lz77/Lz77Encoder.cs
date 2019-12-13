@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Lz77.Entities;
+using Encoding.Lz77.Interfaces;
 using Encoding.Lz77.Interfaces.Utilities;
 
 namespace Encoding.Lz77
 {
-    public class Lz77Encoder
+    public class Lz77Encoder : ILz77Encoder
     {
         public Lz77Buffer Lz77Buffer { get; private set; }
         public List<Lz77Token> TokensFromPreviousRun { get; }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using Encoding.DI;
 using Encoding.FileOperations;
-using Encoding.Lz77.Utilities;
+using Encoding.Lz77.Interfaces;
 using Encoding.Tests.Common;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,12 +21,13 @@ namespace Encoding.Lz77.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
+            var dependencyResolver = new DependencyResolver();
+            lz77Encoder = (Lz77Encoder)dependencyResolver.GetObject<ILz77Encoder>();
+
             filePathFile = $"{Environment.CurrentDirectory}\\{Constants.FileName}";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\{Constants.FileName}.lz77";
 
-            File.WriteAllText(filePathFile, Constants.FileContents);
-
-            lz77Encoder = new Lz77Encoder(new Lz77TokenExtractor(), new Lz77BufferManager(), new Lz77TokenWriter());
+            TestMethods.CreateFileWithTextContents(filePathFile, Constants.FileContents);
         }
 
         [TestMethod]

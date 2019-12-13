@@ -38,7 +38,7 @@ namespace Encoding.Huffman.Utilities
                 }
 
                 var encodedByte = new EncodedByte { Byte = node.NodeInfo.Code.Value };
-                huffmanNodesManager.SetPathFromNodeToParent(encodedByte.EncodingBits, node, huffmanTreeRoot, 20);
+                huffmanNodesManager.SetPathFromNodeToParent(encodedByte.EncodingBits, node, huffmanTreeRoot, 100);
 
                 encodedBytes.Add(encodedByte);
             }

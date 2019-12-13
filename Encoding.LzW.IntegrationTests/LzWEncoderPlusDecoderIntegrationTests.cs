@@ -2,8 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.LzW.IntegrationTests.Properties;
+using Encoding.LzW.Interfaces;
 using Encoding.LzW.Options;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,8 +26,9 @@ namespace Encoding.LzW.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
-            lzWEncoder = new LzWEncoder();
-            lzWDecoder = new LzWDecoder();
+            var dependencyResolver = new DependencyResolver();
+            lzWEncoder = (LzWEncoder)dependencyResolver.GetObject<ILzWEncoder>();
+            lzWDecoder = (LzWDecoder)dependencyResolver.GetObject<ILzWDecoder>();
 
             filePathSource = $"{Environment.CurrentDirectory}\\temp.png";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.png.lzw";

@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Entities\Lz77Buffer.cs" />
     <Compile Include="Entities\Lz77Token.cs" />
+    <Compile Include="Interfaces\ILz77Decoder.cs" />
+    <Compile Include="Interfaces\ILz77Encoder.cs" />
     <Compile Include="Interfaces\Utilities\ILz77BufferManager.cs" />
     <Compile Include="Interfaces\Utilities\ILz77TokenExtractor.cs" />
     <Compile Include="Interfaces\Utilities\ILz77TokenWriter.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +20,7 @@ namespace Encoding.FileOperations.IntegrationTests
             filePath = $"{Environment.CurrentDirectory}\\{Constants.TestFileName}";
             buffer = new Buffer();
 
-            File.WriteAllBytes(filePath, Constants.TestBytes);
+            TestMethods.CreateFileWithGivenBytes(filePath, Constants.TestBytes);
 
             fileReader = new FileReader(filePath, buffer);
         }

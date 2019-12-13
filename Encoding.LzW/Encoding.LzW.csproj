@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\LzWDictionary.cs" />
+    <Compile Include="Interfaces\ILzWDecoder.cs" />
+    <Compile Include="Interfaces\ILzWEncoder.cs" />
     <Compile Include="LzWDecoder.cs" />
     <Compile Include="LzWEncoder.cs" />
     <Compile Include="Options\OnFullDictionaryOption.cs" />

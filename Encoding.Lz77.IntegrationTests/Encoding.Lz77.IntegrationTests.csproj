@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Encoding.DI\Encoding.DI.csproj">
+      <Project>{AEDB5DB2-7DA0-4E8C-A4AA-B87137634935}</Project>
+      <Name>Encoding.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
       <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
       <Name>Encoding.FileOperations</Name>

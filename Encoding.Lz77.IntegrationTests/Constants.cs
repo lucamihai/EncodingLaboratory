@@ -10,7 +10,7 @@ namespace Encoding.Lz77.IntegrationTests
         public const string FileName = "test.txt";
         public const string FileContents = "abcdabcdabcdabcdabcde";
 
-        public const int BitsForOffset1 = 4;
+        public const int BitsForOffset1 = 7;
         public const int BitsForLength1 = 4;
 
         public static List<Lz77Token> GetTokens1()

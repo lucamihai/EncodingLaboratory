@@ -26,7 +26,11 @@ namespace Encoding.Huffman.Utilities
             var byteStatisticsList = new List<ByteStatistics>();
             for (int currentByte = 0; currentByte < 256; currentByte++)
             {
-                byteStatisticsList.Add(new ByteStatistics {Byte = (byte) currentByte, Apparitions = byteApparitions[currentByte]});
+                if (byteApparitions[currentByte] > 0)
+                {
+                    byteStatisticsList.Add(new ByteStatistics
+                        {Byte = (byte) currentByte, Apparitions = byteApparitions[currentByte]});
+                }
             }
 
             return byteStatisticsList;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Drawing.Imaging;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.Huffman.IntegrationTests.Properties;
-using Encoding.Huffman.Utilities;
+using Encoding.Huffman.Interfaces;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
@@ -24,20 +23,15 @@ namespace Encoding.Huffman.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
+            var dependencyResolver = new DependencyResolver();
+            huffmanEncoder = (HuffmanEncoder)dependencyResolver.GetObject<IHuffmanEncoder>();
+            huffmanDecoder = (HuffmanDecoder)dependencyResolver.GetObject<IHuffmanDecoder>();
+
             filePathSource = $"{Environment.CurrentDirectory}\\temp.png";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.png.hs";
             filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.hs.png";
 
-            CreateInitialFile();
-
-            var huffmanEncodedBytesManager = new HuffmanEncodedBytesManager(new HuffmanNodesManager());
-
-            var textAnalyzer = new StatisticsGenerator();
-            var huffmanHeaderWriter = new HuffmanHeaderWriter();
-            huffmanEncoder = new HuffmanEncoder(textAnalyzer, huffmanEncodedBytesManager, huffmanHeaderWriter);
-
-            var huffmanHeaderReader = new HuffmanHeaderReader();
-            huffmanDecoder = new HuffmanDecoder(huffmanHeaderReader, huffmanEncodedBytesManager);
+            TestMethods.CreateFileFromPngImage(filePathSource, Resources.Capture);
         }
 
         [TestMethod]
@@ -69,13 +63,6 @@ namespace Encoding.Huffman.IntegrationTests
             TestMethods.DeleteFileIfExists(filePathSource);
             TestMethods.DeleteFileIfExists(filePathEncodedFile);
             TestMethods.DeleteFileIfExists(filePathDecodedFile);
-        }
-
-        private void CreateInitialFile()
-        {
-            var img = new Bitmap(Resources.Capture);
-            img.Save(filePathSource, ImageFormat.Png);
-            img.Dispose();
         }
     }
 }

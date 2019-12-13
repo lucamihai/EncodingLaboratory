@@ -21,9 +21,6 @@ namespace Encoding.FileOperations.IntegrationTests
             filePath = $"{Environment.CurrentDirectory}\\{Constants.TestFileName}";
             buffer = new Buffer();
 
-            var fileStreamCreate = File.Create(filePath);
-            fileStreamCreate.Close();
-
             fileWriter = new FileWriter(filePath, buffer);
         }
 

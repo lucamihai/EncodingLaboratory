@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Huffman.Entities;
+using Encoding.Huffman.Interfaces;
 using Encoding.Huffman.Interfaces.Utilities;
 
 namespace Encoding.Huffman
 {
-    public class HuffmanDecoder
+    public class HuffmanDecoder : IHuffmanDecoder
     {
         private readonly IHuffmanHeaderReader huffmanHeaderReader;
         private readonly IHuffmanEncodedBytesManager huffmanEncodedBytesManager;

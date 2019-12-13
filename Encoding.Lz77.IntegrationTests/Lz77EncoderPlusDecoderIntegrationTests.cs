@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.Lz77.IntegrationTests.Properties;
-using Encoding.Lz77.Utilities;
+using Encoding.Lz77.Interfaces;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
@@ -25,8 +23,9 @@ namespace Encoding.Lz77.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
-            lz77Encoder = new Lz77Encoder(new Lz77TokenExtractor(), new Lz77BufferManager(), new Lz77TokenWriter());
-            lz77Decoder = new Lz77Decoder();
+            var dependencyResolver = new DependencyResolver();
+            lz77Encoder = (Lz77Encoder)dependencyResolver.GetObject<ILz77Encoder>();
+            lz77Decoder = (Lz77Decoder)dependencyResolver.GetObject<ILz77Decoder>();
 
             filePathSource = $"{Environment.CurrentDirectory}\\temp.png";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.png.lz77";
@@ -36,7 +35,7 @@ namespace Encoding.Lz77.IntegrationTests
         [TestMethod]
         public void FileIsEncodedThenDecodedCorrectly1()
         {
-            File.WriteAllText(filePathSource, Constants.FileContents);
+            TestMethods.CreateFileWithTextContents(filePathSource, Constants.FileContents);
 
             using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {
@@ -60,7 +59,7 @@ namespace Encoding.Lz77.IntegrationTests
         [TestMethod]
         public void FileIsEncodedThenDecodedCorrectly2()
         {
-            File.WriteAllText(filePathSource, Properties.Resources.Text1);
+            TestMethods.CreateFileWithTextContents(filePathSource, Resources.Text1);
 
             using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {
@@ -84,9 +83,7 @@ namespace Encoding.Lz77.IntegrationTests
         [TestMethod]
         public void FileIsEncodedThenDecodedCorrectly3()
         {
-            var img = new Bitmap(Resources.capture);
-            img.Save(filePathSource, ImageFormat.Png);
-            img.Dispose();
+            TestMethods.CreateFileFromPngImage(filePathSource, Resources.capture);
 
             using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {

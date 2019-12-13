@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Lz77.Entities;
+using Encoding.Lz77.Interfaces;
 
 namespace Encoding.Lz77
 {
-    public class Lz77Decoder
+    public class Lz77Decoder : ILz77Decoder
     {
         public List<Lz77Token> TokensFromPreviousRun { get; private set; }
 

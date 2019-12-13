@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using Encoding.DI;
 using Encoding.FileOperations;
+using Encoding.LzW.Interfaces;
 using Encoding.Tests.Common;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,12 +22,13 @@ namespace Encoding.LzW.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
+            var dependencyResolver = new DependencyResolver();
+            lzWDecoder = (LzWDecoder)dependencyResolver.GetObject<ILzWDecoder>();
+
             filePathFile = $"{Environment.CurrentDirectory}\\{Constants.FileName}";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\{Constants.FileName}.lzw";
 
-            File.WriteAllBytes(filePathEncodedFile, Constants.EncodedFileBytes.ToArray());
-
-            lzWDecoder = new LzWDecoder();
+            TestMethods.CreateFileWithGivenBytes(filePathEncodedFile, Constants.EncodedFileBytes.ToArray());
         }
 
         [TestMethod]

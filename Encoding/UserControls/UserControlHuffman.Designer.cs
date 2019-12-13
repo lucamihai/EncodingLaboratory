@@ -108,7 +108,6 @@
             this.textBoxContents.Location = new System.Drawing.Point(55, 169);
             this.textBoxContents.Multiline = true;
             this.textBoxContents.Name = "textBoxContents";
-            this.textBoxContents.ReadOnly = true;
             this.textBoxContents.Size = new System.Drawing.Size(293, 326);
             this.textBoxContents.TabIndex = 5;
             // 

@@ -2,11 +2,12 @@
 using Encoding.FileOperations;
 using Encoding.FileOperations.Interfaces;
 using Encoding.LzW.Entities;
+using Encoding.LzW.Interfaces;
 using Encoding.LzW.Options;
 
 namespace Encoding.LzW
 {
-    public class LzWDecoder
+    public class LzWDecoder : ILzWDecoder
     {
         private LzWDictionary lzWDictionary;
         private byte numberOfBitsForIndex;

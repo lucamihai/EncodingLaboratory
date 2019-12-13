@@ -4,10 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.Lz77;
 using Encoding.Lz77.Entities;
-using Encoding.Lz77.Utilities;
+using Encoding.Lz77.Interfaces;
 using Buffer = Encoding.FileOperations.Buffer;
 
 namespace Encoding.UserControls
@@ -22,8 +23,9 @@ namespace Encoding.UserControls
         {
             InitializeComponent();
 
-            lz77Encoder = new Lz77Encoder(new Lz77TokenExtractor(), new Lz77BufferManager(), new Lz77TokenWriter());
-            lz77Decoder = new Lz77Decoder();
+            var dependencyResolver = new DependencyResolver();
+            lz77Encoder = (Lz77Encoder)dependencyResolver.GetObject<ILz77Encoder>();
+            lz77Decoder = (Lz77Decoder)dependencyResolver.GetObject<ILz77Decoder>();
         }
 
         private void buttonSelectFile_Click(object sender, EventArgs e)

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Encoding.FileOperations.Interfaces;
 using Encoding.LzW.Entities;
+using Encoding.LzW.Interfaces;
 using Encoding.LzW.Options;
 
 namespace Encoding.LzW
 {
-    public class LzWEncoder
+    public class LzWEncoder : ILzWEncoder
     {
         public LzWDictionary LzWDictionary{ get; private set; }
         public List<uint> IndexesFromLastRun { get; }

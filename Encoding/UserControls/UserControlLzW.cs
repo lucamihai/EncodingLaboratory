@@ -3,8 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.LzW;
+using Encoding.LzW.Interfaces;
 using Encoding.LzW.Options;
 
 namespace Encoding.UserControls
@@ -19,8 +21,9 @@ namespace Encoding.UserControls
         {
             InitializeComponent();
 
-            lzWEncoder = new LzWEncoder();
-            lzWDecoder = new LzWDecoder();
+            var dependencyResolver = new DependencyResolver();
+            lzWEncoder = (LzWEncoder)dependencyResolver.GetObject<ILzWEncoder>();
+            lzWDecoder = (LzWDecoder)dependencyResolver.GetObject<ILzWDecoder>();
 
             UpdateButtonsEnabledProperty();
         }

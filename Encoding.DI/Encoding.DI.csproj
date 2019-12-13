@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1BC37739-3F5A-416B-BAD8-AC6B83280673}</ProjectGuid>
+    <ProjectGuid>{AEDB5DB2-7DA0-4E8C-A4AA-B87137634935}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Encoding.Huffman</RootNamespace>
-    <AssemblyName>Encoding.Huffman</AssemblyName>
+    <RootNamespace>Encoding.DI</RootNamespace>
+    <AssemblyName>Encoding.DI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,30 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ByteStatistics.cs" />
-    <Compile Include="Entities\EncodedByte.cs" />
-    <Compile Include="Entities\Node.cs" />
-    <Compile Include="Entities\NodeInfo.cs" />
-    <Compile Include="HuffmanDecoder.cs" />
-    <Compile Include="HuffmanEncoder.cs" />
-    <Compile Include="Interfaces\IHuffmanDecoder.cs" />
-    <Compile Include="Interfaces\IHuffmanEncoder.cs" />
-    <Compile Include="Interfaces\Utilities\IStatisticsGenerator.cs" />
-    <Compile Include="Interfaces\Utilities\IHuffmanEncodedbytesManager.cs" />
-    <Compile Include="Interfaces\Utilities\IHuffmanHeaderReader.cs" />
-    <Compile Include="Interfaces\Utilities\IHuffmanHeaderWriter.cs" />
-    <Compile Include="Interfaces\Utilities\IHuffmanNodesManager.cs" />
+    <Compile Include="DependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\StatisticsGenerator.cs" />
-    <Compile Include="Utilities\HuffmanEncodedBytesManager.cs" />
-    <Compile Include="Utilities\HuffmanHeaderReader.cs" />
-    <Compile Include="Utilities\HuffmanHeaderWriter.cs" />
-    <Compile Include="Utilities\HuffmanNodesManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
       <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
       <Name>Encoding.FileOperations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.Huffman\Encoding.Huffman.csproj">
+      <Project>{1bc37739-3f5a-416b-bad8-ac6b83280673}</Project>
+      <Name>Encoding.Huffman</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.Lz77\Encoding.Lz77.csproj">
+      <Project>{7b269b9e-6e27-4eee-9c75-d0b1349a8d27}</Project>
+      <Name>Encoding.Lz77</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.LzW\Encoding.LzW.csproj">
+      <Project>{ecb0286c-ce0c-4363-80c3-a86b544ee80d}</Project>
+      <Name>Encoding.LzW</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

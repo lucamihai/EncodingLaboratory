@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.CompilerServices;
 using KellermanSoftware.CompareNetObjects;
@@ -9,6 +11,23 @@ namespace Encoding.Tests.Common
     [ExcludeFromCodeCoverage]
     public static class TestMethods
     {
+        public static void CreateFileWithTextContents(string filePath, string textContents)
+        {
+            File.WriteAllText(filePath, textContents);
+        }
+
+        public static void CreateFileWithGivenBytes(string filePath, byte[] bytes)
+        {
+            File.WriteAllBytes(filePath, bytes);
+        }
+
+        public static void CreateFileFromPngImage(string filePath, Bitmap image)
+        {
+            var img = new Bitmap(image);
+            img.Save(filePath, ImageFormat.Png);
+            img.Dispose();
+        }
+
         public static void DeleteFileIfExists(string filePath)
         {
             if (File.Exists(filePath))
