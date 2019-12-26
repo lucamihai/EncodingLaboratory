@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AEDB5DB2-7DA0-4E8C-A4AA-B87137634935}</ProjectGuid>
+    <ProjectGuid>{A49CB3F6-67CC-4C0B-A8E8-DFE54173C4C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Encoding.DI</RootNamespace>
-    <AssemblyName>Encoding.DI</AssemblyName>
+    <RootNamespace>Encoding.Rsa</RootNamespace>
+    <AssemblyName>Encoding.Rsa</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,33 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="Interfaces\IRsaDecrypter.cs" />
+    <Compile Include="Interfaces\IRsaEncrypter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="RsaDecrypter.cs" />
+    <Compile Include="RsaEncrypter.cs" />
+    <Compile Include="Utilities\RsaComputer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
-      <Project>{bbaf1e3f-63c2-4f30-86b8-5a77ddb0eabc}</Project>
+      <Project>{BBAF1E3F-63C2-4F30-86B8-5A77DDB0EABC}</Project>
       <Name>Encoding.FileOperations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Encoding.Huffman\Encoding.Huffman.csproj">
-      <Project>{1bc37739-3f5a-416b-bad8-ac6b83280673}</Project>
-      <Name>Encoding.Huffman</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Encoding.Lz77\Encoding.Lz77.csproj">
-      <Project>{7b269b9e-6e27-4eee-9c75-d0b1349a8d27}</Project>
-      <Name>Encoding.Lz77</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Encoding.LzW\Encoding.LzW.csproj">
-      <Project>{ecb0286c-ce0c-4363-80c3-a86b544ee80d}</Project>
-      <Name>Encoding.LzW</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Encoding.Rsa\Encoding.Rsa.csproj">
-      <Project>{A49CB3F6-67CC-4C0B-A8E8-DFE54173C4C8}</Project>
-      <Name>Encoding.Rsa</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,6 +10,8 @@ using Encoding.Lz77.Interfaces.Utilities;
 using Encoding.Lz77.Utilities;
 using Encoding.LzW;
 using Encoding.LzW.Interfaces;
+using Encoding.Rsa;
+using Encoding.Rsa.Interfaces;
 
 namespace Encoding.DI
 {
@@ -27,17 +29,20 @@ namespace Encoding.DI
             containerBuilder.RegisterType<HuffmanHeaderReader>().As<IHuffmanHeaderReader>();
             containerBuilder.RegisterType<HuffmanEncodedBytesManager>().As<IHuffmanEncodedBytesManager>();
             containerBuilder.RegisterType<HuffmanNodesManager>().As<IHuffmanNodesManager>();
-            containerBuilder.RegisterType<HuffmanEncoder>().As<IHuffmanEncoder>().PropertiesAutowired();
-            containerBuilder.RegisterType<HuffmanDecoder>().As<IHuffmanDecoder>().PropertiesAutowired();
+            containerBuilder.RegisterType<HuffmanEncoder>().As<IHuffmanEncoder>();
+            containerBuilder.RegisterType<HuffmanDecoder>().As<IHuffmanDecoder>();
 
-            containerBuilder.RegisterType<LzWEncoder>().As<ILzWEncoder>().PropertiesAutowired();
-            containerBuilder.RegisterType<LzWDecoder>().As<ILzWDecoder>().PropertiesAutowired();
+            containerBuilder.RegisterType<LzWEncoder>().As<ILzWEncoder>();
+            containerBuilder.RegisterType<LzWDecoder>().As<ILzWDecoder>();
 
             containerBuilder.RegisterType<Lz77BufferManager>().As<ILz77BufferManager>();
             containerBuilder.RegisterType<Lz77TokenExtractor>().As<ILz77TokenExtractor>();
             containerBuilder.RegisterType<Lz77TokenWriter>().As<ILz77TokenWriter>();
-            containerBuilder.RegisterType<Lz77Encoder>().As<ILz77Encoder>().PropertiesAutowired();
-            containerBuilder.RegisterType<Lz77Decoder>().As<ILz77Decoder>().PropertiesAutowired();
+            containerBuilder.RegisterType<Lz77Encoder>().As<ILz77Encoder>();
+            containerBuilder.RegisterType<Lz77Decoder>().As<ILz77Decoder>();
+
+            containerBuilder.RegisterType<RsaEncrypter>().As<IRsaEncrypter>();
+            containerBuilder.RegisterType<RsaDecrypter>().As<IRsaDecrypter>();
 
             container = containerBuilder.Build();
         }

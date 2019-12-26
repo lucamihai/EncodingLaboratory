@@ -5,7 +5,7 @@ using Encoding.Lz77.Entities;
 namespace Encoding.Lz77.IntegrationTests
 {
     [ExcludeFromCodeCoverage]
-    internal static  class Constants
+    internal static class Constants
     {
         public const string FileName = "test.txt";
         public const string FileContents = "abcdabcdabcdabcdabcde";
