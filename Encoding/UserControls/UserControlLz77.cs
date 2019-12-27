@@ -126,7 +126,7 @@ namespace Encoding.UserControls
                 }
             }
 
-            if (checkBoxShowTokensDecoding.Checked)
+            if (checkBoxShowTokensDecrypting.Checked)
             {
                 DisplayTokens(lz77Decoder.TokensFromPreviousRun);
             }
@@ -150,10 +150,10 @@ namespace Encoding.UserControls
         private string GetExtensionOfEncodedFile(FileInfo fileInfoEncodedFile)
         {
             var splitName = fileInfoEncodedFile.Name.Split('.');
-            var nameWithoutLzWEncodedFileExtension = splitName[splitName.Length - 3];
+            var nameWithoutLz77EncodedFileExtension = splitName[splitName.Length - 3];
 
-            return nameWithoutLzWEncodedFileExtension
-                .Substring(nameWithoutLzWEncodedFileExtension.LastIndexOf('.') + 1);
+            return nameWithoutLz77EncodedFileExtension
+                .Substring(nameWithoutLz77EncodedFileExtension.LastIndexOf('.') + 1);
         }
     }
 }

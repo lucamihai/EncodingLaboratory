@@ -30,10 +30,11 @@
         {
             this.panelActiveUserControl = new System.Windows.Forms.Panel();
             this.panelRadioButtons = new System.Windows.Forms.Panel();
+            this.radioButtonLzW = new System.Windows.Forms.RadioButton();
+            this.radioButtonLz77 = new System.Windows.Forms.RadioButton();
             this.radioButtonHuffman = new System.Windows.Forms.RadioButton();
             this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
-            this.radioButtonLz77 = new System.Windows.Forms.RadioButton();
-            this.radioButtonLzW = new System.Windows.Forms.RadioButton();
+            this.radioButtonRsa = new System.Windows.Forms.RadioButton();
             this.panelRadioButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +48,7 @@
             // 
             // panelRadioButtons
             // 
+            this.panelRadioButtons.Controls.Add(this.radioButtonRsa);
             this.panelRadioButtons.Controls.Add(this.radioButtonLzW);
             this.panelRadioButtons.Controls.Add(this.radioButtonLz77);
             this.panelRadioButtons.Controls.Add(this.radioButtonHuffman);
@@ -55,6 +57,32 @@
             this.panelRadioButtons.Name = "panelRadioButtons";
             this.panelRadioButtons.Size = new System.Drawing.Size(150, 500);
             this.panelRadioButtons.TabIndex = 1;
+            // 
+            // radioButtonLzW
+            // 
+            this.radioButtonLzW.AutoSize = true;
+            this.radioButtonLzW.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonLzW.Location = new System.Drawing.Point(22, 124);
+            this.radioButtonLzW.Name = "radioButtonLzW";
+            this.radioButtonLzW.Size = new System.Drawing.Size(57, 23);
+            this.radioButtonLzW.TabIndex = 3;
+            this.radioButtonLzW.TabStop = true;
+            this.radioButtonLzW.Text = "LzW";
+            this.radioButtonLzW.UseVisualStyleBackColor = true;
+            this.radioButtonLzW.CheckedChanged += new System.EventHandler(this.radioButtonLzW_CheckedChanged);
+            // 
+            // radioButtonLz77
+            // 
+            this.radioButtonLz77.AutoSize = true;
+            this.radioButtonLz77.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonLz77.Location = new System.Drawing.Point(22, 95);
+            this.radioButtonLz77.Name = "radioButtonLz77";
+            this.radioButtonLz77.Size = new System.Drawing.Size(58, 23);
+            this.radioButtonLz77.TabIndex = 2;
+            this.radioButtonLz77.TabStop = true;
+            this.radioButtonLz77.Text = "Lz77";
+            this.radioButtonLz77.UseVisualStyleBackColor = true;
+            this.radioButtonLz77.CheckedChanged += new System.EventHandler(this.radioButtonLz77_CheckedChanged);
             // 
             // radioButtonHuffman
             // 
@@ -82,31 +110,18 @@
             this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
             this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.CheckedChangedFileReadingAndWriting);
             // 
-            // radioButtonLz77
+            // radioButtonRsa
             // 
-            this.radioButtonLz77.AutoSize = true;
-            this.radioButtonLz77.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonLz77.Location = new System.Drawing.Point(22, 95);
-            this.radioButtonLz77.Name = "radioButtonLz77";
-            this.radioButtonLz77.Size = new System.Drawing.Size(58, 23);
-            this.radioButtonLz77.TabIndex = 2;
-            this.radioButtonLz77.TabStop = true;
-            this.radioButtonLz77.Text = "Lz77";
-            this.radioButtonLz77.UseVisualStyleBackColor = true;
-            this.radioButtonLz77.CheckedChanged += new System.EventHandler(this.radioButtonLz77_CheckedChanged);
-            // 
-            // radioButtonLzW
-            // 
-            this.radioButtonLzW.AutoSize = true;
-            this.radioButtonLzW.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonLzW.Location = new System.Drawing.Point(22, 124);
-            this.radioButtonLzW.Name = "radioButtonLzW";
-            this.radioButtonLzW.Size = new System.Drawing.Size(57, 23);
-            this.radioButtonLzW.TabIndex = 3;
-            this.radioButtonLzW.TabStop = true;
-            this.radioButtonLzW.Text = "LzW";
-            this.radioButtonLzW.UseVisualStyleBackColor = true;
-            this.radioButtonLzW.CheckedChanged += new System.EventHandler(this.radioButtonLzW_CheckedChanged);
+            this.radioButtonRsa.AutoSize = true;
+            this.radioButtonRsa.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonRsa.Location = new System.Drawing.Point(23, 153);
+            this.radioButtonRsa.Name = "radioButtonRsa";
+            this.radioButtonRsa.Size = new System.Drawing.Size(50, 23);
+            this.radioButtonRsa.TabIndex = 4;
+            this.radioButtonRsa.TabStop = true;
+            this.radioButtonRsa.Text = "Rsa";
+            this.radioButtonRsa.UseVisualStyleBackColor = true;
+            this.radioButtonRsa.CheckedChanged += new System.EventHandler(this.radioButtonRsa_CheckedChanged);
             // 
             // MainWindow
             // 
@@ -132,6 +147,7 @@
         private System.Windows.Forms.RadioButton radioButtonFileReadingAndWriting;
         private System.Windows.Forms.RadioButton radioButtonLzW;
         private System.Windows.Forms.RadioButton radioButtonLz77;
+        private System.Windows.Forms.RadioButton radioButtonRsa;
     }
 }
 

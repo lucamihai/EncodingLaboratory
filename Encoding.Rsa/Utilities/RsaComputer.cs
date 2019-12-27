@@ -1,5 +1,8 @@
-﻿namespace Encoding.Rsa.Utilities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Encoding.Rsa.Utilities
 {
+    [ExcludeFromCodeCoverage]
     public static class RsaComputer
     {
         public static uint GetRsa(uint value, uint power, uint modulo)

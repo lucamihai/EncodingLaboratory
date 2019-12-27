@@ -41,6 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonSelectEncodedFile = new System.Windows.Forms.Button();
             this.panelDecoding = new System.Windows.Forms.Panel();
+            this.checkBoxShowTokensDecrypting = new System.Windows.Forms.CheckBox();
             this.textBoxTokens = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panelCodes = new System.Windows.Forms.Panel();
@@ -48,7 +49,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDownLengthBits = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxShowTokensDecoding = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetBits)).BeginInit();
             this.panelDecoding.SuspendLayout();
             this.panelCodes.SuspendLayout();
@@ -188,7 +188,7 @@
             // panelDecoding
             // 
             this.panelDecoding.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelDecoding.Controls.Add(this.checkBoxShowTokensDecoding);
+            this.panelDecoding.Controls.Add(this.checkBoxShowTokensDecrypting);
             this.panelDecoding.Controls.Add(this.textBoxFilePathEncodedFile);
             this.panelDecoding.Controls.Add(this.buttonDecode);
             this.panelDecoding.Controls.Add(this.label2);
@@ -197,6 +197,16 @@
             this.panelDecoding.Name = "panelDecoding";
             this.panelDecoding.Size = new System.Drawing.Size(420, 128);
             this.panelDecoding.TabIndex = 14;
+            // 
+            // checkBoxShowTokensDecrypting
+            // 
+            this.checkBoxShowTokensDecrypting.AutoSize = true;
+            this.checkBoxShowTokensDecrypting.Location = new System.Drawing.Point(238, 53);
+            this.checkBoxShowTokensDecrypting.Name = "checkBoxShowTokensDecrypting";
+            this.checkBoxShowTokensDecrypting.Size = new System.Drawing.Size(92, 17);
+            this.checkBoxShowTokensDecrypting.TabIndex = 25;
+            this.checkBoxShowTokensDecrypting.Text = "Show indexes";
+            this.checkBoxShowTokensDecrypting.UseVisualStyleBackColor = true;
             // 
             // textBoxTokens
             // 
@@ -291,16 +301,6 @@
             0,
             0});
             // 
-            // checkBoxShowTokensDecoding
-            // 
-            this.checkBoxShowTokensDecoding.AutoSize = true;
-            this.checkBoxShowTokensDecoding.Location = new System.Drawing.Point(238, 53);
-            this.checkBoxShowTokensDecoding.Name = "checkBoxShowTokensDecoding";
-            this.checkBoxShowTokensDecoding.Size = new System.Drawing.Size(92, 17);
-            this.checkBoxShowTokensDecoding.TabIndex = 25;
-            this.checkBoxShowTokensDecoding.Text = "Show indexes";
-            this.checkBoxShowTokensDecoding.UseVisualStyleBackColor = true;
-            // 
             // UserControlLz77
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,6 +345,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownLengthBits;
-        private System.Windows.Forms.CheckBox checkBoxShowTokensDecoding;
+        private System.Windows.Forms.CheckBox checkBoxShowTokensDecrypting;
     }
 }

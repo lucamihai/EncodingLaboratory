@@ -34,6 +34,11 @@ namespace Encoding
         {
             UpdatePanelBasedOnChoice();
         }
+        private void radioButtonRsa_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdatePanelBasedOnChoice();
+        }
+
 
         private void UpdatePanelBasedOnChoice()
         {
@@ -60,6 +65,11 @@ namespace Encoding
             if (selectedRadioButton == radioButtonLzW)
             {
                 activeUserControl = new UserControlLzW();
+            }
+
+            if (selectedRadioButton == radioButtonRsa)
+            {
+                activeUserControl = new UserControlRsa();
             }
 
             UpdatePanelUserControl();
