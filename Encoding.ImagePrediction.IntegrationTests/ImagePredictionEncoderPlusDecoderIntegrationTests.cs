@@ -28,8 +28,8 @@ namespace Encoding.ImagePrediction.IntegrationTests
             imagePredictionDecoder = (ImagePredictionDecoder)dependencyResolver.GetObject<IImagePredictionDecoder>();
 
             filePathSource = $"{Environment.CurrentDirectory}\\temp.bmp";
-            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.prediction";
-            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.prediction.bmp";
+            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.pre";
+            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.pre.bmp";
 
             TestMethods.CopyFileAndReplaceIfAlreadyExists($"{Environment.CurrentDirectory}\\Images\\TestImage1.bmp", filePathSource);
         }

@@ -150,6 +150,10 @@
       <Project>{1BC37739-3F5A-416B-BAD8-AC6B83280673}</Project>
       <Name>Encoding.Huffman</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Encoding.ImagePrediction\Encoding.ImagePrediction.csproj">
+      <Project>{fc0873f6-b619-4f15-b637-c7b26da962bc}</Project>
+      <Name>Encoding.ImagePrediction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Encoding.Lz77\Encoding.Lz77.csproj">
       <Project>{7B269B9E-6E27-4EEE-9C75-D0B1349A8D27}</Project>
       <Name>Encoding.Lz77</Name>
