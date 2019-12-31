@@ -73,9 +73,49 @@ namespace Encoding.ImagePrediction
         {
             var bits = fileReader.ReadBits(4);
 
+            if (bits == 0)
+            {
+                return new ImagePredictor0();
+            }
+
+            if (bits == 1)
+            {
+                return new ImagePredictor1();
+            }
+
+            if (bits == 2)
+            {
+                return new ImagePredictor2();
+            }
+
             if (bits == 3)
             {
+                return new ImagePredictor3();
+            }
+
+            if (bits == 4)
+            {
                 return new ImagePredictor4();
+            }
+
+            if (bits == 5)
+            {
+                return new ImagePredictor5();
+            }
+
+            if (bits == 6)
+            {
+                return new ImagePredictor6();
+            }
+
+            if (bits == 7)
+            {
+                return new ImagePredictor7();
+            }
+
+            if (bits == 8)
+            {
+                return new ImagePredictor8();
             }
 
             throw new InvalidOperationException();

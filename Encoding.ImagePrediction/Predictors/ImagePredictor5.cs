@@ -2,11 +2,11 @@
 
 namespace Encoding.ImagePrediction.Predictors
 {
-    public class ImagePredictor4 : IImagePredictor
+    public class ImagePredictor5 : IImagePredictor
     {
         public byte PredictValue(params byte[] values)
         {
-            return PredictorCommon.GetAbsoluteByteFromInt(values[0] + values[1] - values[2]);
+            return PredictorCommon.GetAbsoluteByteFromInt(values[0] + (values[1] - values[2] / 2));
         }
     }
 }
