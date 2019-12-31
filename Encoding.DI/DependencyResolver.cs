@@ -4,6 +4,10 @@ using Encoding.Huffman;
 using Encoding.Huffman.Interfaces;
 using Encoding.Huffman.Interfaces.Utilities;
 using Encoding.Huffman.Utilities;
+using Encoding.ImagePrediction;
+using Encoding.ImagePrediction.Interfaces;
+using Encoding.ImagePrediction.Interfaces.Utilities;
+using Encoding.ImagePrediction.Utilities;
 using Encoding.Lz77;
 using Encoding.Lz77.Interfaces;
 using Encoding.Lz77.Interfaces.Utilities;
@@ -43,6 +47,11 @@ namespace Encoding.DI
 
             containerBuilder.RegisterType<RsaEncrypter>().As<IRsaEncrypter>();
             containerBuilder.RegisterType<RsaDecrypter>().As<IRsaDecrypter>();
+
+            containerBuilder.RegisterType<ErrorMatrixWriter>().As<IErrorMatrixWriter>();
+            containerBuilder.RegisterType<ErrorMatrixReader>().As<IErrorMatrixReader>();
+            containerBuilder.RegisterType<ImagePredictionEncoder>().As<IImagePredictionEncoder>();
+            containerBuilder.RegisterType<ImagePredictionDecoder>().As<IImagePredictionDecoder>();
 
             container = containerBuilder.Build();
         }

@@ -27,9 +27,9 @@ namespace Encoding.Lz77.IntegrationTests
             lz77Encoder = (Lz77Encoder)dependencyResolver.GetObject<ILz77Encoder>();
             lz77Decoder = (Lz77Decoder)dependencyResolver.GetObject<ILz77Decoder>();
 
-            filePathSource = $"{Environment.CurrentDirectory}\\temp.png";
-            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.png.lz77";
-            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.lz77.png";
+            filePathSource = $"{Environment.CurrentDirectory}\\temp.bmp";
+            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.lz77";
+            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.lz77.bmp";
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace Encoding.Lz77.IntegrationTests
         [TestMethod]
         public void FileIsEncodedThenDecodedCorrectly3()
         {
-            TestMethods.CreateFileFromPngImage(filePathSource, Resources.capture);
+            TestMethods.CreateBmpFileFromImage(filePathSource, Resources.capture);
 
             using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {

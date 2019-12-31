@@ -21,11 +21,21 @@ namespace Encoding.Tests.Common
             File.WriteAllBytes(filePath, bytes);
         }
 
-        public static void CreateFileFromPngImage(string filePath, Bitmap image)
+        public static void CreateBmpFileFromImage(string filePath, Bitmap image)
         {
             var img = new Bitmap(image);
-            img.Save(filePath, ImageFormat.Png);
+            img.Save(filePath);
             img.Dispose();
+        }
+
+        public static void CopyFileAndReplaceIfAlreadyExists(string source, string destination)
+        {
+            if (File.Exists(destination))
+            {
+                File.Delete(destination);
+            }
+
+            File.Copy(source, destination);
         }
 
         public static void DeleteFileIfExists(string filePath)

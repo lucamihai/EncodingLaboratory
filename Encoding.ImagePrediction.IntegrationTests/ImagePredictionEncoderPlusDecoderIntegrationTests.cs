@@ -2,20 +2,20 @@
 using System.Diagnostics.CodeAnalysis;
 using Encoding.DI;
 using Encoding.FileOperations;
-using Encoding.Huffman.IntegrationTests.Properties;
-using Encoding.Huffman.Interfaces;
+using Encoding.ImagePrediction.Interfaces;
+using Encoding.ImagePrediction.Predictors;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buffer = Encoding.FileOperations.Buffer;
 
-namespace Encoding.Huffman.IntegrationTests
+namespace Encoding.ImagePrediction.IntegrationTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class HuffmanEncoderPlusDecoderIntegrationTests
+    public class ImagePredictionEncoderPlusDecoderIntegrationTests
     {
-        private HuffmanEncoder huffmanEncoder;
-        private HuffmanDecoder huffmanDecoder;
+        private ImagePredictionEncoder imagePredictionEncoder;
+        private ImagePredictionDecoder imagePredictionDecoder;
         private string filePathSource;
         private string filePathEncodedFile;
         private string filePathDecodedFile;
@@ -24,25 +24,26 @@ namespace Encoding.Huffman.IntegrationTests
         public void Setup()
         {
             var dependencyResolver = new DependencyResolver();
-            huffmanEncoder = (HuffmanEncoder)dependencyResolver.GetObject<IHuffmanEncoder>();
-            huffmanDecoder = (HuffmanDecoder)dependencyResolver.GetObject<IHuffmanDecoder>();
+            imagePredictionEncoder = (ImagePredictionEncoder)dependencyResolver.GetObject<IImagePredictionEncoder>();
+            imagePredictionDecoder = (ImagePredictionDecoder)dependencyResolver.GetObject<IImagePredictionDecoder>();
 
-            filePathSource = $"{Environment.CurrentDirectory}\\temp.png";
-            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.png.hs";
-            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.hs.png";
+            filePathSource = $"{Environment.CurrentDirectory}\\temp.bmp";
+            filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.prediction";
+            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.prediction.bmp";
 
-            TestMethods.CreateBmpFileFromImage(filePathSource, Resources.Capture);
+            TestMethods.CopyFileAndReplaceIfAlreadyExists($"{Environment.CurrentDirectory}\\Images\\TestImage1.bmp", filePathSource);
         }
 
         [TestMethod]
-        public void ImageIsEncodedThenDecodedCorrectly()
+        public void ImageIsEncodedThenDecodedCorrectlyWithImagePredictor4()
         {
+            var imagePredictor = new ImagePredictor4();
+
             using (var fileReader = new FileReader(filePathSource, new Buffer()))
             {
                 using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
                 {
-                    huffmanEncoder.EncodeFile(fileReader, fileWriter);
-                    fileWriter.Buffer.Flush();
+                    imagePredictionEncoder.EncodeImage(fileReader, fileWriter, imagePredictor);
                 }
             }
 
@@ -50,15 +51,15 @@ namespace Encoding.Huffman.IntegrationTests
             {
                 using (var fileWriter = new FileWriter(filePathDecodedFile, new Buffer()))
                 {
-                    huffmanDecoder.DecodeFile(fileReader, fileWriter);
+                    imagePredictionDecoder.DecodeImage(fileReader, fileWriter);
                 }
-            }
+            } 
 
             Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
         [TestCleanup]
-        public void Cleanup()
+        public void TestCleanup()
         {
             TestMethods.DeleteFileIfExists(filePathSource);
             TestMethods.DeleteFileIfExists(filePathEncodedFile);

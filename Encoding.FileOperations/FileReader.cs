@@ -11,7 +11,7 @@ namespace Encoding.FileOperations
         private static readonly FilePathValidator FilePathValidator = new FilePathValidator();
         private static readonly BufferValidator BufferValidator = new BufferValidator();
 
-        private readonly FileStream fileStream;
+        private FileStream fileStream;
 
         public bool ReachedEndOfFile { get; private set; }
         public long BitsLeft { get; private set; }
@@ -49,6 +49,17 @@ namespace Encoding.FileOperations
             }
 
             Buffer.Value = (byte)fileStream.ReadByte();
+        }
+
+        public void Open()
+        {
+            fileStream = new FileStream(FilePath, FileMode.Open);
+            Reset();
+        }
+
+        public void Close()
+        {
+            fileStream.Dispose();
         }
 
         public void Reset()

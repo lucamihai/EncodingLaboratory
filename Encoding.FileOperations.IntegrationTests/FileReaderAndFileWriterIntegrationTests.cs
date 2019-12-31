@@ -22,7 +22,7 @@ namespace Encoding.FileOperations.IntegrationTests
             filePathSource = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImage}";
             filePathDestination = $"{Environment.CurrentDirectory}\\{Constants.TestFileNameImageDestination}";
 
-            TestMethods.CreateFileFromPngImage(filePathSource, Resources.testImage);
+            TestMethods.CreateBmpFileFromImage(filePathSource, Resources.testImage);
 
             originalFileSizeInBytes = new FileInfo(filePathSource).Length;
         }
