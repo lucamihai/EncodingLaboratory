@@ -4,6 +4,8 @@ namespace Encoding.ImagePrediction.Predictors
 {
     public class ImagePredictor8 : IImagePredictor
     {
+        public byte Code { get; } = 8;
+
         public byte PredictValue(params byte[] values)
         {
             var a = values[0];

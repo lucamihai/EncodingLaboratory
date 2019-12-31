@@ -167,50 +167,7 @@ namespace Encoding.ImagePrediction
 
         private void WriteUsedImagePredictor(IFileWriter fileWriter, IImagePredictor imagePredictor)
         {
-            if (imagePredictor is ImagePredictor0)
-            {
-                fileWriter.WriteValueOnBits(0, 4);
-            }
-
-            if (imagePredictor is ImagePredictor1)
-            {
-                fileWriter.WriteValueOnBits(1, 4);
-            }
-
-            if (imagePredictor is ImagePredictor2)
-            {
-                fileWriter.WriteValueOnBits(2, 4);
-            }
-
-            if (imagePredictor is ImagePredictor3)
-            {
-                fileWriter.WriteValueOnBits(3, 4);
-            }
-
-            if (imagePredictor is ImagePredictor4)
-            {
-                fileWriter.WriteValueOnBits(4, 4);
-            }
-
-            if (imagePredictor is ImagePredictor5)
-            {
-                fileWriter.WriteValueOnBits(5, 4);
-            }
-
-            if (imagePredictor is ImagePredictor6)
-            {
-                fileWriter.WriteValueOnBits(6, 4);
-            }
-
-            if (imagePredictor is ImagePredictor7)
-            {
-                fileWriter.WriteValueOnBits(7, 4);
-            }
-
-            if (imagePredictor is ImagePredictor8)
-            {
-                fileWriter.WriteValueOnBits(8, 4);
-            }
+            fileWriter.WriteValueOnBits(imagePredictor.Code, 4);
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public interface IImagePredictor
     {
+        byte Code { get; }
+
         byte PredictValue(params byte[] values);
     }
 }
