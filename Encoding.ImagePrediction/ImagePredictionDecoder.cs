@@ -53,12 +53,7 @@ namespace Encoding.ImagePrediction
 
                     var prediction = usedImagePredictor.PredictValue(a, b, c);
 
-                    var sum = Math.Abs(prediction + ErrorMatrix[row, column]);
-                    if (sum > 255)
-                    {
-                        //TODO: Is this supposed to happen?
-                    }
-                    ImageCodes[row, column] = (byte)(sum);
+                    ImageCodes[row, column] = (byte)Math.Abs(prediction + ErrorMatrix[row, column]);
                 }
             }
 
@@ -88,7 +83,7 @@ namespace Encoding.ImagePrediction
 
         private void HandleFirstPixel()
         {
-            ImageCodes[0, 0] = (byte)(128 - ErrorMatrix[0, 0]);
+            ImageCodes[0, 0] = (byte)(128 + ErrorMatrix[0, 0]);
         }
 
         private void HandleFirstColumn(IImagePredictor imagePredictor)
@@ -119,37 +114,13 @@ namespace Encoding.ImagePrediction
 
         private void WriteImageCodes(IFileWriter fileWriter)
         {
-            //for (int column = 0; column < 256; column++)
-            //{
-            //    for (int row = 0; row < 256; row++)
-            //    {
-            //        fileWriter.WriteValueOnBits(ImageCodes[column, row], 8);
-            //    }
-            //}
-
-            for (int column = 255; column >= 0; column--)
+            for (int row = 255; row >= 0; row--)
             {
-                for (int row = 0; row < 256; row++)
+                for (int column = 0; column < 256; column++)
                 {
                     fileWriter.WriteValueOnBits(ImageCodes[column, row], 8);
                 }
             }
-
-            //for (int column = 0; column < 256; column++)
-            //{
-            //    for (int row = 255; row >= 0; row--)
-            //    {
-            //        fileWriter.WriteValueOnBits(ImageCodes[column, row], 8);
-            //    }
-            //}
-
-            //for (int column = 255; column >= 0; column--)
-            //{
-            //    for (int row = 255; row >= 0; row--)
-            //    {
-            //        fileWriter.WriteValueOnBits(ImageCodes[column, row], 8);
-            //    }
-            //}
         }
     }
 }
