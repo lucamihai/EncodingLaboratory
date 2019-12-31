@@ -69,6 +69,12 @@
     <Compile Include="UserControls\UserControlHuffman.Designer.cs">
       <DependentUpon>UserControlHuffman.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UserControlImagePrediction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UserControlImagePrediction.Designer.cs">
+      <DependentUpon>UserControlImagePrediction.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UserControlLz77.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserControlHuffman.resx">
       <DependentUpon>UserControlHuffman.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UserControlImagePrediction.resx">
+      <DependentUpon>UserControlImagePrediction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserControlLz77.resx">
       <DependentUpon>UserControlLz77.cs</DependentUpon>
