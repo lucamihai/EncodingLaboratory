@@ -249,6 +249,11 @@ namespace Encoding.UserControls
                 return new ImagePredictor8();
             }
 
+            if (radioButtonImagePredictor9.Checked)
+            {
+                return new ImagePredictor9();
+            }
+
             throw new InvalidOperationException();
         }
 

@@ -32,6 +32,8 @@
             this.textBoxKeysDecrypt = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panelEncoding = new System.Windows.Forms.Panel();
+            this.textBoxKeysEncrypt = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.labelN = new System.Windows.Forms.Label();
             this.buttonEncrypt = new System.Windows.Forms.Button();
             this.labelE = new System.Windows.Forms.Label();
@@ -48,8 +50,6 @@
             this.panelDecoding = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDownD = new System.Windows.Forms.NumericUpDown();
-            this.textBoxKeysEncrypt = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownN)).BeginInit();
             this.panelEncoding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownE)).BeginInit();
@@ -62,7 +62,7 @@
             this.numericUpDownN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericUpDownN.Location = new System.Drawing.Point(193, 126);
             this.numericUpDownN.Maximum = new decimal(new int[] {
-            5000,
+            -1294967296,
             0,
             0,
             0});
@@ -72,7 +72,7 @@
             0,
             0});
             this.numericUpDownN.Name = "numericUpDownN";
-            this.numericUpDownN.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownN.Size = new System.Drawing.Size(150, 20);
             this.numericUpDownN.TabIndex = 22;
             this.numericUpDownN.Value = new decimal(new int[] {
             143,
@@ -119,6 +119,27 @@
             this.panelEncoding.Name = "panelEncoding";
             this.panelEncoding.Size = new System.Drawing.Size(380, 500);
             this.panelEncoding.TabIndex = 16;
+            // 
+            // textBoxKeysEncrypt
+            // 
+            this.textBoxKeysEncrypt.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxKeysEncrypt.Location = new System.Drawing.Point(33, 223);
+            this.textBoxKeysEncrypt.Multiline = true;
+            this.textBoxKeysEncrypt.Name = "textBoxKeysEncrypt";
+            this.textBoxKeysEncrypt.ReadOnly = true;
+            this.textBoxKeysEncrypt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxKeysEncrypt.Size = new System.Drawing.Size(323, 272);
+            this.textBoxKeysEncrypt.TabIndex = 26;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(153, 167);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 19);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Keys";
             // 
             // labelN
             // 
@@ -291,7 +312,7 @@
             this.numericUpDownD.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericUpDownD.Location = new System.Drawing.Point(14, 126);
             this.numericUpDownD.Maximum = new decimal(new int[] {
-            5000,
+            -1294967296,
             0,
             0,
             0});
@@ -301,34 +322,13 @@
             0,
             0});
             this.numericUpDownD.Name = "numericUpDownD";
-            this.numericUpDownD.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownD.Size = new System.Drawing.Size(170, 20);
             this.numericUpDownD.TabIndex = 24;
             this.numericUpDownD.Value = new decimal(new int[] {
             103,
             0,
             0,
             0});
-            // 
-            // textBoxKeysEncrypt
-            // 
-            this.textBoxKeysEncrypt.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxKeysEncrypt.Location = new System.Drawing.Point(33, 223);
-            this.textBoxKeysEncrypt.Multiline = true;
-            this.textBoxKeysEncrypt.Name = "textBoxKeysEncrypt";
-            this.textBoxKeysEncrypt.ReadOnly = true;
-            this.textBoxKeysEncrypt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxKeysEncrypt.Size = new System.Drawing.Size(323, 272);
-            this.textBoxKeysEncrypt.TabIndex = 26;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(153, 167);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 19);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Keys";
             // 
             // UserControlRsa
             // 

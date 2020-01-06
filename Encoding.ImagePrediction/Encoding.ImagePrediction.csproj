@@ -52,6 +52,7 @@
     <Compile Include="Predictors\ImagePredictor6.cs" />
     <Compile Include="Predictors\ImagePredictor7.cs" />
     <Compile Include="Predictors\ImagePredictor8.cs" />
+    <Compile Include="Predictors\ImagePredictor9.cs" />
     <Compile Include="Predictors\PredictorCommon.cs" />
     <Compile Include="Predictors\ImagePredictor0.cs" />
     <Compile Include="Predictors\ImagePredictor1.cs" />

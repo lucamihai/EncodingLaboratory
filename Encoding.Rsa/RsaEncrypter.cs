@@ -43,7 +43,7 @@ namespace Encoding.Rsa
             RsaKeysFromLastRun.Clear();
 
             // TODO: Is it normal for the random key to be smaller than n?
-            var randomKeys = GetRandomKeys((int)n - 1);
+            var randomKeys = GetRandomKeys(n - 1);
             var rsaKeys = GetRsaKeys(randomKeys, n, e);
 
             fileWriter.WriteValueOnBits(e, 32);
@@ -62,14 +62,19 @@ namespace Encoding.Rsa
             }
         }
 
-        private byte[] GetRandomKeys(int max)
+        private byte[] GetRandomKeys(uint max)
         {
             var rng = new Random();
             var keys = new byte[8];
 
+            if (max > 255)
+            {
+                max = 255;
+            }
+
             for (int index = 0; index < 8; index++)
             {
-                var key = (byte)rng.Next(0, max);
+                var key = (byte)rng.Next(0, (int)max);
                 keys[index] = key;
                 KeysFromLastRun.Add(key);
             }

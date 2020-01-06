@@ -59,6 +59,7 @@
             this.numericUpDownHistogram = new System.Windows.Forms.NumericUpDown();
             this.buttonShowHistogram = new System.Windows.Forms.Button();
             this.pictureBoxHistogram = new System.Windows.Forms.PictureBox();
+            this.radioButtonImagePredictor9 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginalImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxErrorMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDecodedImage)).BeginInit();
@@ -230,6 +231,7 @@
             // panelImagePredictorSelection
             // 
             this.panelImagePredictorSelection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelImagePredictorSelection.Controls.Add(this.radioButtonImagePredictor9);
             this.panelImagePredictorSelection.Controls.Add(this.radioButtonImagePredictor8);
             this.panelImagePredictorSelection.Controls.Add(this.radioButtonImagePredictor7);
             this.panelImagePredictorSelection.Controls.Add(this.radioButtonImagePredictor6);
@@ -248,7 +250,7 @@
             // 
             this.radioButtonImagePredictor8.AutoSize = true;
             this.radioButtonImagePredictor8.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonImagePredictor8.Location = new System.Drawing.Point(89, 3);
+            this.radioButtonImagePredictor8.Location = new System.Drawing.Point(73, 3);
             this.radioButtonImagePredictor8.Name = "radioButtonImagePredictor8";
             this.radioButtonImagePredictor8.Size = new System.Drawing.Size(56, 18);
             this.radioButtonImagePredictor8.TabIndex = 18;
@@ -434,6 +436,17 @@
             this.pictureBoxHistogram.TabIndex = 18;
             this.pictureBoxHistogram.TabStop = false;
             // 
+            // radioButtonImagePredictor9
+            // 
+            this.radioButtonImagePredictor9.AutoSize = true;
+            this.radioButtonImagePredictor9.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonImagePredictor9.Location = new System.Drawing.Point(73, 27);
+            this.radioButtonImagePredictor9.Name = "radioButtonImagePredictor9";
+            this.radioButtonImagePredictor9.Size = new System.Drawing.Size(69, 18);
+            this.radioButtonImagePredictor9.TabIndex = 19;
+            this.radioButtonImagePredictor9.Text = "Own pred";
+            this.radioButtonImagePredictor9.UseVisualStyleBackColor = true;
+            // 
             // UserControlImagePrediction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,5 +521,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownHistogram;
         private System.Windows.Forms.Button buttonShowHistogram;
         private System.Windows.Forms.PictureBox pictureBoxHistogram;
+        private System.Windows.Forms.RadioButton radioButtonImagePredictor9;
     }
 }

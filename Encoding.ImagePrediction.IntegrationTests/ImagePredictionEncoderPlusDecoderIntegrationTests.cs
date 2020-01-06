@@ -250,6 +250,30 @@ namespace Encoding.ImagePrediction.IntegrationTests
             Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
         }
 
+        [TestMethod]
+        public void ImageIsEncodedThenDecodedCorrectlyWithImagePredictor9()
+        {
+            var imagePredictor = new ImagePredictor9();
+
+            using (var fileReader = new FileReader(filePathSource, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathEncodedFile, new Buffer()))
+                {
+                    imagePredictionEncoder.EncodeImage(fileReader, fileWriter, imagePredictor);
+                }
+            }
+
+            using (var fileReader = new FileReader(filePathEncodedFile, new Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathDecodedFile, new Buffer()))
+                {
+                    imagePredictionDecoder.DecodeImage(fileReader, fileWriter);
+                }
+            }
+
+            Assert.IsTrue(TestMethods.FilesHaveTheSameContent(filePathSource, filePathDecodedFile));
+        }
+
         [TestCleanup]
         public void TestCleanup()
         {

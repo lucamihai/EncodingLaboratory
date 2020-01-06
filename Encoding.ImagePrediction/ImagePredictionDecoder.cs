@@ -118,6 +118,11 @@ namespace Encoding.ImagePrediction
                 return new ImagePredictor8();
             }
 
+            if (bits == 9)
+            {
+                return new ImagePredictor9();
+            }
+
             throw new InvalidOperationException();
         }
 
