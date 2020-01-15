@@ -2,10 +2,12 @@
 using System.Diagnostics.CodeAnalysis;
 using Encoding.DI;
 using Encoding.FileOperations;
+using Encoding.Jpeg.Enums;
 using Encoding.Jpeg.Interfaces;
+using Encoding.Jpeg.Interfaces.Utilities;
+using Encoding.Jpeg.Utilities;
 using Encoding.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Buffer = System.Buffer;
 
 namespace Encoding.Jpeg.IntegrationTests
 {
@@ -13,6 +15,7 @@ namespace Encoding.Jpeg.IntegrationTests
     [ExcludeFromCodeCoverage]
     public class TemporaryTests
     {
+        private IDownSampler downSampler;
         private JpegEncoder jpegEncoder;
         private string filePathSource;
         private string filePathEncodedFile;
@@ -23,6 +26,7 @@ namespace Encoding.Jpeg.IntegrationTests
         {
             var dependencyResolver = new DependencyResolver();
             jpegEncoder = (JpegEncoder)dependencyResolver.GetObject<IJpegEncoder>();
+            downSampler = new DownSampler411();
 
             filePathSource = $"{Environment.CurrentDirectory}\\temp.bmp";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.pre";
@@ -38,7 +42,7 @@ namespace Encoding.Jpeg.IntegrationTests
             {
                 using (var fileWriter = new FileWriter(filePathEncodedFile, new FileOperations.Buffer()))
                 {
-                    jpegEncoder.EncodeImage(fileReader, fileWriter);
+                    jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler, QuantizeMethod.JpegQuality);
                 }
             }
         }

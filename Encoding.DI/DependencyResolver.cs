@@ -59,8 +59,8 @@ namespace Encoding.DI
             containerBuilder.RegisterType<ImagePredictionEncoder>().As<IImagePredictionEncoder>();
             containerBuilder.RegisterType<ImagePredictionDecoder>().As<IImagePredictionDecoder>();
 
-            containerBuilder.RegisterType<DownSampler411>().As<IDownSampler>();
             containerBuilder.RegisterType<PixelMapper>().As<IPixelMapper>();
+            containerBuilder.RegisterType<DCT>().As<IDCT>();
             containerBuilder.RegisterType<JpegEncoder>().As<IJpegEncoder>();
 
             container = containerBuilder.Build();

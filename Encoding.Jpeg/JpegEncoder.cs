@@ -2,6 +2,7 @@
 using System.IO;
 using Encoding.FileOperations.Interfaces;
 using Encoding.Jpeg.Entities;
+using Encoding.Jpeg.Enums;
 using Encoding.Jpeg.Interfaces;
 using Encoding.Jpeg.Interfaces.Mappers;
 using Encoding.Jpeg.Interfaces.Utilities;
@@ -11,17 +12,21 @@ namespace Encoding.Jpeg
     public class JpegEncoder : IJpegEncoder
     {
         private readonly IPixelMapper pixelMapper;
-        private readonly IDownSampler downSampler;
+        private readonly IDCT dct;
 
         public Bitmap OriginalImage { get; private set; }
+        public double[,] DctY { get; private set; }
+        public double[,] DctCb { get; private set; }
+        public double[,] DctCr { get; private set; }
+        
 
-        public JpegEncoder(IPixelMapper pixelMapper, IDownSampler downSampler)
+        public JpegEncoder(IPixelMapper pixelMapper, IDCT dct)
         {
             this.pixelMapper = pixelMapper;
-            this.downSampler = downSampler;
+            this.dct = dct;
         }
 
-        public void EncodeImage(IFileReader fileReader, IFileWriter fileWriter)
+        public void EncodeImage(IFileReader fileReader, IFileWriter fileWriter, IDownSampler downSampler, QuantizeMethod quantizeMethod)
         {
             GetImageFromFileReader(fileReader);
 
@@ -30,6 +35,30 @@ namespace Encoding.Jpeg
 
             var downSampledCbMatrix = downSampler.GetDownSampledMatrix(cbMatrix);
             var downSampledCrMatrix = downSampler.GetDownSampledMatrix(crMatrix);
+
+            DctY = dct.GetDiscreteCosineTransform(yMatrix);
+            DctCb = dct.GetDiscreteCosineTransform(downSampledCbMatrix);
+            DctCr = dct.GetDiscreteCosineTransform(downSampledCrMatrix);
+
+            if (quantizeMethod == QuantizeMethod.None)
+            {
+                return;
+            }
+
+            if (quantizeMethod == QuantizeMethod.ZigZag)
+            {
+
+            }
+
+            if (quantizeMethod == QuantizeMethod.Method2)
+            {
+
+            }
+
+            if (quantizeMethod == QuantizeMethod.JpegQuality)
+            {
+
+            }
         }
 
         private void GetImageFromFileReader(IFileReader fileReader)

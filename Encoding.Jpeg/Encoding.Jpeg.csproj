@@ -43,13 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\YCbCrPixel.cs" />
+    <Compile Include="Enums\QuantizeMethod.cs" />
     <Compile Include="Interfaces\IJpegEncoder.cs" />
     <Compile Include="Interfaces\Mappers\IPixelMapper.cs" />
+    <Compile Include="Interfaces\Utilities\IDCT.cs" />
     <Compile Include="Interfaces\Utilities\IDownSampler.cs" />
     <Compile Include="JpegEncoder.cs" />
     <Compile Include="Mappers\PixelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DCT.cs" />
     <Compile Include="Utilities\DownSampler411.cs" />
+    <Compile Include="Utilities\QuantizeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Encoding.FileOperations\Encoding.FileOperations.csproj">
@@ -57,5 +61,6 @@
       <Name>Encoding.FileOperations</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
