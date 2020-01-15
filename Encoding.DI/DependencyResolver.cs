@@ -8,6 +8,12 @@ using Encoding.ImagePrediction;
 using Encoding.ImagePrediction.Interfaces;
 using Encoding.ImagePrediction.Interfaces.Utilities;
 using Encoding.ImagePrediction.Utilities;
+using Encoding.Jpeg;
+using Encoding.Jpeg.Interfaces;
+using Encoding.Jpeg.Interfaces.Mappers;
+using Encoding.Jpeg.Interfaces.Utilities;
+using Encoding.Jpeg.Mappers;
+using Encoding.Jpeg.Utilities;
 using Encoding.Lz77;
 using Encoding.Lz77.Interfaces;
 using Encoding.Lz77.Interfaces.Utilities;
@@ -52,6 +58,10 @@ namespace Encoding.DI
             containerBuilder.RegisterType<ErrorMatrixReader>().As<IErrorMatrixReader>();
             containerBuilder.RegisterType<ImagePredictionEncoder>().As<IImagePredictionEncoder>();
             containerBuilder.RegisterType<ImagePredictionDecoder>().As<IImagePredictionDecoder>();
+
+            containerBuilder.RegisterType<DownSampler411>().As<IDownSampler>();
+            containerBuilder.RegisterType<PixelMapper>().As<IPixelMapper>();
+            containerBuilder.RegisterType<JpegEncoder>().As<IJpegEncoder>();
 
             container = containerBuilder.Build();
         }

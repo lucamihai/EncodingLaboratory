@@ -64,6 +64,10 @@
       <Project>{fc0873f6-b619-4f15-b637-c7b26da962bc}</Project>
       <Name>Encoding.ImagePrediction</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Encoding.Jpeg\Encoding.Jpeg.csproj">
+      <Project>{D9FB0C80-E2C9-4B56-84F5-AD720C8BBD6D}</Project>
+      <Name>Encoding.Jpeg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Encoding.Lz77\Encoding.Lz77.csproj">
       <Project>{7b269b9e-6e27-4eee-9c75-d0b1349a8d27}</Project>
       <Name>Encoding.Lz77</Name>
