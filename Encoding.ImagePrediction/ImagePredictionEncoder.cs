@@ -5,7 +5,6 @@ using Encoding.FileOperations.Interfaces;
 using Encoding.ImagePrediction.Interfaces;
 using Encoding.ImagePrediction.Interfaces.Predictors;
 using Encoding.ImagePrediction.Interfaces.Utilities;
-using Encoding.ImagePrediction.Predictors;
 
 namespace Encoding.ImagePrediction
 {
@@ -41,14 +40,7 @@ namespace Encoding.ImagePrediction
             }
 
             ValidateImageFromFileReader(fileReader);
-
-            fileReader.Close();
-            using (var fileStream = new FileStream(fileReader.FilePath, FileMode.Open))
-            {
-                var bmp = new Bitmap(fileStream);
-                OriginalImage = bmp;
-            }
-            fileReader.Open();
+            GetImageFromFileReader(fileReader);
 
             ImageCodes = new byte[OriginalImage.Width, OriginalImage.Height];
             PredictionMatrix = new byte[OriginalImage.Width, OriginalImage.Height];
@@ -81,6 +73,17 @@ namespace Encoding.ImagePrediction
             fileWriter.Flush();
         }
 
+        private void GetImageFromFileReader(IFileReader fileReader)
+        {
+            fileReader.Close();
+            using (var fileStream = new FileStream(fileReader.FilePath, FileMode.Open))
+            {
+                var bmp = new Bitmap(fileStream);
+                OriginalImage = bmp;
+            }
+            fileReader.Open();
+        }
+
         private void ValidateImageFromFileReader(IFileReader fileReader)
         {
             if (!fileReader.FilePath.EndsWith(".bmp"))
@@ -90,7 +93,6 @@ namespace Encoding.ImagePrediction
 
             fileReader.Close();
             var image = new Bitmap(fileReader.FilePath);
-            
 
             try
             {
