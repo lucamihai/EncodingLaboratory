@@ -6,6 +6,7 @@ using Encoding.Jpeg.Enums;
 using Encoding.Jpeg.Interfaces;
 using Encoding.Jpeg.Interfaces.Mappers;
 using Encoding.Jpeg.Interfaces.Utilities;
+using Encoding.Jpeg.Utilities;
 
 namespace Encoding.Jpeg
 {
@@ -26,7 +27,7 @@ namespace Encoding.Jpeg
             this.dct = dct;
         }
 
-        public void EncodeImage(IFileReader fileReader, IFileWriter fileWriter, IDownSampler downSampler, QuantizeMethod quantizeMethod)
+        public void EncodeImage(IFileReader fileReader, IFileWriter fileWriter, IDownSampler downSampler)
         {
             GetImageFromFileReader(fileReader);
 
@@ -39,26 +40,63 @@ namespace Encoding.Jpeg
             DctY = dct.GetDiscreteCosineTransform(yMatrix);
             DctCb = dct.GetDiscreteCosineTransform(downSampledCbMatrix);
             DctCr = dct.GetDiscreteCosineTransform(downSampledCrMatrix);
+        }
 
-            if (quantizeMethod == QuantizeMethod.None)
-            {
-                return;
-            }
+        public void DecodeImage(QuantizeMethod quantizeMethod, int quantizeParameter)
+        {
+            var quantizedY = new double[256, 256];
+            var quantizedCb = new double[128, 128];
+            var quantizedCr = new double[128, 128];
 
             if (quantizeMethod == QuantizeMethod.ZigZag)
             {
-
+                quantizedY = DctY.GetQuantizeUsingZigZagMethod(quantizeParameter);
+                quantizedCb = DctCb.GetQuantizeUsingZigZagMethod(quantizeParameter);
+                quantizedCr = DctCr.GetQuantizeUsingZigZagMethod(quantizeParameter);
             }
 
             if (quantizeMethod == QuantizeMethod.Method2)
             {
-
+                quantizedY = DctY.GetQuantizeUsingMethod2(quantizeParameter);
+                quantizedCb = DctCb.GetQuantizeUsingMethod2(quantizeParameter);
+                quantizedCr = DctCr.GetQuantizeUsingMethod2(quantizeParameter);
             }
 
             if (quantizeMethod == QuantizeMethod.JpegQuality)
             {
-
+                quantizedY = DctY.GetQuantizeUsingJpegQualityMethod(quantizeParameter);
+                quantizedCb = DctCb.GetQuantizeUsingJpegQualityMethod(quantizeParameter);
+                quantizedCr = DctCr.GetQuantizeUsingJpegQualityMethod(quantizeParameter);
             }
+
+            var iQuantizedY = new double[256, 256];
+            var iQuantizedCb = new double[128, 128];
+            var iQuantizedCr = new double[128, 128];
+
+            if (quantizeMethod == QuantizeMethod.ZigZag)
+            {
+                iQuantizedY = quantizedY.GetIQuantizeUsingZigZagMethod(quantizeParameter);
+                iQuantizedCb = quantizedCb.GetIQuantizeUsingZigZagMethod(quantizeParameter);
+                iQuantizedCr = quantizedCr.GetIQuantizeUsingZigZagMethod(quantizeParameter);
+            }
+
+            if (quantizeMethod == QuantizeMethod.Method2)
+            {
+                iQuantizedY = quantizedY.GetIQuantizeUsingMethod2(quantizeParameter);
+                iQuantizedCb = quantizedCb.GetIQuantizeUsingMethod2(quantizeParameter);
+                iQuantizedCr = quantizedCr.GetIQuantizeUsingMethod2(quantizeParameter);
+            }
+
+            if (quantizeMethod == QuantizeMethod.JpegQuality)
+            {
+                iQuantizedY = quantizedY.GetIQuantizeUsingJpegQualityMethod(quantizeParameter);
+                iQuantizedCb = quantizedCb.GetIQuantizeUsingJpegQualityMethod(quantizeParameter);
+                iQuantizedCr = quantizedCr.GetIQuantizeUsingJpegQualityMethod(quantizeParameter);
+            }
+
+            var iDctY = dct.GetIDiscreteCosineTransform(iQuantizedY);
+            var iDctCb = dct.GetIDiscreteCosineTransform(iQuantizedCb);
+            var iDctCr = dct.GetIDiscreteCosineTransform(iQuantizedCr);
         }
 
         private void GetImageFromFileReader(IFileReader fileReader)

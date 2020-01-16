@@ -42,7 +42,21 @@ namespace Encoding.Jpeg.IntegrationTests
             {
                 using (var fileWriter = new FileWriter(filePathEncodedFile, new FileOperations.Buffer()))
                 {
-                    jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler, QuantizeMethod.JpegQuality);
+                    jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler);
+                    jpegEncoder.DecodeImage(QuantizeMethod.Method2, 50);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TempTest2()
+        {
+            using (var fileReader = new FileReader(filePathSource, new FileOperations.Buffer()))
+            {
+                using (var fileWriter = new FileWriter(filePathEncodedFile, new FileOperations.Buffer()))
+                {
+                    jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler);
+                    jpegEncoder.DecodeImage(QuantizeMethod.JpegQuality, 50);
                 }
             }
         }

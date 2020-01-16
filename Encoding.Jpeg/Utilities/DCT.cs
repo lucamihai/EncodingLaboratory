@@ -46,5 +46,45 @@ namespace Encoding.Jpeg.Utilities
 
             return discreteCosineTransform;
         }
+
+        public double[,] GetIDiscreteCosineTransform(double[,] matrix)
+        {
+            var iDiscreteCosineTransform = new double[matrix.GetLength(0), matrix.GetLength(1)];
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    var sum = 0d;
+                    var iIndexInsideBlock = i % 8;
+                    var jIndexInsideBlock = j % 8;
+
+                    for (int x = 0; x < 8; x++)
+                    {
+                        for (int y = 0; y < 8; y++)
+                        {
+                            var ci = x == 0
+                                ? 1 / OneDividedBy2Sqrt
+                                : 1;
+                            var cj = y == 0
+                                ? 1 / OneDividedBy2Sqrt
+                                : 1;
+
+                            var firstIFromBlock = i / 8 * 8;
+                            var firstJFromBlock = j / 8 * 8;
+
+                            var pixel = matrix[x + firstIFromBlock, y + firstJFromBlock];
+                            var firstCos = Math.Cos(((2 * iIndexInsideBlock + 1) * i * Math.PI) / 16);
+                            var secondCos = Math.Cos(((2 * jIndexInsideBlock + 1) * j * Math.PI) / 16);
+                            sum += ci * cj * firstCos * secondCos * pixel;
+                        }
+                    }
+
+                    iDiscreteCosineTransform[i, j] = sum * 0.25;
+                }
+            }
+
+            return iDiscreteCosineTransform;
+        }
     }
 }

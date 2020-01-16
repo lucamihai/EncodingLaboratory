@@ -2,7 +2,6 @@
 {
     public enum QuantizeMethod
     {
-        None,
         ZigZag,
         Method2,
         JpegQuality
