@@ -44,6 +44,11 @@ namespace Encoding
             UpdatePanelBasedOnChoice();
         }
 
+        private void radioButtonJpeg_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdatePanelBasedOnChoice();
+        }
+
         private void UpdatePanelBasedOnChoice()
         {
             var selectedRadioButton = panelRadioButtons
@@ -79,6 +84,11 @@ namespace Encoding
             if (selectedRadioButton == radioButtonImagePrediction)
             {
                 activeUserControl = new UserControlImagePrediction();
+            }
+
+            if (selectedRadioButton == radioButtonJpeg)
+            {
+                activeUserControl = new UserControlJpeg();
             }
 
             UpdatePanelUserControl();

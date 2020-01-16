@@ -30,12 +30,13 @@
         {
             this.panelActiveUserControl = new System.Windows.Forms.Panel();
             this.panelRadioButtons = new System.Windows.Forms.Panel();
+            this.radioButtonImagePrediction = new System.Windows.Forms.RadioButton();
             this.radioButtonRsa = new System.Windows.Forms.RadioButton();
             this.radioButtonLzW = new System.Windows.Forms.RadioButton();
             this.radioButtonLz77 = new System.Windows.Forms.RadioButton();
             this.radioButtonHuffman = new System.Windows.Forms.RadioButton();
             this.radioButtonFileReadingAndWriting = new System.Windows.Forms.RadioButton();
-            this.radioButtonImagePrediction = new System.Windows.Forms.RadioButton();
+            this.radioButtonJpeg = new System.Windows.Forms.RadioButton();
             this.panelRadioButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,7 @@
             // 
             // panelRadioButtons
             // 
+            this.panelRadioButtons.Controls.Add(this.radioButtonJpeg);
             this.panelRadioButtons.Controls.Add(this.radioButtonImagePrediction);
             this.panelRadioButtons.Controls.Add(this.radioButtonRsa);
             this.panelRadioButtons.Controls.Add(this.radioButtonLzW);
@@ -59,6 +61,19 @@
             this.panelRadioButtons.Name = "panelRadioButtons";
             this.panelRadioButtons.Size = new System.Drawing.Size(150, 500);
             this.panelRadioButtons.TabIndex = 1;
+            // 
+            // radioButtonImagePrediction
+            // 
+            this.radioButtonImagePrediction.AutoSize = true;
+            this.radioButtonImagePrediction.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonImagePrediction.Location = new System.Drawing.Point(14, 182);
+            this.radioButtonImagePrediction.Name = "radioButtonImagePrediction";
+            this.radioButtonImagePrediction.Size = new System.Drawing.Size(129, 23);
+            this.radioButtonImagePrediction.TabIndex = 5;
+            this.radioButtonImagePrediction.TabStop = true;
+            this.radioButtonImagePrediction.Text = "Image Prediction";
+            this.radioButtonImagePrediction.UseVisualStyleBackColor = true;
+            this.radioButtonImagePrediction.CheckedChanged += new System.EventHandler(this.radioButtonImagePrediction_CheckedChanged);
             // 
             // radioButtonRsa
             // 
@@ -125,18 +140,18 @@
             this.radioButtonFileReadingAndWriting.UseVisualStyleBackColor = true;
             this.radioButtonFileReadingAndWriting.CheckedChanged += new System.EventHandler(this.CheckedChangedFileReadingAndWriting);
             // 
-            // radioButtonImagePrediction
+            // radioButtonJpeg
             // 
-            this.radioButtonImagePrediction.AutoSize = true;
-            this.radioButtonImagePrediction.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonImagePrediction.Location = new System.Drawing.Point(14, 182);
-            this.radioButtonImagePrediction.Name = "radioButtonImagePrediction";
-            this.radioButtonImagePrediction.Size = new System.Drawing.Size(129, 23);
-            this.radioButtonImagePrediction.TabIndex = 5;
-            this.radioButtonImagePrediction.TabStop = true;
-            this.radioButtonImagePrediction.Text = "Image Prediction";
-            this.radioButtonImagePrediction.UseVisualStyleBackColor = true;
-            this.radioButtonImagePrediction.CheckedChanged += new System.EventHandler(this.radioButtonImagePrediction_CheckedChanged);
+            this.radioButtonJpeg.AutoSize = true;
+            this.radioButtonJpeg.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonJpeg.Location = new System.Drawing.Point(13, 211);
+            this.radioButtonJpeg.Name = "radioButtonJpeg";
+            this.radioButtonJpeg.Size = new System.Drawing.Size(55, 23);
+            this.radioButtonJpeg.TabIndex = 6;
+            this.radioButtonJpeg.TabStop = true;
+            this.radioButtonJpeg.Text = "Jpeg";
+            this.radioButtonJpeg.UseVisualStyleBackColor = true;
+            this.radioButtonJpeg.CheckedChanged += new System.EventHandler(this.radioButtonJpeg_CheckedChanged);
             // 
             // MainWindow
             // 
@@ -164,6 +179,7 @@
         private System.Windows.Forms.RadioButton radioButtonLz77;
         private System.Windows.Forms.RadioButton radioButtonRsa;
         private System.Windows.Forms.RadioButton radioButtonImagePrediction;
+        private System.Windows.Forms.RadioButton radioButtonJpeg;
     }
 }
 

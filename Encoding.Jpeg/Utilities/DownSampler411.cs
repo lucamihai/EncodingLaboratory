@@ -13,12 +13,14 @@ namespace Encoding.Jpeg.Utilities
             {
                 for (int column = 0; column < 255; column += 2)
                 {
-                    downSampledMatrix[row / 2, column / 2] = GetAverage(
-                        matrix[row, column], 
-                        matrix[row, column + 1], 
-                        matrix[row + 1, column], 
-                        matrix[row + 1, column + 1]
-                    );
+                    //downSampledMatrix[row / 2, column / 2] = GetAverage(
+                    //    matrix[row, column],
+                    //    matrix[row, column + 1],
+                    //    matrix[row + 1, column],
+                    //    matrix[row + 1, column + 1]
+                    //);
+
+                    downSampledMatrix[row / 2, column / 2] = matrix[row, column];
                 }
             }
 

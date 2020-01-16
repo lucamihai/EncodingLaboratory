@@ -2,8 +2,8 @@
 {
     public class YCbCrPixel
     {
-        public double Y { get; set; }
-        public double Cb { get; set; }
-        public double Cr { get; set; }
+        public byte Y { get; set; }
+        public byte Cb { get; set; }
+        public byte Cr { get; set; }
     }
 }

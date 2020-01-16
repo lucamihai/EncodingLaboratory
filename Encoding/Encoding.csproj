@@ -75,6 +75,12 @@
     <Compile Include="UserControls\UserControlImagePrediction.Designer.cs">
       <DependentUpon>UserControlImagePrediction.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UserControlJpeg.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UserControlJpeg.Designer.cs">
+      <DependentUpon>UserControlJpeg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UserControlLz77.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserControlImagePrediction.resx">
       <DependentUpon>UserControlImagePrediction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UserControlJpeg.resx">
+      <DependentUpon>UserControlJpeg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserControlLz77.resx">
       <DependentUpon>UserControlLz77.cs</DependentUpon>
@@ -153,6 +162,10 @@
     <ProjectReference Include="..\Encoding.ImagePrediction\Encoding.ImagePrediction.csproj">
       <Project>{fc0873f6-b619-4f15-b637-c7b26da962bc}</Project>
       <Name>Encoding.ImagePrediction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Encoding.Jpeg\Encoding.Jpeg.csproj">
+      <Project>{D9FB0C80-E2C9-4B56-84F5-AD720C8BBD6D}</Project>
+      <Name>Encoding.Jpeg</Name>
     </ProjectReference>
     <ProjectReference Include="..\Encoding.Lz77\Encoding.Lz77.csproj">
       <Project>{7B269B9E-6E27-4EEE-9C75-D0B1349A8D27}</Project>

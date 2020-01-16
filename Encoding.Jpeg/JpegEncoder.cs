@@ -28,7 +28,7 @@ namespace Encoding.Jpeg
             this.dct = dct;
         }
 
-        public void EncodeImage(IFileReader fileReader, IFileWriter fileWriter, IDownSampler downSampler)
+        public void EncodeImage(IFileReader fileReader, IDownSampler downSampler)
         {
             GetImageFromFileReader(fileReader);
 
@@ -86,9 +86,9 @@ namespace Encoding.Jpeg
                 {
                     yCbCrPixels[i, j] = new YCbCrPixel
                     {
-                        Y = iDctY[i, j],
-                        Cb = upSampledCb[i, j],
-                        Cr = upSampledCr[i, j]
+                        Y = (byte)iDctY[i, j],
+                        Cb = (byte)upSampledCb[i, j],
+                        Cr = (byte)upSampledCr[i, j]
                     };
                 }
             }

@@ -6,7 +6,7 @@ namespace Encoding.Jpeg.Interfaces
 {
     public interface IJpegEncoder
     {
-        void EncodeImage(IFileReader fileReader, IFileWriter fileWriter, IDownSampler downSampler);
+        void EncodeImage(IFileReader fileReader, IDownSampler downSampler);
         void DecodeImage(IDownSampler downSampler, QuantizeMethod quantizeMethod, int quantizeParameter);
     }
 }

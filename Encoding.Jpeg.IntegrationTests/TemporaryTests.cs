@@ -62,6 +62,8 @@ namespace Encoding.Jpeg.IntegrationTests
                     jpegEncoder.DecodeImage(downSampler, QuantizeMethod.JpegQuality, 50);
                 }
             }
+
+            jpegEncoder.ReconstructedImage.Save(filePathDecodedFile, ImageFormat.Jpeg);
         }
 
         [TestCleanup]

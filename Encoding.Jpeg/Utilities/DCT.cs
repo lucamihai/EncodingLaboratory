@@ -34,10 +34,10 @@ namespace Encoding.Jpeg.Utilities
                     }
 
                     var ci = iIndexInsideBlock == 0 
-                        ? 1 / OneDividedBy2Sqrt 
+                        ? OneDividedBy2Sqrt
                         : 1;
                     var cj = jIndexInsideBlock == 0 
-                        ? 1 / OneDividedBy2Sqrt
+                        ? OneDividedBy2Sqrt
                         : 1;
 
                     discreteCosineTransform[i, j] = sum * 0.25 * ci * cj;
@@ -64,10 +64,10 @@ namespace Encoding.Jpeg.Utilities
                         for (int y = 0; y < 8; y++)
                         {
                             var ci = x == 0
-                                ? 1 / OneDividedBy2Sqrt
+                                ? OneDividedBy2Sqrt
                                 : 1;
                             var cj = y == 0
-                                ? 1 / OneDividedBy2Sqrt
+                                ? OneDividedBy2Sqrt
                                 : 1;
 
                             var firstIFromBlock = i / 8 * 8;
