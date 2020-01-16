@@ -56,8 +56,6 @@ namespace Encoding.Jpeg.Utilities
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
                     var sum = 0d;
-                    var iIndexInsideBlock = i % 8;
-                    var jIndexInsideBlock = j % 8;
 
                     for (int x = 0; x < 8; x++)
                     {
@@ -74,8 +72,8 @@ namespace Encoding.Jpeg.Utilities
                             var firstJFromBlock = j / 8 * 8;
 
                             var pixel = matrix[x + firstIFromBlock, y + firstJFromBlock];
-                            var firstCos = Math.Cos(((2 * iIndexInsideBlock + 1) * i * Math.PI) / 16);
-                            var secondCos = Math.Cos(((2 * jIndexInsideBlock + 1) * j * Math.PI) / 16);
+                            var firstCos = Math.Cos(((2 * i + 1) * (x % 8) * Math.PI) / 16);
+                            var secondCos = Math.Cos(((2 * j + 1) * (y % 8) * Math.PI) / 16);
                             sum += ci * cj * firstCos * secondCos * pixel;
                         }
                     }

@@ -13,14 +13,14 @@ namespace Encoding.Jpeg.Utilities
             {
                 for (int column = 0; column < 255; column += 2)
                 {
-                    //downSampledMatrix[row / 2, column / 2] = GetAverage(
-                    //    matrix[row, column],
-                    //    matrix[row, column + 1],
-                    //    matrix[row + 1, column],
-                    //    matrix[row + 1, column + 1]
-                    //);
+                    downSampledMatrix[row / 2, column / 2] = GetAverage(
+                        matrix[row, column],
+                        matrix[row, column + 1],
+                        matrix[row + 1, column],
+                        matrix[row + 1, column + 1]
+                    );
 
-                    downSampledMatrix[row / 2, column / 2] = matrix[row, column];
+                    //downSampledMatrix[row / 2, column / 2] = matrix[row, column];
                 }
             }
 
@@ -35,10 +35,10 @@ namespace Encoding.Jpeg.Utilities
             {
                 for (int j = 0; j < 128; j++)
                 {
-                    upSampledMatrix[i, j] = matrix[i, j];
-                    upSampledMatrix[i, j + 1] = matrix[i, j];
-                    upSampledMatrix[i + 1, j] = matrix[i, j];
-                    upSampledMatrix[i + 1, j + 1] = matrix[i, j];
+                    upSampledMatrix[i * 2, j * 2] = matrix[i, j];
+                    upSampledMatrix[i * 2, j * 2 + 1] = matrix[i, j];
+                    upSampledMatrix[i * 2 + 1, j * 2] = matrix[i, j];
+                    upSampledMatrix[i * 2 + 1, j * 2+ 1] = matrix[i, j];
                 }
             }
 
