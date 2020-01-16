@@ -25,6 +25,24 @@ namespace Encoding.Jpeg.Utilities
             return downSampledMatrix;
         }
 
+        public double[,] GetUpSampledMatrix(double[,] matrix)
+        {
+            var upSampledMatrix = new double[256, 256];
+
+            for (int i = 0; i < 128; i++)
+            {
+                for (int j = 0; j < 128; j++)
+                {
+                    upSampledMatrix[i, j] = matrix[i, j];
+                    upSampledMatrix[i, j + 1] = matrix[i, j];
+                    upSampledMatrix[i + 1, j] = matrix[i, j];
+                    upSampledMatrix[i + 1, j + 1] = matrix[i, j];
+                }
+            }
+
+            return upSampledMatrix;
+        }
+
         private static double GetAverage(params double[] values)
         {
             return values.Sum() / values.Length;

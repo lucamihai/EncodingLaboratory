@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Imaging;
 using Encoding.DI;
 using Encoding.FileOperations;
 using Encoding.Jpeg.Enums;
@@ -30,7 +31,7 @@ namespace Encoding.Jpeg.IntegrationTests
 
             filePathSource = $"{Environment.CurrentDirectory}\\temp.bmp";
             filePathEncodedFile = $"{Environment.CurrentDirectory}\\temp.bmp.pre";
-            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.pre.bmp";
+            filePathDecodedFile = $"{Environment.CurrentDirectory}\\temp.png.pre.jpg";
 
             TestMethods.CopyFileAndReplaceIfAlreadyExists($"{Environment.CurrentDirectory}\\Images\\TestImage1.bmp", filePathSource);
         }
@@ -43,9 +44,11 @@ namespace Encoding.Jpeg.IntegrationTests
                 using (var fileWriter = new FileWriter(filePathEncodedFile, new FileOperations.Buffer()))
                 {
                     jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler);
-                    jpegEncoder.DecodeImage(QuantizeMethod.Method2, 50);
+                    jpegEncoder.DecodeImage(downSampler, QuantizeMethod.Method2, 50);
                 }
             }
+
+            jpegEncoder.ReconstructedImage.Save(filePathDecodedFile, ImageFormat.Jpeg);
         }
 
         [TestMethod]
@@ -56,7 +59,7 @@ namespace Encoding.Jpeg.IntegrationTests
                 using (var fileWriter = new FileWriter(filePathEncodedFile, new FileOperations.Buffer()))
                 {
                     jpegEncoder.EncodeImage(fileReader, fileWriter, downSampler);
-                    jpegEncoder.DecodeImage(QuantizeMethod.JpegQuality, 50);
+                    jpegEncoder.DecodeImage(downSampler, QuantizeMethod.JpegQuality, 50);
                 }
             }
         }

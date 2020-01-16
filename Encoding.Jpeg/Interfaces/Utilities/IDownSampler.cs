@@ -3,5 +3,6 @@
     public interface IDownSampler
     {
         double[,] GetDownSampledMatrix(double[,] matrix);
+        double[,] GetUpSampledMatrix(double[,] matrix);
     }
 }
